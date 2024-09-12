@@ -3,24 +3,26 @@ import { Space, Button, Typography } from "antd";
 
 const { Text } = Typography;
 
-interface ParticipantCounterProps {
-  participantCount: number;
+interface CounterProps {
+  label: string;
+  count: number;
   handleIncrement: () => void;
   handleDecrement: () => void;
 }
 
-const ParticipantCounter: React.FC<ParticipantCounterProps> = ({
-  participantCount,
+const Counter: React.FC<CounterProps> = ({
+  label,
+  count,
   handleIncrement,
   handleDecrement,
 }) => {
   return (
     <Space direction="horizontal">
-      <Text>参加人数：</Text>
+      <Text>{label}：</Text>
       <Button danger onClick={handleDecrement}>
         -
       </Button>
-      <Text>{participantCount}</Text>
+      <Text>{count}</Text>
       <Button type="primary" onClick={handleIncrement}>
         +
       </Button>
@@ -28,4 +30,4 @@ const ParticipantCounter: React.FC<ParticipantCounterProps> = ({
   );
 };
 
-export default ParticipantCounter;
+export default Counter;
