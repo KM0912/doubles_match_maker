@@ -12,6 +12,7 @@ type Matches = Match[];
 const Home = () => {
   const [participantCount, setParticipantCount] = useState(4);
   const [courtCount, setCourtCount] = useState(1);
+  const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [participants, setParticipants] = useState<number[]>([]);
   const [matches, setMatches] = useState<Matches>([]);
 
@@ -39,53 +40,66 @@ const Home = () => {
     }
   };
 
-  const handleCreateMatch = () => {
+  const handleSetupComplete = () => {
     const newParticipants = Array.from(
       { length: participantCount },
       (_, i) => i + 1
     );
     setParticipants(newParticipants);
+    setIsSetupComplete(true);
+  };
+
+  const handleAddMatch = () => {
+    const newMatches = [...matches];
 
     // participantsからランダムに2人ペアを作成してmatchesに格納
-    const newMatches: Matches = Array.from(
-      { length: courtCount },
-      (): Match => {
-        const shuffledParticipants = newParticipants.sort(
-          () => Math.random() - 0.5
-        );
-        const pair1: Pair = shuffledParticipants.slice(0, 2) as Pair;
-        const pair2: Pair = shuffledParticipants.slice(2, 4) as Pair;
-        return [pair1, pair2];
-      }
-    );
+    const shuffledParticipants = participants.sort(() => Math.random() - 0.5);
+    const pair1: Pair = shuffledParticipants.slice(0, 2) as Pair;
+    const pair2: Pair = shuffledParticipants.slice(2, 4) as Pair;
+    newMatches.push([pair1, pair2]);
+
     setMatches(newMatches);
   };
 
   return (
     <>
       <Space direction="vertical">
-        <Counter
-          label="参加者数"
-          count={participantCount}
-          handleIncrement={handleIncrementParticipant}
-          handleDecrement={handleDecrementParticipant}
-        />
-        <Counter
-          label="コート数"
-          count={courtCount}
-          handleIncrement={handleIncrementCourt}
-          handleDecrement={handleDecrementCourt}
-        />
-        <Button type="primary" onClick={handleCreateMatch}>
-          試合を作成
-        </Button>
-        {matches.map((match, index) => (
-          <Space direction="horizontal">
-            <PairButton pairs={match[0]} />
-            <Text>VS</Text>
-            <PairButton pairs={match[1]} />
-          </Space>
-        ))}
+        {!isSetupComplete && (
+          <>
+            <Counter
+              label="参加者数"
+              count={participantCount}
+              handleIncrement={handleIncrementParticipant}
+              handleDecrement={handleDecrementParticipant}
+            />
+            <Counter
+              label="コート数"
+              count={courtCount}
+              handleIncrement={handleIncrementCourt}
+              handleDecrement={handleDecrementCourt}
+            />
+            <Button type="primary" onClick={handleSetupComplete}>
+              確定
+            </Button>
+          </>
+        )}
+        {isSetupComplete && (
+          <>
+            <Text strong>
+              参加者数：{participantCount}人、コート数：{courtCount}面
+            </Text>
+            {matches.map((match, index) => (
+              <Space direction="horizontal">
+                <PairButton pairs={match[0]} />
+                <Text>VS</Text>
+                <PairButton pairs={match[1]} />
+              </Space>
+            ))}
+            <Button type="primary" onClick={handleAddMatch}>
+              試合を追加
+            </Button>
+          </>
+        )}
       </Space>
     </>
   );
