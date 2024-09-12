@@ -5,15 +5,23 @@ import Counter from "../molecules/Counter";
 
 const { Text } = Typography;
 
-type Pair = [number, number];
-type Match = [Pair, Pair];
+type Pair = [Player, Player];
+type Match = {
+  Pairs: [Pair, Pair];
+  isEnd: boolean;
+};
 type Matches = Match[];
+
+export type Player = {
+  id: number;
+  matchCount: number;
+};
 
 const Home = () => {
   const [participantCount, setParticipantCount] = useState(4);
   const [courtCount, setCourtCount] = useState(1);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
-  const [participants, setParticipants] = useState<number[]>([]);
+  const [participants, setParticipants] = useState<Player[]>([]);
   const [matches, setMatches] = useState<Matches>([]);
 
   const handleIncrementParticipant = () => {
@@ -45,8 +53,20 @@ const Home = () => {
       { length: participantCount },
       (_, i) => i + 1
     );
-    setParticipants(newParticipants);
+    setParticipants(newParticipants.map((id) => ({ id, matchCount: 0 })));
     setIsSetupComplete(true);
+  };
+
+  // 試合終了ボタンを押したときの処理
+  const handleMatchEnd = (matchIndex: number) => {
+    const newMatches = [...matches];
+    newMatches[matchIndex].isEnd = true;
+    setMatches(newMatches);
+
+    // 参加者の試合数を更新(試合が終了したときに試合数をインクリメント)
+    participants.forEach((participant) => {
+      participant.matchCount += 1;
+    });
   };
 
   const handleAddMatch = () => {
@@ -56,7 +76,7 @@ const Home = () => {
     const shuffledParticipants = participants.sort(() => Math.random() - 0.5);
     const pair1: Pair = shuffledParticipants.slice(0, 2) as Pair;
     const pair2: Pair = shuffledParticipants.slice(2, 4) as Pair;
-    newMatches.push([pair1, pair2]);
+    newMatches.push({ Pairs: [pair1, pair2], isEnd: false });
 
     setMatches(newMatches);
   };
@@ -90,9 +110,15 @@ const Home = () => {
             </Text>
             {matches.map((match, index) => (
               <Space direction="horizontal">
-                <PairButton pairs={match[0]} />
+                <PairButton disabled={match.isEnd} pairs={match.Pairs[0]} />
                 <Text>VS</Text>
-                <PairButton pairs={match[1]} />
+                <PairButton disabled={match.isEnd} pairs={match.Pairs[1]} />
+                <Button
+                  disabled={match.isEnd}
+                  onClick={() => handleMatchEnd(index)}
+                >
+                  試合終了
+                </Button>
               </Space>
             ))}
             <Button type="primary" onClick={handleAddMatch}>

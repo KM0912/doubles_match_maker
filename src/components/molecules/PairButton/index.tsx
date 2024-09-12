@@ -1,15 +1,17 @@
 import React from "react";
 import { Button } from "antd";
+import { Player } from "../../pages/Home";
 
 type PairButtonProps = {
-  pairs: [number, number];
+  pairs: [Player, Player];
+  disabled?: boolean;
 };
 
-const PairButton: React.FC<PairButtonProps> = ({ pairs }) => {
+const PairButton: React.FC<PairButtonProps> = ({ pairs, disabled }) => {
   return (
     <div>
-      <Button>{pairs[0]}</Button>
-      <Button>{pairs[1]}</Button>
+      <Button disabled={disabled}>{pairs[0].id}</Button>
+      <Button disabled={disabled}>{pairs[1].id}</Button>
     </div>
   );
 };
