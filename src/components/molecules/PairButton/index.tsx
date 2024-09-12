@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "antd";
 
 type PairButtonProps = {
-  pairs: [string, string];
+  pairs: [number, number];
 };
 
 const PairButton: React.FC<PairButtonProps> = ({ pairs }) => {
