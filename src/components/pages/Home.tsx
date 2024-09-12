@@ -3,7 +3,7 @@ import { Button, Space, Typography } from "antd";
 import PairButton from "../molecules/PairButton";
 import Counter from "../molecules/Counter";
 
-const { Text } = Typography;
+const { Title, Text } = Typography;
 
 type Pair = [Player, Player];
 type Match = {
@@ -64,8 +64,9 @@ const Home = () => {
     setMatches(newMatches);
 
     // 参加者の試合数を更新(試合が終了したときに試合数をインクリメント)
-    participants.forEach((participant) => {
-      participant.matchCount += 1;
+    const newParticipants = [...participants];
+    newMatches[matchIndex].Pairs.flat().forEach((pair) => {
+      newParticipants[pair.id - 1].matchCount++;
     });
   };
 
@@ -73,7 +74,9 @@ const Home = () => {
     const newMatches = [...matches];
 
     // participantsからランダムに2人ペアを作成してmatchesに格納
-    const shuffledParticipants = participants.sort(() => Math.random() - 0.5);
+    const shuffledParticipants = [...participants].sort(
+      () => Math.random() - 0.5
+    );
     const pair1: Pair = shuffledParticipants.slice(0, 2) as Pair;
     const pair2: Pair = shuffledParticipants.slice(2, 4) as Pair;
     newMatches.push({ Pairs: [pair1, pair2], isEnd: false });
@@ -108,6 +111,15 @@ const Home = () => {
             <Text strong>
               参加者数：{participantCount}人、コート数：{courtCount}面
             </Text>
+            <Title level={4}>参加者一覧</Title>
+            <Space direction="vertical">
+              {participants.map((participant) => (
+                <Space direction="horizontal">
+                  <Text>No.{participant.id}</Text>
+                  <Text>試合数：{participant.matchCount}</Text>
+                </Space>
+              ))}
+            </Space>
             {matches.map((match, index) => (
               <Space direction="horizontal">
                 <PairButton disabled={match.isEnd} pairs={match.Pairs[0]} />
