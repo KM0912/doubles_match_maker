@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Space, Typography } from "antd";
 import PairButton from "../molecules/PairButton";
 import Counter from "../molecules/Counter";
+import SetupControls from "../organisms/SetupControls";
 
 const { Title, Text } = Typography;
 
@@ -89,21 +90,15 @@ const Home = () => {
       <Space direction="vertical">
         {!isSetupComplete && (
           <>
-            <Counter
-              label="参加者数"
-              count={participantCount}
-              handleIncrement={handleIncrementParticipant}
-              handleDecrement={handleDecrementParticipant}
+            <SetupControls
+              participantCount={participantCount}
+              courtCount={courtCount}
+              handleIncrementParticipant={handleIncrementParticipant}
+              handleDecrementParticipant={handleDecrementParticipant}
+              handleIncrementCourt={handleIncrementCourt}
+              handleDecrementCourt={handleDecrementCourt}
+              handleSetupComplete={handleSetupComplete}
             />
-            <Counter
-              label="コート数"
-              count={courtCount}
-              handleIncrement={handleIncrementCourt}
-              handleDecrement={handleDecrementCourt}
-            />
-            <Button type="primary" onClick={handleSetupComplete}>
-              確定
-            </Button>
           </>
         )}
         {isSetupComplete && (
