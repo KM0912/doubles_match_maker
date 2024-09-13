@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Space, Typography } from "antd";
+import { Button, Divider, Space, Typography } from "antd";
 import PairButton from "../molecules/PairButton";
 import SetupControls from "../organisms/SetupControls";
 
@@ -122,17 +122,20 @@ const Home = () => {
               ))}
             </Space>
             {matches.map((match, index) => (
-              <Space direction="horizontal">
-                <PairButton disabled={match.isEnd} pairs={match.Pairs[0]} />
-                <Text>VS</Text>
-                <PairButton disabled={match.isEnd} pairs={match.Pairs[1]} />
-                <Button
-                  disabled={match.isEnd}
-                  onClick={() => handleMatchEnd(index)}
-                >
-                  試合終了
-                </Button>
-              </Space>
+              <>
+                <Space direction="horizontal">
+                  <PairButton disabled={match.isEnd} pairs={match.Pairs[0]} />
+                  <Text>VS</Text>
+                  <PairButton disabled={match.isEnd} pairs={match.Pairs[1]} />
+                  <Button
+                    disabled={match.isEnd}
+                    onClick={() => handleMatchEnd(index)}
+                  >
+                    試合終了
+                  </Button>
+                </Space>
+                <Divider />
+              </>
             ))}
             <Button type="primary" onClick={handleAddMatch}>
               試合を追加
