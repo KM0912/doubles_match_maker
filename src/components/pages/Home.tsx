@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Space, Typography } from "antd";
 import PairButton from "../molecules/PairButton";
-import Counter from "../molecules/Counter";
 import SetupControls from "../organisms/SetupControls";
 
 const { Title, Text } = Typography;
@@ -74,12 +73,19 @@ const Home = () => {
   const handleAddMatch = () => {
     const newMatches = [...matches];
 
-    // participantsからランダムに2人ペアを作成してmatchesに格納
+    // 参加者をランダムに並び替える
     const shuffledParticipants = [...participants].sort(
       () => Math.random() - 0.5
     );
-    const pair1: Pair = shuffledParticipants.slice(0, 2) as Pair;
-    const pair2: Pair = shuffledParticipants.slice(2, 4) as Pair;
+
+    // 試合数の少ない順に並べる
+    shuffledParticipants.sort((a, b) => a.matchCount - b.matchCount);
+
+    // 先頭からコート数 x 4人を取り出す
+    const players = shuffledParticipants.slice(0, courtCount * 4);
+
+    const pair1: Pair = players.slice(0, 2) as Pair;
+    const pair2: Pair = players.slice(2, 4) as Pair;
     newMatches.push({ Pairs: [pair1, pair2], isEnd: false });
 
     setMatches(newMatches);
