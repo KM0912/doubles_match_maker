@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Divider, Space, Typography } from "antd";
+import { Button, Space, Typography } from "antd";
 import PairButton from "../molecules/PairButton";
 import SetupControls from "../organisms/SetupControls";
 
@@ -23,6 +23,16 @@ const Home = () => {
   const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [participants, setParticipants] = useState<Player[]>([]);
   const [matches, setMatches] = useState<Matches>([]);
+
+  // コート数と参加者数から作成できるダブルスの最大の試合数を返す
+  const maxMatchCount = (courtCount: number, participantCount: number) => {
+    // 参加者数 / 4 >= コート数 の場合、コート数分の試合を作成
+    if (participantCount / 4 >= courtCount) {
+      return courtCount;
+    }
+    // 参加者数 / 4 < コート数 の場合、参加者数 / 4 の試合を作成
+    return Math.floor(participantCount / 4);
+  };
 
   const handleIncrementParticipant = () => {
     setParticipantCount(participantCount + 1);
@@ -70,8 +80,12 @@ const Home = () => {
     });
   };
 
+  // 試合を追加する
   const handleAddMatch = () => {
     const newMatches = [...matches];
+
+    // 作成する試合数を取得
+    const matchCount = maxMatchCount(courtCount, participantCount);
 
     // 参加者をランダムに並び替える
     const shuffledParticipants = [...participants].sort(
@@ -81,12 +95,15 @@ const Home = () => {
     // 試合数の少ない順に並べる
     shuffledParticipants.sort((a, b) => a.matchCount - b.matchCount);
 
-    // 先頭からコート数 x 4人を取り出す
-    const players = shuffledParticipants.slice(0, courtCount * 4);
+    // 先頭から試合数 x 4 人を取得
+    const players = shuffledParticipants.slice(0, matchCount * 4);
 
-    const pair1: Pair = players.slice(0, 2) as Pair;
-    const pair2: Pair = players.slice(2, 4) as Pair;
-    newMatches.push({ Pairs: [pair1, pair2], isEnd: false });
+    // 試合を作成
+    for (let i = 0; i < matchCount; i++) {
+      const pair1: Pair = players.slice(i * 4, i * 4 + 2) as Pair;
+      const pair2: Pair = players.slice(i * 4 + 2, i * 4 + 4) as Pair;
+      newMatches.push({ Pairs: [pair1, pair2], isEnd: false });
+    }
 
     setMatches(newMatches);
   };
@@ -121,9 +138,10 @@ const Home = () => {
                 </Space>
               ))}
             </Space>
+
             {matches.map((match, index) => (
               <>
-                <Space direction="horizontal">
+                <Space key={index} direction="horizontal">
                   <PairButton disabled={match.isEnd} pairs={match.Pairs[0]} />
                   <Text>VS</Text>
                   <PairButton disabled={match.isEnd} pairs={match.Pairs[1]} />
@@ -134,7 +152,6 @@ const Home = () => {
                     試合終了
                   </Button>
                 </Space>
-                <Divider />
               </>
             ))}
             <Button type="primary" onClick={handleAddMatch}>
