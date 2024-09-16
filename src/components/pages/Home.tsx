@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Button, Space, Typography } from "antd";
 import PairButton from "../molecules/PairButton";
 import SetupControls from "../organisms/SetupControls";
+import ParticipantList from "../organisms/ParticipantList";
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 type Pair = [Player, Player];
 type Match = {
@@ -129,15 +130,7 @@ const Home = () => {
             <Text strong>
               参加者数：{participantCount}人、コート数：{courtCount}面
             </Text>
-            <Title level={4}>参加者一覧</Title>
-            <Space direction="vertical">
-              {participants.map((participant) => (
-                <Space direction="horizontal">
-                  <Text>No.{participant.id}</Text>
-                  <Text>試合数：{participant.matchCount}</Text>
-                </Space>
-              ))}
-            </Space>
+            <ParticipantList participants={participants} />
 
             {matches.map((match, index) => (
               <>
