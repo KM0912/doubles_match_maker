@@ -1,15 +1,11 @@
 import React from "react";
 import { Space, Typography } from "antd";
+import { Player } from "../../pages/Home";
 
 const { Title, Text } = Typography;
 
-interface Participant {
-  id: number;
-  matchCount: number;
-}
-
 interface ParticipantListProps {
-  participants: Participant[];
+  participants: Player[];
 }
 
 const ParticipantList: React.FC<ParticipantListProps> = ({ participants }) => (
@@ -20,6 +16,7 @@ const ParticipantList: React.FC<ParticipantListProps> = ({ participants }) => (
         <Space direction="horizontal" key={participant.id}>
           <Text>No.{participant.id}</Text>
           <Text>試合数：{participant.matchCount}</Text>
+          <Text>ペア履歴：{JSON.stringify(participant.pairHistory)}</Text>
         </Space>
       ))}
     </Space>

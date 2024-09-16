@@ -13,9 +13,15 @@ type Match = {
 };
 type Matches = Match[];
 
+type PairHistory = {
+  partnerId: number;
+  timesPaired: number;
+};
+
 export type Player = {
   id: number;
   matchCount: number;
+  pairHistory: PairHistory[];
 };
 
 const Home = () => {
@@ -59,12 +65,15 @@ const Home = () => {
     }
   };
 
+  // 確定ボタンを押したときの処理
   const handleSetupComplete = () => {
     const newParticipants = Array.from(
       { length: participantCount },
       (_, i) => i + 1
     );
-    setParticipants(newParticipants.map((id) => ({ id, matchCount: 0 })));
+    setParticipants(
+      newParticipants.map((id) => ({ id, matchCount: 0, pairHistory: [] }))
+    );
     setIsSetupComplete(true);
   };
 
@@ -78,6 +87,19 @@ const Home = () => {
     const newParticipants = [...participants];
     newMatches[matchIndex].Pairs.flat().forEach((pair) => {
       newParticipants[pair.id - 1].matchCount++;
+    });
+
+    // ペアの履歴を更新
+    newMatches[matchIndex].Pairs.forEach((pair) => {
+      pair.forEach((player) => {
+        const partnerId = pair.find((p) => p.id !== player.id)!.id;
+        if (player.pairHistory.some((p) => p.partnerId === partnerId)) {
+          player.pairHistory.find((p) => p.partnerId === partnerId)!
+            .timesPaired++;
+        } else {
+          player.pairHistory.push({ partnerId, timesPaired: 1 });
+        }
+      });
     });
   };
 
