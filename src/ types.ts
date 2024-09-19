@@ -10,4 +10,5 @@ export type Matches = Match[];
 export type Player = {
   id: number;
   matchCount: number;
+  wins: number;
 };

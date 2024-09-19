@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { Button, Space, Typography } from "antd";
 import PairButton from "../molecules/PairButton";
 import SetupControls from "../organisms/SetupControls";
-import ParticipantList from "../organisms/ParticipantList";
-import { Player } from "../../ types";
 import useMatchManagement from "../../hooks/useMatchManagement";
+import PlayerList from "../organisms/PlayerList";
 
 const { Text } = Typography;
 
@@ -14,25 +13,24 @@ const { Text } = Typography;
 // };
 
 const Home = () => {
-  const [participantCount, setParticipantCount] = useState(4);
+  const [playerCount, setPlayerCount] = useState(4);
   const [courtCount, setCourtCount] = useState(1);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
-  const [participants, setParticipants] = useState<Player[]>([]);
-  const { matches, handleAddMatch, handleMatchEnd } = useMatchManagement({
-    participants,
-    setParticipants,
-    courtCount,
-  });
+  const { players, matches, handleAddMatch, handleMatchEnd } =
+    useMatchManagement({
+      playerCount,
+      courtCount,
+    });
 
   const handleIncrementParticipant = () => {
-    setParticipantCount(participantCount + 1);
+    setPlayerCount(playerCount + 1);
   };
 
   const handleDecrementParticipant = () => {
-    if (participantCount <= 4) {
-      setParticipantCount(4);
+    if (playerCount <= 4) {
+      setPlayerCount(4);
     } else {
-      setParticipantCount(participantCount - 1);
+      setPlayerCount(playerCount - 1);
     }
   };
 
@@ -50,13 +48,6 @@ const Home = () => {
 
   // 確定ボタンを押したときの処理
   const handleSetupComplete = () => {
-    const newParticipants = Array.from(
-      { length: participantCount },
-      (_, i) => i + 1
-    );
-    setParticipants(
-      newParticipants.map((id) => ({ id, matchCount: 0, pairHistory: [] }))
-    );
     setIsSetupComplete(true);
   };
 
@@ -90,7 +81,7 @@ const Home = () => {
         {!isSetupComplete && (
           <>
             <SetupControls
-              participantCount={participantCount}
+              participantCount={playerCount}
               courtCount={courtCount}
               handleIncrementParticipant={handleIncrementParticipant}
               handleDecrementParticipant={handleDecrementParticipant}
@@ -103,9 +94,9 @@ const Home = () => {
         {isSetupComplete && (
           <>
             <Text strong>
-              参加者数：{participantCount}人、コート数：{courtCount}面
+              参加者数：{playerCount}人、コート数：{courtCount}面
             </Text>
-            <ParticipantList participants={participants} />
+            <PlayerList players={players} />
             {/* <Table columns={columns} dataSource={data} bordered /> */}
 
             {matches.map((match, index) => (

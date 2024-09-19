@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Match, Pair, Player } from "../ types";
 
 type Props = {
-  participants: Player[];
-  setParticipants: (participants: Player[]) => void;
+  playerCount: number;
   courtCount: number;
 };
 
@@ -18,31 +17,40 @@ const maxMatchCount = (courtCount: number, participantCount: number) => {
 };
 
 const useMatchManagement = (props: Props) => {
-  const { participants, setParticipants, courtCount } = props;
+  const { playerCount, courtCount } = props;
+  const [players, setPlayers] = useState<Player[]>([]);
   const [matches, setMatches] = useState<Match[]>([]);
+
+  // 参加者を更新
+  useEffect(() => {
+    const newPlayers = Array.from({ length: playerCount }, (_, i) => ({
+      id: i + 1,
+      matchCount: 0,
+      wins: 0,
+    }));
+    setPlayers(newPlayers);
+  }, [playerCount]);
 
   // 試合を追加
   const handleAddMatch = () => {
     const newMatches = [...matches];
 
     // 作成する試合数を取得
-    const matchCount = maxMatchCount(courtCount, participants.length);
+    const matchCount = maxMatchCount(courtCount, players.length);
 
     // 参加者をランダムに並び替える
-    const shuffledParticipants = [...participants].sort(
-      () => Math.random() - 0.5
-    );
+    const shuffledPlayers = [...players].sort(() => Math.random() - 0.5);
 
     // 試合数の少ない順に並べる
-    shuffledParticipants.sort((a, b) => a.matchCount - b.matchCount);
+    shuffledPlayers.sort((a, b) => a.matchCount - b.matchCount);
 
     // 先頭から試合数 x 4 人を取得
-    const players = shuffledParticipants.slice(0, matchCount * 4);
+    const group = shuffledPlayers.slice(0, matchCount * 4);
 
     // 試合を作成
     for (let i = 0; i < matchCount; i++) {
-      const pair1: Pair = players.slice(i * 4, i * 4 + 2) as Pair;
-      const pair2: Pair = players.slice(i * 4 + 2, i * 4 + 4) as Pair;
+      const pair1: Pair = group.slice(i * 4, i * 4 + 2) as Pair;
+      const pair2: Pair = group.slice(i * 4 + 2, i * 4 + 4) as Pair;
       newMatches.push({ Pairs: [pair1, pair2], isEnd: false });
     }
 
@@ -56,15 +64,15 @@ const useMatchManagement = (props: Props) => {
     setMatches(newMatches);
 
     // 参加者の試合数を更新(試合が終了したときに試合数をインクリメント)
-    const newParticipants = structuredClone(participants) as Player[];
+    const newPlayers = structuredClone(players) as Player[];
     newMatches[matchIndex].Pairs.flat().forEach((pair) => {
-      newParticipants[pair.id - 1].matchCount++;
+      newPlayers[pair.id - 1].matchCount++;
     });
 
-    setParticipants(newParticipants);
+    setPlayers(newPlayers);
   };
 
-  return { matches, handleAddMatch, handleMatchEnd };
+  return { players, matches, handleAddMatch, handleMatchEnd };
 };
 
 export default useMatchManagement;
