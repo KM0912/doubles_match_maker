@@ -61,20 +61,6 @@ const useMatchManagement = (props: Props) => {
       newParticipants[pair.id - 1].matchCount++;
     });
 
-    // ペアの履歴を更新
-    newMatches[matchIndex].Pairs.forEach((pair) => {
-      pair.forEach((player) => {
-        const partnerId = pair.find((p) => p.id !== player.id)!.id;
-        const newParticipant = newParticipants.find((p) => p.id === player.id)!;
-        if (newParticipant.pairHistory.some((p) => p.partnerId === partnerId)) {
-          newParticipant.pairHistory.find((p) => p.partnerId === partnerId)!
-            .timesPaired++;
-        } else {
-          newParticipant.pairHistory.push({ partnerId, timesPaired: 1 });
-        }
-      });
-    });
-
     setParticipants(newParticipants);
   };
 

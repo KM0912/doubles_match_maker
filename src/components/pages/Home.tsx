@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Space, Table, TableProps, Typography } from "antd";
+import { Button, Space, Typography } from "antd";
 import PairButton from "../molecules/PairButton";
 import SetupControls from "../organisms/SetupControls";
 import ParticipantList from "../organisms/ParticipantList";
@@ -8,10 +8,10 @@ import useMatchManagement from "../../hooks/useMatchManagement";
 
 const { Text } = Typography;
 
-type DataType = {
-  key: string;
-  [key: number]: number | undefined;
-};
+// type DataType = {
+//   key: string;
+//   [key: number]: number | undefined;
+// };
 
 const Home = () => {
   const [participantCount, setParticipantCount] = useState(4);
@@ -60,29 +60,29 @@ const Home = () => {
     setIsSetupComplete(true);
   };
 
-  const columns: TableProps<DataType>["columns"] = [
-    {
-      title: "RowHead",
-      dataIndex: "key",
-      rowScope: "row",
-    },
-    ...participants.map((participant) => ({
-      title: participant.id.toString(),
-      dataIndex: participant.id.toString(),
-    })),
-  ];
+  // const columns: TableProps<DataType>["columns"] = [
+  //   {
+  //     title: "RowHead",
+  //     dataIndex: "key",
+  //     rowScope: "row",
+  //   },
+  //   ...participants.map((participant) => ({
+  //     title: participant.id.toString(),
+  //     dataIndex: participant.id.toString(),
+  //   })),
+  // ];
 
-  const data: DataType[] = participants.map((participant) => {
-    const dynamicData: { key: string; [key: number]: number | undefined } = {
-      key: participant.id.toString(),
-    };
+  // const data: DataType[] = participants.map((participant) => {
+  //   const dynamicData: { key: string; [key: number]: number | undefined } = {
+  //     key: participant.id.toString(),
+  //   };
 
-    participant.pairHistory.forEach((pair) => {
-      dynamicData[pair.partnerId] = pair.timesPaired;
-    });
+  //   participant.pairHistory.forEach((pair) => {
+  //     dynamicData[pair.partnerId] = pair.timesPaired;
+  //   });
 
-    return dynamicData;
-  });
+  //   return dynamicData;
+  // });
 
   return (
     <>
@@ -106,7 +106,7 @@ const Home = () => {
               参加者数：{participantCount}人、コート数：{courtCount}面
             </Text>
             <ParticipantList participants={participants} />
-            <Table columns={columns} dataSource={data} bordered />
+            {/* <Table columns={columns} dataSource={data} bordered /> */}
 
             {matches.map((match, index) => (
               <>

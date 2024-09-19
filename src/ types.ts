@@ -7,13 +7,7 @@ export type Match = {
 
 export type Matches = Match[];
 
-export type PairHistory = {
-  partnerId: number;
-  timesPaired: number;
-};
-
 export type Player = {
   id: number;
   matchCount: number;
-  pairHistory: PairHistory[];
 };
