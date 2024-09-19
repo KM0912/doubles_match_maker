@@ -5,6 +5,7 @@ import SetupControls from "../organisms/SetupControls";
 import useMatchManagement from "../../hooks/useMatchManagement";
 import PlayerList from "../organisms/PlayerList";
 import WinButton from "../atom/WinButton";
+import Matchup from "../molecules/Matchup";
 
 const { Text } = Typography;
 
@@ -105,23 +106,12 @@ const Home = () => {
             {/* <Table columns={columns} dataSource={data} bordered /> */}
 
             {matches.map((match, index) => (
-              <>
-                <Space key={index} direction="horizontal">
-                  <WinButton
-                    match={match}
-                    pairIndex={0}
-                    handleClickWin={() => handleClickWin(index, 0)}
-                  />
-                  <PairButton disabled={match.isEnd} pairs={match.Pairs[0]} />
-                  <Text>VS</Text>
-                  <PairButton disabled={match.isEnd} pairs={match.Pairs[1]} />
-                  <WinButton
-                    match={match}
-                    pairIndex={1}
-                    handleClickWin={() => handleClickWin(index, 1)}
-                  />
-                </Space>
-              </>
+              <Matchup
+                key={index}
+                match={match}
+                index={index}
+                onClickWin={handleClickWin}
+              />
             ))}
             <Button type="primary" onClick={handleAddMatch}>
               試合を追加

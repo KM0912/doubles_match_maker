@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Match, Pair, Player } from "../ types";
+import { Match, Pair, Player } from "../types";
 
 type Props = {
   playerCount: number;

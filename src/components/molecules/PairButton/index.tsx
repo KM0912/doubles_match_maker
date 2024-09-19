@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "antd";
-import { Player } from "../../../ types";
+import { Player } from "../../../types";
 
 type PairButtonProps = {
   pairs: [Player, Player];

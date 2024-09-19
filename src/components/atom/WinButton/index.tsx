@@ -1,16 +1,16 @@
 import React from "react";
 import { Button, Typography } from "antd";
-import { Match } from "../../../ types";
+import { Match } from "../../../types";
 
 const { Text } = Typography;
 
 type Props = {
   match: Match;
   pairIndex: number;
-  handleClickWin: React.MouseEventHandler<HTMLElement>;
+  onClick: React.MouseEventHandler<HTMLElement>;
 };
 
-const WinButton: React.FC<Props> = ({ match, pairIndex, handleClickWin }) => {
+const WinButton: React.FC<Props> = ({ match, pairIndex, onClick }) => {
   const isWinner = match.winnerPairIndex === pairIndex;
   const isDecided = match.winnerPairIndex !== undefined;
 
@@ -18,7 +18,7 @@ const WinButton: React.FC<Props> = ({ match, pairIndex, handleClickWin }) => {
     <Button
       type={isDecided ? (isWinner ? "primary" : "default") : "default"}
       danger={isDecided && !isWinner}
-      onClick={handleClickWin}
+      onClick={onClick}
     >
       <Text>勝</Text>
     </Button>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Space, Typography } from "antd";
-import { Player } from "../../../ types";
+import { Player } from "../../../types";
 
 const { Title, Text } = Typography;
 
