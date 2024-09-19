@@ -4,6 +4,7 @@ import PairButton from "../molecules/PairButton";
 import SetupControls from "../organisms/SetupControls";
 import useMatchManagement from "../../hooks/useMatchManagement";
 import PlayerList from "../organisms/PlayerList";
+import WinButton from "../atom/WinButton";
 
 const { Text } = Typography;
 
@@ -106,15 +107,19 @@ const Home = () => {
             {matches.map((match, index) => (
               <>
                 <Space key={index} direction="horizontal">
-                  <Button onClick={() => handleClickWin(index, 0)}>
-                    <Text type={match.isEnd ? "success" : "secondary"}>勝</Text>
-                  </Button>
+                  <WinButton
+                    match={match}
+                    pairIndex={0}
+                    handleClickWin={() => handleClickWin(index, 0)}
+                  />
                   <PairButton disabled={match.isEnd} pairs={match.Pairs[0]} />
                   <Text>VS</Text>
                   <PairButton disabled={match.isEnd} pairs={match.Pairs[1]} />
-                  <Button onClick={() => handleClickWin(index, 1)}>
-                    <Text type={match.isEnd ? "success" : "secondary"}>勝</Text>
-                  </Button>
+                  <WinButton
+                    match={match}
+                    pairIndex={1}
+                    handleClickWin={() => handleClickWin(index, 1)}
+                  />
                 </Space>
               </>
             ))}

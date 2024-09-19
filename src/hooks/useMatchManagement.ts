@@ -59,20 +59,50 @@ const useMatchManagement = (props: Props) => {
 
   // 試合終了時の処理
   const handleMatchEnd = (matchIndex: number, winnerPairIndex: number) => {
-    const newMatches = structuredClone(matches) as Match[];
-    newMatches[matchIndex].isEnd = true;
-    setMatches(newMatches);
-
-    // 参加者の試合数を更新(試合が終了したときに試合数をインクリメント)
     const newPlayers = structuredClone(players) as Player[];
-    newMatches[matchIndex].Pairs.forEach((pair, pairIndex) => {
+    const newMatches = structuredClone(matches) as Match[];
+
+    // 終了している試合の場合、試合を結果をリセット
+    if (newMatches[matchIndex].isEnd) {
+      decrementPlayerMatchCount(newPlayers, newMatches[matchIndex]);
+      newMatches[matchIndex].isEnd = false;
+      newMatches[matchIndex].winnerPairIndex = undefined;
+    } else {
+      incrementPlayerMatchCount(
+        newPlayers,
+        newMatches[matchIndex],
+        winnerPairIndex
+      );
+      newMatches[matchIndex].isEnd = true;
+      newMatches[matchIndex].winnerPairIndex = winnerPairIndex;
+    }
+    setPlayers(newPlayers);
+    setMatches(newMatches);
+  };
+
+  // プレイヤーの試合数と勝利数をインクリメント
+  const incrementPlayerMatchCount = (
+    players: Player[],
+    match: Match,
+    winnerPairIndex: number
+  ) => {
+    match.Pairs.forEach((pair, pairIndex) => {
       pair.forEach((player) => {
-        newPlayers[player.id - 1].matchCount++;
-        newPlayers[player.id - 1].wins += pairIndex === winnerPairIndex ? 1 : 0;
+        players[player.id - 1].matchCount++;
+        players[player.id - 1].wins += pairIndex === winnerPairIndex ? 1 : 0;
       });
     });
+  };
 
-    setPlayers(newPlayers);
+  // プレイヤーの試合数と勝利数をディクリメント
+  const decrementPlayerMatchCount = (players: Player[], match: Match) => {
+    match.Pairs.forEach((pair, pairIndex) => {
+      pair.forEach((player) => {
+        players[player.id - 1].matchCount--;
+        players[player.id - 1].wins -=
+          pairIndex === match.winnerPairIndex ? 1 : 0;
+      });
+    });
   };
 
   return { players, matches, handleAddMatch, handleMatchEnd };
