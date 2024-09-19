@@ -75,6 +75,10 @@ const Home = () => {
   //   return dynamicData;
   // });
 
+  const handleClickWin = (matchIndex: number, pairIndex: number) => {
+    handleMatchEnd(matchIndex, pairIndex);
+  };
+
   return (
     <>
       <Space direction="vertical">
@@ -102,14 +106,14 @@ const Home = () => {
             {matches.map((match, index) => (
               <>
                 <Space key={index} direction="horizontal">
+                  <Button onClick={() => handleClickWin(index, 0)}>
+                    <Text type={match.isEnd ? "success" : "secondary"}>勝</Text>
+                  </Button>
                   <PairButton disabled={match.isEnd} pairs={match.Pairs[0]} />
                   <Text>VS</Text>
                   <PairButton disabled={match.isEnd} pairs={match.Pairs[1]} />
-                  <Button
-                    disabled={match.isEnd}
-                    onClick={() => handleMatchEnd(index)}
-                  >
-                    試合終了
+                  <Button onClick={() => handleClickWin(index, 1)}>
+                    <Text type={match.isEnd ? "success" : "secondary"}>勝</Text>
                   </Button>
                 </Space>
               </>

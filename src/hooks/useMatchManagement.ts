@@ -58,15 +58,18 @@ const useMatchManagement = (props: Props) => {
   };
 
   // 試合終了時の処理
-  const handleMatchEnd = (matchIndex: number) => {
+  const handleMatchEnd = (matchIndex: number, winnerPairIndex: number) => {
     const newMatches = structuredClone(matches) as Match[];
     newMatches[matchIndex].isEnd = true;
     setMatches(newMatches);
 
     // 参加者の試合数を更新(試合が終了したときに試合数をインクリメント)
     const newPlayers = structuredClone(players) as Player[];
-    newMatches[matchIndex].Pairs.flat().forEach((pair) => {
-      newPlayers[pair.id - 1].matchCount++;
+    newMatches[matchIndex].Pairs.forEach((pair, pairIndex) => {
+      pair.forEach((player) => {
+        newPlayers[player.id - 1].matchCount++;
+        newPlayers[player.id - 1].wins += pairIndex === winnerPairIndex ? 1 : 0;
+      });
     });
 
     setPlayers(newPlayers);
