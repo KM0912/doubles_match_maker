@@ -20,7 +20,7 @@ const WinButton: React.FC<Props> = ({ match, pairIndex, onClick }) => {
       danger={isDecided && !isWinner}
       onClick={onClick}
     >
-      <Text>勝</Text>
+      <Text>{isDecided ? (isWinner ? "勝ち" : "負け") : "勝敗"}</Text>
     </Button>
   );
 };

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Button, Space, Typography } from "antd";
-import PairButton from "../molecules/PairButton";
 import SetupControls from "../organisms/SetupControls";
 import useMatchManagement from "../../hooks/useMatchManagement";
 import PlayerList from "../organisms/PlayerList";
-import WinButton from "../atom/WinButton";
 import Matchup from "../molecules/Matchup";
 
 const { Text } = Typography;
