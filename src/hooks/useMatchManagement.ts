@@ -51,10 +51,23 @@ const useMatchManagement = (props: Props) => {
     // 先頭から試合数 x 4 人を取得
     const group = shuffledPlayers.slice(0, matchCount * 4);
 
+    // 勝率の高い順に並べる
+    // TODO: 勝率ではなくレーティングを元に並べ替える
+    //        勝率だと試合数が少ない人が上位に来てしまう
+    group.sort((a, b) => {
+      const aWinRate = a.matchCount === 0 ? 0 : a.wins / a.matchCount;
+      const bWinRate = b.matchCount === 0 ? 0 : b.wins / b.matchCount;
+      return bWinRate - aWinRate;
+    });
+
     // 試合を作成
     for (let i = 0; i < matchCount; i++) {
-      const pair1: Pair = group.slice(i * 4, i * 4 + 2) as Pair;
-      const pair2: Pair = group.slice(i * 4 + 2, i * 4 + 4) as Pair;
+      // 試合する４人を取得
+      const matchPlayers = group.slice(i * 4, i * 4 + 4);
+
+      // 勝率が１位と４位、２位と３位のペアを作成
+      const pair1: Pair = [matchPlayers[0], matchPlayers[3]];
+      const pair2: Pair = [matchPlayers[1], matchPlayers[2]];
       newMatches.push({ Pairs: [pair1, pair2], isEnd: false, editable: true });
     }
 
