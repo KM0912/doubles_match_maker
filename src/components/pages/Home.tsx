@@ -79,6 +79,9 @@ const Home = () => {
     handleMatchEnd(matchIndex, pairIndex);
   };
 
+  // すべての試合が終了しているかどうか
+  const isAllMatchEnd = matches.every((match) => match.isEnd);
+
   return (
     <>
       <Space direction="vertical">
@@ -111,7 +114,11 @@ const Home = () => {
                 onClickWin={handleClickWin}
               />
             ))}
-            <Button type="primary" onClick={handleAddMatch}>
+            <Button
+              type="primary"
+              onClick={handleAddMatch}
+              disabled={!isAllMatchEnd}
+            >
               試合を追加
             </Button>
           </>
