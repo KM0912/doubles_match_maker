@@ -33,7 +33,11 @@ const useMatchManagement = (props: Props) => {
 
   // 試合を追加
   const handleAddMatch = () => {
-    const newMatches = [...matches];
+    const newMatches = structuredClone(matches) as Match[];
+    // 過去の試合を編集不可にする
+    newMatches.forEach((match) => {
+      match.editable = false;
+    });
 
     // 作成する試合数を取得
     const matchCount = maxMatchCount(courtCount, players.length);
@@ -51,7 +55,7 @@ const useMatchManagement = (props: Props) => {
     for (let i = 0; i < matchCount; i++) {
       const pair1: Pair = group.slice(i * 4, i * 4 + 2) as Pair;
       const pair2: Pair = group.slice(i * 4 + 2, i * 4 + 4) as Pair;
-      newMatches.push({ Pairs: [pair1, pair2], isEnd: false });
+      newMatches.push({ Pairs: [pair1, pair2], isEnd: false, editable: true });
     }
 
     setMatches(newMatches);

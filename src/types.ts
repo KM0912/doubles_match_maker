@@ -4,6 +4,7 @@ export type Match = {
   Pairs: [Pair, Pair];
   isEnd: boolean;
   winnerPairIndex?: number;
+  editable: boolean;
 };
 
 export type Matches = Match[];

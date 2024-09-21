@@ -19,14 +19,22 @@ const Matchup: React.FC<Props> = ({ match, index, onClickWin }) => {
         match={match}
         pairIndex={0}
         onClick={() => onClickWin(index, 0)}
+        disabled={!match.editable}
       />
-      <PairButton disabled={match.isEnd} pairs={match.Pairs[0]} />
+      <PairButton
+        disabled={match.isEnd || !match.editable}
+        pairs={match.Pairs[0]}
+      />
       <Text>VS</Text>
-      <PairButton disabled={match.isEnd} pairs={match.Pairs[1]} />
+      <PairButton
+        disabled={match.isEnd || !match.editable}
+        pairs={match.Pairs[1]}
+      />
       <WinButton
         match={match}
         pairIndex={1}
         onClick={() => onClickWin(index, 1)}
+        disabled={!match.editable}
       />
     </Space>
   );

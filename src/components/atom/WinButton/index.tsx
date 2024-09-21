@@ -7,10 +7,9 @@ const { Text } = Typography;
 type Props = {
   match: Match;
   pairIndex: number;
-  onClick: React.MouseEventHandler<HTMLElement>;
-};
+} & React.ComponentProps<typeof Button>;
 
-const WinButton: React.FC<Props> = ({ match, pairIndex, onClick }) => {
+const WinButton: React.FC<Props> = ({ match, pairIndex, ...rest }) => {
   const isWinner = match.winnerPairIndex === pairIndex;
   const isDecided = match.winnerPairIndex !== undefined;
 
@@ -18,7 +17,7 @@ const WinButton: React.FC<Props> = ({ match, pairIndex, onClick }) => {
     <Button
       type={isDecided ? (isWinner ? "primary" : "default") : "default"}
       danger={isDecided && !isWinner}
-      onClick={onClick}
+      {...rest}
     >
       <Text>{isDecided ? (isWinner ? "勝ち" : "負け") : "勝敗"}</Text>
     </Button>
