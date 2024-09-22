@@ -23,12 +23,12 @@ const Matchup: React.FC<Props> = ({ match, index, onClickWin }) => {
       />
       <PairButton
         disabled={match.isEnd || !match.editable}
-        pairs={match.Pairs[0]}
+        pairs={match.pairs[0]}
       />
       <Text>VS</Text>
       <PairButton
         disabled={match.isEnd || !match.editable}
-        pairs={match.Pairs[1]}
+        pairs={match.pairs[1]}
       />
       <WinButton
         match={match}

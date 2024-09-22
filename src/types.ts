@@ -1,7 +1,7 @@
 export type Pair = [Player, Player];
 
 export type Match = {
-  Pairs: [Pair, Pair];
+  pairs: [Pair, Pair];
   isEnd: boolean;
   winnerPairIndex?: number;
   editable: boolean;
