@@ -7,16 +7,11 @@ import Matchup from "../molecules/Matchup";
 
 const { Text } = Typography;
 
-// type DataType = {
-//   key: string;
-//   [key: number]: number | undefined;
-// };
-
 const Home = () => {
   const [playerCount, setPlayerCount] = useState(4);
   const [courtCount, setCourtCount] = useState(1);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
-  const { players, matches, handleAddMatch, handleMatchEnd } =
+  const { players, pairingCounts, matches, handleAddMatch, handleMatchEnd } =
     useMatchManagement({
       playerCount,
       courtCount,
@@ -51,30 +46,6 @@ const Home = () => {
     setIsSetupComplete(true);
   };
 
-  // const columns: TableProps<DataType>["columns"] = [
-  //   {
-  //     title: "RowHead",
-  //     dataIndex: "key",
-  //     rowScope: "row",
-  //   },
-  //   ...participants.map((participant) => ({
-  //     title: participant.id.toString(),
-  //     dataIndex: participant.id.toString(),
-  //   })),
-  // ];
-
-  // const data: DataType[] = participants.map((participant) => {
-  //   const dynamicData: { key: string; [key: number]: number | undefined } = {
-  //     key: participant.id.toString(),
-  //   };
-
-  //   participant.pairHistory.forEach((pair) => {
-  //     dynamicData[pair.partnerId] = pair.timesPaired;
-  //   });
-
-  //   return dynamicData;
-  // });
-
   const handleClickWin = (matchIndex: number, pairIndex: number) => {
     handleMatchEnd(matchIndex, pairIndex);
   };
@@ -104,6 +75,8 @@ const Home = () => {
               参加者数：{playerCount}人、コート数：{courtCount}面
             </Text>
             <PlayerList players={players} />
+            <Text strong>ペアリング数</Text>
+            <Space>{JSON.stringify(pairingCounts)}</Space>
             {/* <Table columns={columns} dataSource={data} bordered /> */}
 
             {matches.map((match, index) => (

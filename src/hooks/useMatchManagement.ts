@@ -6,6 +6,10 @@ type Props = {
   courtCount: number;
 };
 
+type PairingCounts = {
+  [key: number]: { [key: number]: number };
+};
+
 // コート数と参加者数から作成できるダブルスの最大の試合数を返す
 const maxMatchCount = (courtCount: number, participantCount: number) => {
   return participantCount / 4 >= courtCount
@@ -17,6 +21,7 @@ const useMatchManagement = (props: Props) => {
   const { playerCount, courtCount } = props;
   const [players, setPlayers] = useState<Player[]>([]);
   const [matches, setMatches] = useState<Match[]>([]);
+  const [pairingCounts, setPairingCounts] = useState<PairingCounts>({});
 
   // 参加者を更新
   useEffect(() => {
@@ -79,6 +84,9 @@ const useMatchManagement = (props: Props) => {
     }
 
     const newPlayers = JSON.parse(JSON.stringify(players)) as Player[];
+    const newPairingCounts = JSON.parse(
+      JSON.stringify(pairingCounts)
+    ) as PairingCounts;
     const newMatches = JSON.parse(JSON.stringify(matches)) as Match[];
 
     // 終了している試合の場合、試合を結果をリセット
@@ -87,6 +95,11 @@ const useMatchManagement = (props: Props) => {
       newMatches[matchIndex].isEnd = false;
       newMatches[matchIndex].winnerPairIndex = undefined;
       newMatches[matchIndex].editable = true;
+
+      // ペアリング回数を更新
+      newMatches[matchIndex].pairs.forEach((pair) => {
+        updatePairingCounts(newPairingCounts, pair[0].id, pair[1].id, -1);
+      });
     } else {
       updatePlayerMatchCount(
         newPlayers,
@@ -97,8 +110,14 @@ const useMatchManagement = (props: Props) => {
       newMatches[matchIndex].isEnd = true;
       newMatches[matchIndex].winnerPairIndex = winnerPairIndex;
       newMatches[matchIndex].editable = true;
+
+      // ペアリング回数を更新
+      newMatches[matchIndex].pairs.forEach((pair) => {
+        updatePairingCounts(newPairingCounts, pair[0].id, pair[1].id);
+      });
     }
     setPlayers(newPlayers);
+    setPairingCounts(newPairingCounts);
     setMatches(newMatches);
   };
 
@@ -126,7 +145,28 @@ const useMatchManagement = (props: Props) => {
     });
   };
 
-  return { players, matches, handleAddMatch, handleMatchEnd };
+  // ペアリング回数を更新する関数
+  const updatePairingCounts = (
+    pairingCounts: PairingCounts,
+    playerAId: number,
+    playerBId: number,
+    increment = 1
+  ) => {
+    // IDを小さい順に並び替える
+    if (playerAId > playerBId) {
+      [playerAId, playerBId] = [playerBId, playerAId];
+    }
+
+    // ネストしたオブジェクトを初期化
+    if (!pairingCounts[playerAId]) {
+      pairingCounts[playerAId] = {};
+    }
+
+    pairingCounts[playerAId][playerBId] =
+      (pairingCounts[playerAId][playerBId] || 0) + increment;
+  };
+
+  return { players, pairingCounts, matches, handleAddMatch, handleMatchEnd };
 };
 
 export default useMatchManagement;
