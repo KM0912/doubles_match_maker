@@ -8,12 +8,9 @@ type Props = {
 
 // コート数と参加者数から作成できるダブルスの最大の試合数を返す
 const maxMatchCount = (courtCount: number, participantCount: number) => {
-  // 参加者数 / 4 >= コート数 の場合、コート数分の試合を作成
-  if (participantCount / 4 >= courtCount) {
-    return courtCount;
-  }
-  // 参加者数 / 4 < コート数 の場合、参加者数 / 4 の試合を作成
-  return Math.floor(participantCount / 4);
+  return participantCount / 4 >= courtCount
+    ? courtCount
+    : Math.floor(participantCount / 4);
 };
 
 const useMatchManagement = (props: Props) => {
@@ -77,7 +74,6 @@ const useMatchManagement = (props: Props) => {
   // 試合終了時の処理
   const handleMatchEnd = (matchIndex: number, winnerPairIndex: number) => {
     if (matchIndex < 0 || matchIndex >= matches.length) {
-      // matchIndexが範囲外の場合は処理を中断
       console.error("Invalid match index");
       return;
     }
@@ -87,14 +83,15 @@ const useMatchManagement = (props: Props) => {
 
     // 終了している試合の場合、試合を結果をリセット
     if (newMatches[matchIndex].isEnd) {
-      decrementPlayerMatchCount(newPlayers, newMatches[matchIndex]);
+      updatePlayerMatchCount(newPlayers, newMatches[matchIndex], -1);
       newMatches[matchIndex].isEnd = false;
       newMatches[matchIndex].winnerPairIndex = undefined;
       newMatches[matchIndex].editable = true;
     } else {
-      incrementPlayerMatchCount(
+      updatePlayerMatchCount(
         newPlayers,
         newMatches[matchIndex],
+        1,
         winnerPairIndex
       );
       newMatches[matchIndex].isEnd = true;
@@ -105,29 +102,26 @@ const useMatchManagement = (props: Props) => {
     setMatches(newMatches);
   };
 
-  // プレイヤーの試合数と勝利数をインクリメント
-  const incrementPlayerMatchCount = (
+  // プレイヤーの試合数と勝利数を更新
+  const updatePlayerMatchCount = (
     players: Player[],
     match: Match,
-    winnerPairIndex: number
+    increment: number, // 増分（1 または -1）
+    winnerPairIndex?: number // オプションの勝者ペアインデックス
   ) => {
-    match.pairs.forEach((pair, pairIndex) => {
-      pair.forEach((player) => {
-        const playerIndex = players.findIndex((p) => p.id === player.id);
-        players[playerIndex].matchCount++;
-        players[playerIndex].wins += pairIndex === winnerPairIndex ? 1 : 0;
-      });
-    });
-  };
+    // winnerPairIndex が指定されていない場合は match から取得
+    const actualWinnerPairIndex =
+      winnerPairIndex !== undefined ? winnerPairIndex : match.winnerPairIndex;
 
-  // プレイヤーの試合数と勝利数をディクリメント
-  const decrementPlayerMatchCount = (players: Player[], match: Match) => {
     match.pairs.forEach((pair, pairIndex) => {
       pair.forEach((player) => {
         const playerIndex = players.findIndex((p) => p.id === player.id);
-        players[playerIndex].matchCount--;
-        players[playerIndex].wins -=
-          pairIndex === match.winnerPairIndex ? 1 : 0;
+        players[playerIndex].matchCount += increment;
+
+        // 勝利数の増減条件を修正
+        if (pairIndex === actualWinnerPairIndex) {
+          players[playerIndex].wins += increment;
+        }
       });
     });
   };
