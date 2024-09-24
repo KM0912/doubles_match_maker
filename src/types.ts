@@ -1,3 +1,5 @@
+export type MenuType = "player" | "pairing" | "match";
+
 export type Pair = [Player, Player];
 
 export type Match = {

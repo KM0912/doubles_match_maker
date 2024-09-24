@@ -5,14 +5,13 @@ import useMatchManagement from "../../hooks/useMatchManagement";
 import PlayerList from "../organisms/PlayerList";
 import Matchup from "../molecules/Matchup";
 import FooterMenu from "../organisms/FooterMenu";
+import { MenuType } from "../../types";
 
 const { Text } = Typography;
 const { Header, Content, Footer } = Layout;
 
 const Home = () => {
-  const [selectedMenuKey, setSelectedMenuKey] = useState<
-    "player" | "pairing" | "match"
-  >("player");
+  const [selectedMenuKey, setSelectedMenuKey] = useState<MenuType>("player");
   const [playerCount, setPlayerCount] = useState(4);
   const [courtCount, setCourtCount] = useState(1);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
