@@ -1,0 +1,4 @@
+.footer-menu .ant-menu-item {
+  flex: 1; /* 各メニューアイテムを均等に広げる */
+  text-align: center; /* テキストを中央揃えにする */
+}
