@@ -77,8 +77,6 @@ const Home = () => {
             <PlayerList players={players} />
             <Text strong>ペアリング数</Text>
             <Space>{JSON.stringify(pairingCounts)}</Space>
-            {/* <Table columns={columns} dataSource={data} bordered /> */}
-
             {matches.map((match, index) => (
               <Matchup
                 key={index}
