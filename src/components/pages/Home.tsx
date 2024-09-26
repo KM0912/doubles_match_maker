@@ -16,7 +16,7 @@ const Home = () => {
   const [playerCount, setPlayerCount] = useState(4);
   const [courtCount, setCourtCount] = useState(1);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
-  const { players, pairingCounts, matches, handleAddMatch, handleMatchEnd } =
+  const { pairingCounts, matches, handleAddMatch, handleMatchEnd } =
     useMatchManagement({
       playerCount,
       courtCount,
@@ -85,7 +85,7 @@ const Home = () => {
               <Text strong>
                 参加者数：{playerCount}人、コート数：{courtCount}面
               </Text>
-              {selectedMenuKey === "player" && <PlayerList players={players} />}
+              {selectedMenuKey === "player" && <PlayerList />}
               {selectedMenuKey === "pairing" && (
                 <PairingCounts pairingCounts={pairingCounts} />
               )}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Match, Pair, PairingCounts, Player } from "../types";
+import { usePlayers } from "../context/PlayersContext";
 
 type Props = {
   playerCount: number;
@@ -15,7 +16,7 @@ const maxMatchCount = (courtCount: number, participantCount: number) => {
 
 const useMatchManagement = (props: Props) => {
   const { playerCount, courtCount } = props;
-  const [players, setPlayers] = useState<Player[]>([]);
+  const { players, setPlayers } = usePlayers();
   const [matches, setMatches] = useState<Match[]>([]);
   const [pairingCounts, setPairingCounts] = useState<PairingCounts>({});
 
@@ -27,7 +28,7 @@ const useMatchManagement = (props: Props) => {
       wins: 0,
     }));
     setPlayers(newPlayers);
-  }, [playerCount]);
+  }, [playerCount, setPlayers]);
 
   // 試合を追加
   const handleAddMatch = () => {

@@ -1,11 +1,14 @@
 import React from "react";
 import "./App.css";
 import Home from "./components/pages/Home";
+import { PlayersProvider } from "./context/PlayersContext";
 
 function App() {
   return (
     <div className="App">
-      <Home />
+      <PlayersProvider>
+        <Home />
+      </PlayersProvider>
     </div>
   );
 }

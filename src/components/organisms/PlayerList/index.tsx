@@ -1,12 +1,9 @@
 import React from "react";
 import { Table, TableProps, Typography } from "antd";
 import { Player } from "../../../types";
+import { usePlayers } from "../../../context/PlayersContext";
 
 const { Title, Text } = Typography;
-
-type PlayerListProps = {
-  players: Player[];
-};
 
 const columns: TableProps<Player>["columns"] = [
   {
@@ -39,16 +36,19 @@ const columns: TableProps<Player>["columns"] = [
   },
 ];
 
-const PlayerList: React.FC<PlayerListProps> = ({ players }) => (
-  <>
-    <Title level={4}>参加者一覧</Title>
-    <Table
-      dataSource={players}
-      columns={columns}
-      pagination={false}
-      size="small"
-    />
-  </>
-);
+const PlayerList: React.FC = () => {
+  const { players } = usePlayers();
+  return (
+    <>
+      <Title level={4}>参加者一覧</Title>
+      <Table
+        dataSource={players}
+        columns={columns}
+        pagination={false}
+        size="small"
+      />
+    </>
+  );
+};
 
 export default PlayerList;
