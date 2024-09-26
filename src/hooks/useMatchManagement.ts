@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
-import { Match, Pair, Player } from "../types";
+import { Match, Pair, PairingCounts, Player } from "../types";
 
 type Props = {
   playerCount: number;
   courtCount: number;
-};
-
-type PairingCounts = {
-  [key: number]: { [key: number]: number };
 };
 
 // コート数と参加者数から作成できるダブルスの最大の試合数を返す

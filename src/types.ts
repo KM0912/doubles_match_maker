@@ -1,6 +1,9 @@
 export type MenuType = "player" | "pairing" | "match";
 
 export type Pair = [Player, Player];
+export type PairingCounts = {
+  [key: number]: { [key: number]: number };
+};
 
 export type Match = {
   pairs: [Pair, Pair];

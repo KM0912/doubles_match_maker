@@ -6,6 +6,7 @@ import PlayerList from "../organisms/PlayerList";
 import Matchup from "../molecules/Matchup";
 import FooterMenu from "../organisms/FooterMenu";
 import { MenuType } from "../../types";
+import PairingCounts from "../organisms/PairingCounts";
 
 const { Text } = Typography;
 const { Header, Content, Footer } = Layout;
@@ -86,10 +87,7 @@ const Home = () => {
               </Text>
               {selectedMenuKey === "player" && <PlayerList players={players} />}
               {selectedMenuKey === "pairing" && (
-                <>
-                  <Text strong>ペアリング数</Text>
-                  <Space>{JSON.stringify(pairingCounts)}</Space>
-                </>
+                <PairingCounts pairingCounts={pairingCounts} />
               )}
               {selectedMenuKey === "match" && (
                 <>
