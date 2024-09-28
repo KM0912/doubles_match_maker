@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, TableProps, Typography } from "antd";
+import { Table, TableProps, Typography, Button } from "antd";
 import { Player } from "../../../types";
 import { usePlayers } from "../../../context/PlayersContext";
 
@@ -37,7 +37,19 @@ const columns: TableProps<Player>["columns"] = [
 ];
 
 const PlayerList: React.FC = () => {
-  const { players } = usePlayers();
+  const { players, addPlayer } = usePlayers();
+  const handleAddPlayer = () => {
+    // 試合数が少ない順に試合を割り振るため、途中参加者は最小の試合数に合わせる
+    // 試合数０にしてしまうと、途中参加者が最優先されてしまう
+    const newPlayer: Player = {
+      id: Math.max(...players.map((player) => player.id)) + 1,
+      matchCount: Math.min(...players.map((player) => player.matchCount)),
+      wins: 0,
+    };
+
+    addPlayer(newPlayer);
+  };
+
   return (
     <>
       <Title level={4}>参加者一覧</Title>
@@ -47,6 +59,9 @@ const PlayerList: React.FC = () => {
         pagination={false}
         size="small"
       />
+      <Button type="primary" onClick={handleAddPlayer}>
+        追加
+      </Button>
     </>
   );
 };
