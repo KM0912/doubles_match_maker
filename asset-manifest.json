@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/doubles_match_maker/static/css/main.cb7bbe3e.css",
+    "main.js": "/doubles_match_maker/static/js/main.b79e5172.js",
+    "static/js/453.0dcb6458.chunk.js": "/doubles_match_maker/static/js/453.0dcb6458.chunk.js",
+    "index.html": "/doubles_match_maker/index.html",
+    "main.cb7bbe3e.css.map": "/doubles_match_maker/static/css/main.cb7bbe3e.css.map",
+    "main.b79e5172.js.map": "/doubles_match_maker/static/js/main.b79e5172.js.map",
+    "453.0dcb6458.chunk.js.map": "/doubles_match_maker/static/js/453.0dcb6458.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cb7bbe3e.css",
+    "static/js/main.b79e5172.js"
+  ]
+}
