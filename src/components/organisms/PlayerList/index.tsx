@@ -25,8 +25,6 @@ const columns: TableProps<Player>["columns"] = [
     title: "勝率",
     dataIndex: "winRate",
     key: "winRate",
-  },
-  {
     render: (_, record) => (
       <Text>
         {record.wins ? ((record.wins / record.matchCount) * 100).toFixed(2) : 0}

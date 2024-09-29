@@ -17,6 +17,7 @@ const maxMatchCount = (courtCount: number, participantCount: number) => {
 const useMatchManagement = (props: Props) => {
   const { playerCount, courtCount } = props;
   const { players, setPlayers } = usePlayers();
+  const [previousPlayers, setPreviousPlayers] = useState(players);
   const [matches, setMatches] = useState<Match[]>([]);
   const [pairingCounts, setPairingCounts] = useState<PairingCounts>({});
 
@@ -26,12 +27,14 @@ const useMatchManagement = (props: Props) => {
       id: i + 1,
       matchCount: 0,
       wins: 0,
+      rating: 1500,
     }));
     setPlayers(newPlayers);
   }, [playerCount, setPlayers]);
 
   // 試合を追加
   const handleAddMatch = () => {
+    setPreviousPlayers(players);
     const newMatches = JSON.parse(JSON.stringify(matches)) as Match[];
     // 過去の試合を編集不可にする
     newMatches.forEach((match) => {
@@ -88,15 +91,12 @@ const useMatchManagement = (props: Props) => {
 
     // 終了している試合の場合、試合を結果をリセット
     if (newMatches[matchIndex].isEnd) {
-      updatePlayerMatchCount(newPlayers, newMatches[matchIndex], -1);
       newMatches[matchIndex].isEnd = false;
       newMatches[matchIndex].winnerPairIndex = undefined;
       newMatches[matchIndex].editable = true;
 
-      // ペアリング回数を更新
-      newMatches[matchIndex].pairs.forEach((pair) => {
-        updatePairingCounts(newPairingCounts, pair[0].id, pair[1].id, -1);
-      });
+      // プレイヤーの情報をリセット
+      resetPlayerInfo(newMatches[matchIndex], previousPlayers, newPlayers);
     } else {
       updatePlayerMatchCount(
         newPlayers,
@@ -161,6 +161,30 @@ const useMatchManagement = (props: Props) => {
 
     pairingCounts[playerAId][playerBId] =
       (pairingCounts[playerAId][playerBId] || 0) + increment;
+  };
+
+  // プレイヤー情報をリセットする関数
+  const resetPlayerInfo = (
+    match: Match,
+    previousPlayers: Player[],
+    updatedPlayers: Player[]
+  ) => {
+    match.pairs.forEach((pair) => {
+      pair.forEach((player) => {
+        const previousPlayer = previousPlayers.find(
+          (previousPlayer) => previousPlayer.id === player.id
+        );
+        if (!previousPlayer) {
+          throw new Error(
+            `Player with id ${player.id} not found in previousPlayers`
+          );
+        }
+        const updatedPlayerIndex = updatedPlayers.findIndex(
+          (p) => p.id === player.id
+        );
+        updatedPlayers[updatedPlayerIndex] = previousPlayer;
+      });
+    });
   };
 
   return { players, pairingCounts, matches, handleAddMatch, handleMatchEnd };
