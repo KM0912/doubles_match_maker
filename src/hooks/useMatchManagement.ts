@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Match, Pair, PairingCounts, Player } from "../types";
 import { usePlayers } from "../context/PlayersContext";
+import { updatePlayerRatings } from "../utils/ratingUtils";
 
 type Props = {
   playerCount: number;
@@ -83,7 +84,7 @@ const useMatchManagement = (props: Props) => {
       return;
     }
 
-    const newPlayers = JSON.parse(JSON.stringify(players)) as Player[];
+    let newPlayers = JSON.parse(JSON.stringify(players)) as Player[];
     const newPairingCounts = JSON.parse(
       JSON.stringify(pairingCounts)
     ) as PairingCounts;
@@ -109,7 +110,7 @@ const useMatchManagement = (props: Props) => {
       newMatches[matchIndex].editable = true;
 
       // レーティングを更新
-      updatePlayerRatings(newMatches[matchIndex], newPlayers);
+      newPlayers = updatePlayerRatings(newMatches[matchIndex], newPlayers);
 
       // ペアリング回数を更新
       newMatches[matchIndex].pairs.forEach((pair) => {
@@ -187,54 +188,6 @@ const useMatchManagement = (props: Props) => {
         );
         updatedPlayers[updatedPlayerIndex] = previousPlayer;
       });
-    });
-  };
-
-  const updatePlayerRatings = (
-    match: Match,
-    players: Player[],
-    K: number = 32
-  ) => {
-    const team1Rating =
-      (match.pairs[0][0].rating + match.pairs[0][1].rating) / 2;
-    const team2Rating =
-      (match.pairs[1][0].rating + match.pairs[1][1].rating) / 2;
-
-    // 各チームの期待勝率を計算
-    const expectedScoreTeam1 =
-      1 / (1 + Math.pow(10, (team2Rating - team1Rating) / 400));
-    const expectedScoreTeam2 =
-      1 / (1 + Math.pow(10, (team1Rating - team2Rating) / 400));
-
-    // 実際のスコア
-    const actualScoreTeam1 = match.winnerPairIndex === 0 ? 1 : 0;
-    const actualScoreTeam2 = match.winnerPairIndex === 1 ? 1 : 0;
-
-    // 各プレイヤーのレーティングを更新
-    players.forEach((player) => {
-      let updatedRating = player.rating;
-      let expectedScore = 0;
-      let actualScore = 0;
-
-      if (
-        match.pairs[0].some((p) => p.id === player.id) ||
-        match.pairs[1].some((p) => p.id === player.id)
-      ) {
-        if (match.pairs[0].some((p) => p.id === player.id)) {
-          // チーム1のプレイヤー
-          expectedScore = expectedScoreTeam1;
-          actualScore = actualScoreTeam1;
-        } else {
-          // チーム2のプレイヤー
-          expectedScore = expectedScoreTeam2;
-          actualScore = actualScoreTeam2;
-        }
-
-        // レーティングの更新
-        updatedRating = player.rating + K * (actualScore - expectedScore);
-      }
-
-      player.rating = updatedRating;
     });
   };
 
