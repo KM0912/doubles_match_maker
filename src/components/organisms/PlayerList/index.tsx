@@ -32,6 +32,11 @@ const columns: TableProps<Player>["columns"] = [
       </Text>
     ),
   },
+  {
+    title: "レーティング",
+    dataIndex: "rating",
+    key: "rating",
+  },
 ];
 
 const PlayerList: React.FC = () => {
@@ -43,6 +48,7 @@ const PlayerList: React.FC = () => {
       id: Math.max(...players.map((player) => player.id)) + 1,
       matchCount: Math.min(...players.map((player) => player.matchCount)),
       wins: 0,
+      rating: 1500,
     };
 
     addPlayer(newPlayer);

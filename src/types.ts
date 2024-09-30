@@ -18,4 +18,5 @@ export type Player = {
   id: number;
   matchCount: number;
   wins: number;
+  rating: number;
 };
