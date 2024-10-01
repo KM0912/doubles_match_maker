@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Match, Pair, PairingCounts, Player } from "../types";
 import { usePlayers } from "../context/PlayersContext";
 import { updatePlayerRatings } from "../utils/ratingUtils";
 
 type Props = {
-  playerCount: number;
   courtCount: number;
 };
 
@@ -16,22 +15,11 @@ const maxMatchCount = (courtCount: number, participantCount: number) => {
 };
 
 const useMatchManagement = (props: Props) => {
-  const { playerCount, courtCount } = props;
-  const { players, setPlayers } = usePlayers();
+  const { courtCount } = props;
+  const { players, setPlayers, savePlayersToLocalStorage } = usePlayers();
   const [previousPlayers, setPreviousPlayers] = useState(players);
   const [matches, setMatches] = useState<Match[]>([]);
   const [pairingCounts, setPairingCounts] = useState<PairingCounts>({});
-
-  // 参加者を更新
-  useEffect(() => {
-    const newPlayers = Array.from({ length: playerCount }, (_, i) => ({
-      id: i + 1,
-      matchCount: 0,
-      wins: 0,
-      rating: 1500,
-    }));
-    setPlayers(newPlayers);
-  }, [playerCount, setPlayers]);
 
   // 試合を追加
   const handleAddMatch = () => {
@@ -75,6 +63,9 @@ const useMatchManagement = (props: Props) => {
     }
 
     setMatches(newMatches);
+
+    // プレイヤーと試合の情報をローカルストレージに保存
+    saveMatchesToLocalStorage(newMatches);
   };
 
   // 試合終了時の処理
@@ -96,7 +87,6 @@ const useMatchManagement = (props: Props) => {
       newMatches[matchIndex].winnerPairIndex = undefined;
       newMatches[matchIndex].editable = true;
 
-      // プレイヤーの情報をリセット
       resetPlayerInfo(newMatches[matchIndex], previousPlayers, newPlayers);
     } else {
       updatePlayerMatchCount(
@@ -120,6 +110,11 @@ const useMatchManagement = (props: Props) => {
     setPlayers(newPlayers);
     setPairingCounts(newPairingCounts);
     setMatches(newMatches);
+
+    // プレイヤーと試合の情報をローカルストレージに保存
+    savePlayersToLocalStorage(newPlayers);
+    savePreviousPlayersToLocalStorage(newPlayers);
+    saveMatchesToLocalStorage(newMatches);
   };
 
   // プレイヤーの試合数と勝利数を更新
@@ -191,7 +186,49 @@ const useMatchManagement = (props: Props) => {
     });
   };
 
-  return { players, pairingCounts, matches, handleAddMatch, handleMatchEnd };
+  const saveMatchesToLocalStorage = (matches: Match[]) => {
+    // 終了した試合を編集不可にしてローカルストレージに保存
+    const newMatchesForLocalStorage = matches.map((match) => {
+      if (match.isEnd) {
+        return { ...match, editable: false };
+      }
+      return match;
+    });
+    localStorage.setItem("matches", JSON.stringify(newMatchesForLocalStorage));
+  };
+
+  const loadMatchesFromLocalStorage = (): boolean => {
+    const matches = localStorage.getItem("matches");
+    if (matches) {
+      setMatches(JSON.parse(matches));
+      return true;
+    }
+    return false;
+  };
+
+  const savePreviousPlayersToLocalStorage = (players: Player[]) => {
+    localStorage.setItem("previousPlayers", JSON.stringify(players));
+  };
+
+  const loadPreviousPlayersFromLocalStorage = (): boolean => {
+    const previousPlayers = localStorage.getItem("previousPlayers");
+    if (previousPlayers) {
+      setPreviousPlayers(JSON.parse(previousPlayers));
+      return true;
+    }
+    return false;
+  };
+
+  return {
+    players,
+    pairingCounts,
+    matches,
+    setMatches,
+    handleAddMatch,
+    handleMatchEnd,
+    loadMatchesFromLocalStorage,
+    loadPreviousPlayersFromLocalStorage,
+  };
 };
 
 export default useMatchManagement;

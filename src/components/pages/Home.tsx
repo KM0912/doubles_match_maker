@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Layout, Space, Typography } from "antd";
 import SetupControls from "../organisms/SetupControls";
 import useMatchManagement from "../../hooks/useMatchManagement";
@@ -7,6 +7,7 @@ import Matchup from "../molecules/Matchup";
 import FooterMenu from "../organisms/FooterMenu";
 import { MenuType } from "../../types";
 import PairingCounts from "../organisms/PairingCounts";
+import { usePlayers } from "../../context/PlayersContext";
 
 const { Text } = Typography;
 const { Header, Content, Footer } = Layout;
@@ -16,11 +17,32 @@ const Home = () => {
   const [playerCount, setPlayerCount] = useState(4);
   const [courtCount, setCourtCount] = useState(1);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
-  const { pairingCounts, matches, handleAddMatch, handleMatchEnd } =
-    useMatchManagement({
-      playerCount,
-      courtCount,
-    });
+  const {
+    pairingCounts,
+    matches,
+    setMatches,
+    handleAddMatch,
+    handleMatchEnd,
+    loadMatchesFromLocalStorage,
+    loadPreviousPlayersFromLocalStorage,
+  } = useMatchManagement({
+    courtCount,
+  });
+  const { setPlayers, loadPlayersFromLocalStorage } = usePlayers();
+
+  useEffect(() => {
+    const isLoadedPlayers = loadPlayersFromLocalStorage();
+    const isLoadedMatches = loadMatchesFromLocalStorage();
+    const isLoadedPreviousPlayers = loadPreviousPlayersFromLocalStorage();
+    if (isLoadedPlayers && isLoadedMatches && isLoadedPreviousPlayers) {
+      setIsSetupComplete(true);
+    } else {
+      setIsSetupComplete(false);
+      setPlayers([]);
+      setMatches([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleIncrementParticipant = () => {
     setPlayerCount(playerCount + 1);
@@ -48,6 +70,13 @@ const Home = () => {
 
   // 確定ボタンを押したときの処理
   const handleSetupComplete = () => {
+    const newPlayers = Array.from({ length: playerCount }).map((_, index) => ({
+      id: index + 1,
+      matchCount: 0,
+      wins: 0,
+      rating: 1500,
+    }));
+    setPlayers(newPlayers);
     setIsSetupComplete(true);
   };
 
