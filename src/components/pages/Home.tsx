@@ -8,6 +8,7 @@ import FooterMenu from "../organisms/FooterMenu";
 import { MenuType } from "../../types";
 import PairingCounts from "../organisms/PairingCounts";
 import { usePlayers } from "../../context/PlayersContext";
+import HeaderMenu from "../organisms/HeaderMenu";
 
 const { Text } = Typography;
 const { Header, Content, Footer } = Layout;
@@ -84,6 +85,14 @@ const Home = () => {
     handleMatchEnd(matchIndex, pairIndex);
   };
 
+  const handleReset = () => {
+    setPlayerCount(4);
+    setCourtCount(1);
+    setIsSetupComplete(false);
+    setPlayers([]);
+    setMatches([]);
+  };
+
   // すべての試合が終了しているかどうか
   const isAllMatchEnd = matches.every((match) => match.isEnd);
 
@@ -93,7 +102,9 @@ const Home = () => {
         height: "100vh",
       }}
     >
-      <Header></Header>
+      <Header>
+        <HeaderMenu onResetConfirm={handleReset} />
+      </Header>
       <Content style={{ padding: "0 24px", minHeight: 280 }}>
         <Space direction="vertical">
           {!isSetupComplete && (
