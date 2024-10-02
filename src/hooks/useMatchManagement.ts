@@ -66,7 +66,7 @@ const useMatchManagement = (props: Props) => {
   };
 
   // 試合終了時の処理
-  const handleMatchEnd = (matchIndex: number, winnerPairIndex: number) => {
+  const finalizeMatch = (matchIndex: number, winnerPairIndex: number) => {
     if (matchIndex < 0 || matchIndex >= matches.length) {
       console.error("Invalid match index");
       return;
@@ -222,7 +222,7 @@ const useMatchManagement = (props: Props) => {
     matches,
     setMatches,
     addNewMatch,
-    handleMatchEnd,
+    finalizeMatch,
     loadMatchesFromLocalStorage,
     loadPreviousPlayersFromLocalStorage,
   };

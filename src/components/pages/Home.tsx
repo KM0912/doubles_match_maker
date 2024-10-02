@@ -23,7 +23,7 @@ const Home = () => {
     matches,
     setMatches,
     addNewMatch,
-    handleMatchEnd,
+    finalizeMatch,
     loadMatchesFromLocalStorage,
     loadPreviousPlayersFromLocalStorage,
   } = useMatchManagement({
@@ -82,7 +82,7 @@ const Home = () => {
   };
 
   const handleClickWin = (matchIndex: number, pairIndex: number) => {
-    handleMatchEnd(matchIndex, pairIndex);
+    finalizeMatch(matchIndex, pairIndex);
   };
 
   const handleReset = () => {
