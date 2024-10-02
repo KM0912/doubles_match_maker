@@ -22,7 +22,7 @@ const Home = () => {
     pairingCounts,
     matches,
     setMatches,
-    handleAddMatch,
+    addNewMatch,
     handleMatchEnd,
     loadMatchesFromLocalStorage,
     loadPreviousPlayersFromLocalStorage,
@@ -141,7 +141,7 @@ const Home = () => {
                   ))}
                   <Button
                     type="primary"
-                    onClick={handleAddMatch}
+                    onClick={addNewMatch}
                     disabled={!isAllMatchEnd}
                   >
                     試合を追加

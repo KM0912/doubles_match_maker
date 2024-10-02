@@ -22,8 +22,9 @@ const useMatchManagement = (props: Props) => {
   const [pairingCounts, setPairingCounts] = useState<PairingCounts>({});
 
   // 試合を追加
-  const handleAddMatch = () => {
+  const addNewMatch = () => {
     setPreviousPlayers(players);
+
     const newMatches = JSON.parse(JSON.stringify(matches)) as Match[];
     // 過去の試合を編集不可にする
     newMatches.forEach((match) => {
@@ -42,13 +43,9 @@ const useMatchManagement = (props: Props) => {
     // 先頭から試合数 x 4 人を取得
     const group = shuffledPlayers.slice(0, matchCount * 4);
 
-    // 勝率の高い順に並べる
-    // TODO: 勝率ではなくレーティングを元に並べ替える
-    //        勝率だと試合数が少ない人が上位に来てしまう
+    // レーティングの高い順に並べる
     group.sort((a, b) => {
-      const aWinRate = a.matchCount === 0 ? 0 : a.wins / a.matchCount;
-      const bWinRate = b.matchCount === 0 ? 0 : b.wins / b.matchCount;
-      return bWinRate - aWinRate;
+      return b.rating - a.rating;
     });
 
     // 試合を作成
@@ -224,7 +221,7 @@ const useMatchManagement = (props: Props) => {
     pairingCounts,
     matches,
     setMatches,
-    handleAddMatch,
+    addNewMatch,
     handleMatchEnd,
     loadMatchesFromLocalStorage,
     loadPreviousPlayersFromLocalStorage,
