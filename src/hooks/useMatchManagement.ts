@@ -2,6 +2,11 @@ import { useState } from "react";
 import { Match, Pair, PairingCounts, Player } from "../types";
 import { usePlayers } from "../context/PlayersContext";
 import { updatePlayerRatings } from "../utils/ratingUtils";
+import {
+  saveMatchesToLocalStorage,
+  savePlayersToLocalStorage,
+  savePreviousPlayersToLocalStorage,
+} from "../utils/localStorageUtils";
 
 type Props = {
   courtCount: number;
@@ -16,7 +21,7 @@ const maxMatchCount = (courtCount: number, participantCount: number) => {
 
 const useMatchManagement = (props: Props) => {
   const { courtCount } = props;
-  const { players, setPlayers, savePlayersToLocalStorage } = usePlayers();
+  const { players, setPlayers } = usePlayers();
   const [previousPlayers, setPreviousPlayers] = useState(players);
   const [matches, setMatches] = useState<Match[]>([]);
   const [pairingCounts, setPairingCounts] = useState<PairingCounts>({});
@@ -183,48 +188,13 @@ const useMatchManagement = (props: Props) => {
     });
   };
 
-  const saveMatchesToLocalStorage = (matches: Match[]) => {
-    // 終了した試合を編集不可にしてローカルストレージに保存
-    const newMatchesForLocalStorage = matches.map((match) => {
-      if (match.isEnd) {
-        return { ...match, editable: false };
-      }
-      return match;
-    });
-    localStorage.setItem("matches", JSON.stringify(newMatchesForLocalStorage));
-  };
-
-  const loadMatchesFromLocalStorage = (): boolean => {
-    const matches = localStorage.getItem("matches");
-    if (matches) {
-      setMatches(JSON.parse(matches));
-      return true;
-    }
-    return false;
-  };
-
-  const savePreviousPlayersToLocalStorage = (players: Player[]) => {
-    localStorage.setItem("previousPlayers", JSON.stringify(players));
-  };
-
-  const loadPreviousPlayersFromLocalStorage = (): boolean => {
-    const previousPlayers = localStorage.getItem("previousPlayers");
-    if (previousPlayers) {
-      setPreviousPlayers(JSON.parse(previousPlayers));
-      return true;
-    }
-    return false;
-  };
-
   return {
-    players,
     pairingCounts,
     matches,
     setMatches,
+    setPreviousPlayers,
     addNewMatch,
     finalizeMatch,
-    loadMatchesFromLocalStorage,
-    loadPreviousPlayersFromLocalStorage,
   };
 };
 

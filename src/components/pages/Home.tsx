@@ -9,6 +9,11 @@ import { MenuType } from "../../types";
 import PairingCounts from "../organisms/PairingCounts";
 import { usePlayers } from "../../context/PlayersContext";
 import HeaderMenu from "../organisms/HeaderMenu";
+import {
+  getMatchesFromLocalStorage,
+  getPlayersFromLocalStorage,
+  getPreviousPlayersFromLocalStorage,
+} from "../../utils/localStorageUtils";
 
 const { Text } = Typography;
 const { Header, Content, Footer } = Layout;
@@ -22,20 +27,22 @@ const Home = () => {
     pairingCounts,
     matches,
     setMatches,
+    setPreviousPlayers,
     addNewMatch,
     finalizeMatch,
-    loadMatchesFromLocalStorage,
-    loadPreviousPlayersFromLocalStorage,
   } = useMatchManagement({
     courtCount,
   });
-  const { setPlayers, loadPlayersFromLocalStorage } = usePlayers();
+  const { setPlayers } = usePlayers();
 
   useEffect(() => {
-    const isLoadedPlayers = loadPlayersFromLocalStorage();
-    const isLoadedMatches = loadMatchesFromLocalStorage();
-    const isLoadedPreviousPlayers = loadPreviousPlayersFromLocalStorage();
-    if (isLoadedPlayers && isLoadedMatches && isLoadedPreviousPlayers) {
+    const newPlayers = getPlayersFromLocalStorage();
+    const newMatches = getMatchesFromLocalStorage();
+    const newPreviousPlayers = getPreviousPlayersFromLocalStorage();
+    if (newPlayers && newMatches && newPreviousPlayers) {
+      setPlayers(newPlayers);
+      setMatches(newMatches);
+      setPreviousPlayers(newPreviousPlayers);
       setIsSetupComplete(true);
     } else {
       setIsSetupComplete(false);
