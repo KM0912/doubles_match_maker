@@ -66,7 +66,22 @@ const useMatchManagement = (props: Props) => {
 
     setMatches(newMatches);
 
-    // プレイヤーと試合の情報をローカルストレージに保存
+    // 試合の情報をローカルストレージに保存
+    saveMatchesToLocalStorage(newMatches);
+  };
+
+  // 試合を更新
+  const updateMatch = (matchIndex: number, newMatch: Match) => {
+    if (matchIndex < 0 || matchIndex >= matches.length) {
+      console.error("Invalid match index");
+      return;
+    }
+
+    const newMatches = JSON.parse(JSON.stringify(matches)) as Match[];
+    newMatches[matchIndex] = newMatch;
+    setMatches(newMatches);
+
+    // 試合の情報をローカルストレージに保存
     saveMatchesToLocalStorage(newMatches);
   };
 
@@ -194,6 +209,7 @@ const useMatchManagement = (props: Props) => {
     setMatches,
     setPreviousPlayers,
     addNewMatch,
+    updateMatch,
     finalizeMatch,
   };
 };

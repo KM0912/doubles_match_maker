@@ -29,6 +29,7 @@ const Home = () => {
     setMatches,
     setPreviousPlayers,
     addNewMatch,
+    updateMatch,
     finalizeMatch,
   } = useMatchManagement({
     courtCount,
@@ -144,6 +145,7 @@ const Home = () => {
                       match={match}
                       index={index}
                       onClickWin={handleClickWin}
+                      updateMatch={(match) => updateMatch(index, match)}
                     />
                   ))}
                   <Button
