@@ -85,6 +85,21 @@ const useMatchManagement = (props: Props) => {
     saveMatchesToLocalStorage(newMatches);
   };
 
+  // 試合を削除
+  const deleteMatch = (matchIndex: number) => {
+    if (matchIndex < 0 || matchIndex >= matches.length) {
+      console.error("Invalid match index");
+      return;
+    }
+
+    const newMatches = JSON.parse(JSON.stringify(matches)) as Match[];
+    newMatches.splice(matchIndex, 1);
+    setMatches(newMatches);
+
+    // 試合の情報をローカルストレージに保存
+    saveMatchesToLocalStorage(newMatches);
+  };
+
   // 試合終了時の処理
   const finalizeMatch = (matchIndex: number, winnerPairIndex: number) => {
     if (matchIndex < 0 || matchIndex >= matches.length) {
@@ -210,6 +225,7 @@ const useMatchManagement = (props: Props) => {
     setPreviousPlayers,
     addNewMatch,
     updateMatch,
+    deleteMatch,
     finalizeMatch,
   };
 };

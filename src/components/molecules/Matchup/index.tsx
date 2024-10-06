@@ -15,6 +15,7 @@ type Props = {
   index: number;
   onClickWin: (index: number, pairIndex: number) => void;
   updateMatch: (match: Match) => void;
+  deleteMatch: () => void;
 };
 
 const Matchup: React.FC<Props> = ({
@@ -22,6 +23,7 @@ const Matchup: React.FC<Props> = ({
   index,
   onClickWin,
   updateMatch,
+  deleteMatch,
 }) => {
   const [selectedPairPlayerIndex, setSelectedPairPlayerIndex] =
     useState<SelectedPairPlayerIndex | null>(null);
@@ -58,41 +60,50 @@ const Matchup: React.FC<Props> = ({
 
   return (
     <Space direction="horizontal">
-      <WinButton
-        match={match}
-        pairIndex={0}
-        onClick={() => onClickWin(index, 0)}
-        disabled={!match.editable}
-      />
-      <div>
-        {match.pairs[0].map((player, index) => (
-          <Button
-            disabled={match.isEnd || !match.editable}
-            onClick={() => handlePlayerClick(0, index)}
-            type={isSelected(0, index) ? "primary" : "default"}
-          >
-            {player.id}
-          </Button>
-        ))}
-      </div>
-      <Text>VS</Text>
-      <div>
-        {match.pairs[1].map((player, index) => (
-          <Button
-            disabled={match.isEnd || !match.editable}
-            onClick={() => handlePlayerClick(1, index)}
-            type={isSelected(1, index) ? "primary" : "default"}
-          >
-            {player.id}
-          </Button>
-        ))}
-      </div>
-      <WinButton
-        match={match}
-        pairIndex={1}
-        onClick={() => onClickWin(index, 1)}
-        disabled={!match.editable}
-      />
+      <Button
+        danger
+        disabled={!match.editable || match.isEnd}
+        onClick={deleteMatch}
+      >
+        ✖️
+      </Button>
+      <Space direction="horizontal">
+        <WinButton
+          match={match}
+          pairIndex={0}
+          onClick={() => onClickWin(index, 0)}
+          disabled={!match.editable}
+        />
+        <div>
+          {match.pairs[0].map((player, index) => (
+            <Button
+              disabled={match.isEnd || !match.editable}
+              onClick={() => handlePlayerClick(0, index)}
+              type={isSelected(0, index) ? "primary" : "default"}
+            >
+              {player.id}
+            </Button>
+          ))}
+        </div>
+        <Text>VS</Text>
+        <div>
+          {match.pairs[1].map((player, index) => (
+            <Button
+              disabled={match.isEnd || !match.editable}
+              onClick={() => handlePlayerClick(1, index)}
+              type={isSelected(1, index) ? "primary" : "default"}
+            >
+              {player.id}
+            </Button>
+          ))}
+        </div>
+        <WinButton
+          match={match}
+          pairIndex={1}
+          onClick={() => onClickWin(index, 1)}
+          disabled={!match.editable}
+        />
+      </Space>
     </Space>
   );
 };
