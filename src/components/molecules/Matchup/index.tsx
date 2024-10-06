@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Button, Space, Typography } from "antd";
 import WinButton from "../../atom/WinButton";
-import PairButton from "../PairButton";
-import { Match, Player } from "../../../types";
+import { Match } from "../../../types";
 
 const { Text } = Typography;
 
