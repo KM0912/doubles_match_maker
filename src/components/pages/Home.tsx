@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Button, Layout, Space, Typography } from "antd";
+import { Layout, Space, Typography } from "antd";
 import SetupControls from "../organisms/SetupControls";
 import useMatchManagement from "../../hooks/useMatchManagement";
 import PlayerList from "../organisms/PlayerList";
-import Matchup from "../molecules/Matchup";
 import FooterMenu from "../organisms/FooterMenu";
 import { MenuType } from "../../types";
 import PairingCounts from "../organisms/PairingCounts";
@@ -14,6 +13,7 @@ import {
   getPlayersFromLocalStorage,
   getPreviousPlayersFromLocalStorage,
 } from "../../utils/localStorageUtils";
+import MatchList from "../organisms/MatchList";
 
 const { Text } = Typography;
 const { Header, Content, Footer } = Layout;
@@ -90,10 +90,6 @@ const Home = () => {
     setIsSetupComplete(true);
   };
 
-  const handleClickWin = (matchIndex: number, pairIndex: number) => {
-    finalizeMatch(matchIndex, pairIndex);
-  };
-
   const handleReset = () => {
     setPlayerCount(4);
     setCourtCount(1);
@@ -101,9 +97,6 @@ const Home = () => {
     setPlayers([]);
     setMatches([]);
   };
-
-  // すべての試合が終了しているかどうか
-  const isAllMatchEnd = matches.every((match) => match.isEnd);
 
   return (
     <Layout
@@ -139,32 +132,13 @@ const Home = () => {
                 <PairingCounts pairingCounts={pairingCounts} />
               )}
               {selectedMenuKey === "match" && (
-                <>
-                  {matches.map((match, index) => (
-                    <Matchup
-                      key={index}
-                      match={match}
-                      index={index}
-                      onClickWin={handleClickWin}
-                      updateMatch={(match) => updateMatch(index, match)}
-                      deleteMatch={() => deleteMatch(index)}
-                    />
-                  ))}
-                  <Button
-                    type="primary"
-                    onClick={() => addNewMatch()}
-                    disabled={!isAllMatchEnd}
-                  >
-                    試合を追加
-                  </Button>
-                  <Button
-                    type="primary"
-                    onClick={() => addNewMatch(true)}
-                    disabled={!isAllMatchEnd}
-                  >
-                    ランダム
-                  </Button>
-                </>
+                <MatchList
+                  matches={matches}
+                  addNewMatch={addNewMatch}
+                  updateMatch={updateMatch}
+                  deleteMatch={deleteMatch}
+                  finalizeMatch={finalizeMatch}
+                />
               )}
             </>
           )}
