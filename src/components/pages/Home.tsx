@@ -114,7 +114,7 @@ const Home = () => {
       <Header>
         <HeaderMenu onResetConfirm={handleReset} />
       </Header>
-      <Content style={{ padding: "0 24px", minHeight: 280 }}>
+      <Content style={{ padding: "0 24px", minHeight: 280, overflowY: "auto" }}>
         <Space direction="vertical">
           {!isSetupComplete && (
             <>
