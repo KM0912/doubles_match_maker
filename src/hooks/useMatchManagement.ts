@@ -27,7 +27,7 @@ const useMatchManagement = (props: Props) => {
   const [pairingCounts, setPairingCounts] = useState<PairingCounts>({});
 
   // 試合を追加
-  const addNewMatch = () => {
+  const addNewMatch = (isRandom: boolean = false) => {
     setPreviousPlayers(players);
 
     const newMatches = JSON.parse(JSON.stringify(matches)) as Match[];
@@ -48,10 +48,12 @@ const useMatchManagement = (props: Props) => {
     // 先頭から試合数 x 4 人を取得
     const group = shuffledPlayers.slice(0, matchCount * 4);
 
-    // レーティングの高い順に並べる
-    group.sort((a, b) => {
-      return b.rating - a.rating;
-    });
+    if (!isRandom) {
+      // レーティングの高い順に並べる
+      group.sort((a, b) => {
+        return b.rating - a.rating;
+      });
+    }
 
     // 試合を作成
     for (let i = 0; i < matchCount; i++) {
@@ -59,6 +61,7 @@ const useMatchManagement = (props: Props) => {
       const matchPlayers = group.slice(i * 4, i * 4 + 4);
 
       // 勝率が１位と４位、２位と３位のペアを作成
+      // ランダムの場合はこの順番は関係ない
       const pair1: Pair = [matchPlayers[0], matchPlayers[3]];
       const pair2: Pair = [matchPlayers[1], matchPlayers[2]];
       newMatches.push({ pairs: [pair1, pair2], isEnd: false, editable: true });

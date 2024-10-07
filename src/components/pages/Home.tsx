@@ -152,10 +152,17 @@ const Home = () => {
                   ))}
                   <Button
                     type="primary"
-                    onClick={addNewMatch}
+                    onClick={() => addNewMatch()}
                     disabled={!isAllMatchEnd}
                   >
                     試合を追加
+                  </Button>
+                  <Button
+                    type="primary"
+                    onClick={() => addNewMatch(true)}
+                    disabled={!isAllMatchEnd}
+                  >
+                    ランダム
                   </Button>
                 </>
               )}
