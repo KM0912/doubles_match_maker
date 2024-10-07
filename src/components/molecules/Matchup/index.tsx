@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Space, Typography } from "antd";
+import { Button, Col, Row, Space, Typography } from "antd";
 import WinButton from "../../atom/WinButton";
 import { Match } from "../../../types";
 
@@ -59,52 +59,69 @@ const Matchup: React.FC<Props> = ({
   };
 
   return (
-    <Space direction="horizontal">
-      <Button
-        danger
-        disabled={!match.editable || match.isEnd}
-        onClick={deleteMatch}
-      >
-        ✖️
-      </Button>
-      <Space direction="horizontal">
+    <Row gutter={2}>
+      <Col className="gutter-row" span={4}>
+        <Button
+          danger
+          disabled={!match.editable || match.isEnd}
+          onClick={deleteMatch}
+          size="small"
+        >
+          ✖️
+        </Button>
+      </Col>
+      <Col className="gutter-row" span={4}>
         <WinButton
           match={match}
           pairIndex={0}
           onClick={() => onClickWin(index, 0)}
           disabled={!match.editable}
+          size="small"
         />
-        <div>
+      </Col>
+      <Col className="gutter-row" span={5}>
+        <Space direction="horizontal">
           {match.pairs[0].map((player, index) => (
             <Button
               disabled={match.isEnd || !match.editable}
               onClick={() => handlePlayerClick(0, index)}
               type={isSelected(0, index) ? "primary" : "default"}
+              size="small"
+              style={{ width: "30px" }}
             >
               {player.id}
             </Button>
           ))}
-        </div>
+        </Space>
+      </Col>
+      <Col className="gutter-row" span={2}>
         <Text>VS</Text>
-        <div>
+      </Col>
+      <Col className="gutter-row" span={5}>
+        <Space direction="horizontal">
           {match.pairs[1].map((player, index) => (
             <Button
               disabled={match.isEnd || !match.editable}
               onClick={() => handlePlayerClick(1, index)}
               type={isSelected(1, index) ? "primary" : "default"}
+              size="small"
+              style={{ width: "30px" }}
             >
               {player.id}
             </Button>
           ))}
-        </div>
+        </Space>
+      </Col>
+      <Col className="gutter-row" span={4}>
         <WinButton
           match={match}
           pairIndex={1}
           onClick={() => onClickWin(index, 1)}
           disabled={!match.editable}
+          size="small"
         />
-      </Space>
-    </Space>
+      </Col>
+    </Row>
   );
 };
 
