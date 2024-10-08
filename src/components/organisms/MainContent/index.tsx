@@ -53,28 +53,12 @@ const MainContent: React.FC<Props> = ({ selectedMenuKey }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleIncrementParticipant = () => {
-    setPlayerCount(playerCount + 1);
+  const updatePlayerCount = (count: number) => {
+    setPlayerCount(count);
   };
 
-  const handleDecrementParticipant = () => {
-    if (playerCount <= 4) {
-      setPlayerCount(4);
-    } else {
-      setPlayerCount(playerCount - 1);
-    }
-  };
-
-  const handleIncrementCourt = () => {
-    setCourtCount(courtCount + 1);
-  };
-
-  const handleDecrementCourt = () => {
-    if (courtCount <= 1) {
-      setCourtCount(1);
-    } else {
-      setCourtCount(courtCount - 1);
-    }
+  const updateCourtCount = (count: number) => {
+    setCourtCount(count);
   };
 
   const handleReset = () => {
@@ -102,12 +86,10 @@ const MainContent: React.FC<Props> = ({ selectedMenuKey }) => {
       {!isSetupComplete && (
         <>
           <SetupControls
-            participantCount={playerCount}
+            playerCount={playerCount}
             courtCount={courtCount}
-            handleIncrementParticipant={handleIncrementParticipant}
-            handleDecrementParticipant={handleDecrementParticipant}
-            handleIncrementCourt={handleIncrementCourt}
-            handleDecrementCourt={handleDecrementCourt}
+            updatePlayerCount={updatePlayerCount}
+            updateCourtCount={updateCourtCount}
             handleSetupComplete={handleSetupComplete}
           />
         </>
