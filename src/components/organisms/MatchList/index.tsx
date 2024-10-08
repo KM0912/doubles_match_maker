@@ -1,7 +1,7 @@
 import React from "react";
 import Matchup from "../../molecules/Matchup";
 import { Match } from "../../../types";
-import { Button } from "antd";
+import { Button, Space } from "antd";
 
 type Props = {
   matches: Match[];
@@ -17,7 +17,7 @@ const MatchList: React.FC<Props> = (props) => {
   const isAllMatchEnd = matches.every((match) => match.isEnd);
 
   return (
-    <>
+    <Space direction="vertical" style={{ width: "100%" }}>
       {matches.map((match, index) => (
         <Matchup
           key={index}
@@ -28,21 +28,23 @@ const MatchList: React.FC<Props> = (props) => {
           deleteMatch={() => deleteMatch(index)}
         />
       ))}
-      <Button
-        type="primary"
-        onClick={() => addNewMatch()}
-        disabled={!isAllMatchEnd}
-      >
-        試合を追加
-      </Button>
-      <Button
-        type="primary"
-        onClick={() => addNewMatch(true)}
-        disabled={!isAllMatchEnd}
-      >
-        ランダム
-      </Button>
-    </>
+      <Space direction="horizontal" size="small">
+        <Button
+          type="primary"
+          onClick={() => addNewMatch()}
+          disabled={!isAllMatchEnd}
+        >
+          試合を追加
+        </Button>
+        <Button
+          type="primary"
+          onClick={() => addNewMatch(true)}
+          disabled={!isAllMatchEnd}
+        >
+          ランダム
+        </Button>
+      </Space>
+    </Space>
   );
 };
 
