@@ -36,6 +36,7 @@ const columns: TableProps<Player>["columns"] = [
     title: "レーティング",
     dataIndex: "rating",
     key: "rating",
+    render: (_, record) => <Text>{record.rating.toFixed(2)}</Text>,
   },
 ];
 
