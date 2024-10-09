@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SetupControls from "../SetupControls";
-import { Button, Popconfirm, Space, Typography } from "antd";
+import { Space, Typography } from "antd";
 import {
   getMatchesFromLocalStorage,
   getPlayersFromLocalStorage,
@@ -11,6 +11,7 @@ import { usePlayers } from "../../../context/PlayersContext";
 import PlayerList from "../PlayerList";
 import PairingCounts from "../PairingCounts";
 import MatchList from "../MatchList";
+import ResetButton from "../../atom/ResetButton";
 
 const { Text } = Typography;
 
@@ -97,18 +98,7 @@ const MainContent: React.FC<Props> = ({ selectedMenuKey }) => {
       {isSetupComplete && (
         <>
           <Space direction="horizontal">
-            <Popconfirm
-              placement="bottomRight"
-              title={"試合と参加者をリセットしますか？"}
-              okText="はい"
-              cancelText="いいえ"
-              okButtonProps={{ type: "primary", danger: true }}
-              onConfirm={handleReset}
-            >
-              <Button type="primary" danger>
-                リセット
-              </Button>
-            </Popconfirm>
+            <ResetButton onClick={handleReset} />
             <Text strong>
               参加者数：{playerCount}人、コート数：{courtCount}面
             </Text>
