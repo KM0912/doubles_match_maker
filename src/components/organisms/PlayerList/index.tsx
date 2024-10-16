@@ -10,16 +10,19 @@ const columns: TableProps<Player>["columns"] = [
     title: "参加者No",
     dataIndex: "id",
     key: "id",
+    align: "center",
   },
   {
     title: "試合数",
     dataIndex: "matchCount",
     key: "matchCount",
+    align: "center",
   },
   {
     title: "勝数",
     dataIndex: "wins",
     key: "wins",
+    align: "center",
   },
   {
     title: "勝率",
@@ -31,12 +34,14 @@ const columns: TableProps<Player>["columns"] = [
         %
       </Text>
     ),
+    align: "right",
   },
   {
     title: "レーティング",
     dataIndex: "rating",
     key: "rating",
     render: (_, record) => <Text>{record.rating.toFixed(2)}</Text>,
+    align: "right",
   },
 ];
 
