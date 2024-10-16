@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Col, Row, Space, Typography } from "antd";
+import { Button, Col, Popconfirm, Row, Space, Typography } from "antd";
 import WinButton from "../../atom/WinButton";
 import { Match } from "../../../types";
 
@@ -61,14 +61,18 @@ const Matchup: React.FC<Props> = ({
   return (
     <Row gutter={2}>
       <Col className="gutter-row" span={4}>
-        <Button
-          danger
-          disabled={!match.editable || match.isEnd}
-          onClick={deleteMatch}
-          size="small"
+        <Popconfirm
+          placement="topRight"
+          title={"試合を削除しますか？"}
+          okText="はい"
+          cancelText="いいえ"
+          okButtonProps={{ type: "primary", danger: true }}
+          onConfirm={deleteMatch}
         >
-          ✖️
-        </Button>
+          <Button danger disabled={!match.editable || match.isEnd} size="small">
+            ✖️
+          </Button>
+        </Popconfirm>
       </Col>
       <Col className="gutter-row" span={4}>
         <WinButton
