@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, TableProps, Typography, Button } from "antd";
+import { Table, TableProps, Typography, Button, Space } from "antd";
 import { Player } from "../../../types";
 import { usePlayers } from "../../../context/PlayersContext";
 
@@ -58,15 +58,21 @@ const PlayerList: React.FC = () => {
   return (
     <>
       <Title level={4}>参加者一覧</Title>
-      <Table
-        dataSource={players}
-        columns={columns}
-        pagination={false}
-        size="small"
-      />
-      <Button type="primary" onClick={handleAddPlayer}>
-        追加
-      </Button>
+      <Space direction="vertical">
+        <Table
+          dataSource={players}
+          columns={columns}
+          pagination={false}
+          size="small"
+        />
+        <Button
+          type="primary"
+          onClick={handleAddPlayer}
+          style={{ width: "100%" }}
+        >
+          参加者を追加
+        </Button>
+      </Space>
     </>
   );
 };
