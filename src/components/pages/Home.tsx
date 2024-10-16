@@ -20,7 +20,9 @@ const Home = () => {
         <HeaderMenu />
       </Header>
       <Content style={{ minHeight: 280, overflowY: "auto" }}>
-        <MainContent selectedMenuKey={selectedMenuKey} />
+        <div style={{ marginTop: "10px" }}>
+          <MainContent selectedMenuKey={selectedMenuKey} />
+        </div>
       </Content>
       <Footer style={{ padding: "0" }}>
         <FooterMenu
