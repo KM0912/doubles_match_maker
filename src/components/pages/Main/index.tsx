@@ -34,35 +34,6 @@ interface NewComponentProps {
   isPlayerInMatch: (playerId: number) => boolean; // Add this line to the interface
 }
 
-function NewComponent({
-  player,
-  gameHistory,
-  winCount,
-  onBreakToggle,
-  isPlayerInMatch, // Add this line to receive the function as a prop
-}: NewComponentProps) {
-  const gamesPlayed = gameHistory[player.id] || 0;
-
-  return (
-    <div className="bg-white p-4 rounded shadow flex gap-4 items-center">
-      <div className="font-bold">選手 {player.id}</div>
-      <div>試合数: {gamesPlayed}</div>
-      <div>勝利数: {winCount}</div>
-
-      {!isPlayerInMatch(player.id) && (
-        <div className="ml-auto">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded inline-block"
-            onClick={() => onBreakToggle(player.id)}
-          >
-            休憩
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
 function MainComponent() {
   const [playerCount, setPlayerCount] = useState<number>(4);
   const [courts, setCourts] = useState<number>(1);
@@ -269,7 +240,7 @@ function MainComponent() {
                 isPlaying ? "ring-2 ring-green-500" : ""
               } relative rounded-lg ${
                 selectedPlayer ? "cursor-pointer hover:bg-gray-100" : ""
-              }`}
+              } mb-4`}
               onClick={() => {
                 if (selectedPlayer && isPlaying) {
                   const match = matches.find((m) =>
@@ -288,7 +259,7 @@ function MainComponent() {
                 }
               }}
             >
-              <NewComponent
+              <PlayerCard
                 key={player.id}
                 player={player}
                 gameHistory={gameHistory}
@@ -558,5 +529,34 @@ function MainComponent() {
     </div>
   );
 }
+
+const PlayerCard = ({
+  player,
+  gameHistory,
+  winCount,
+  onBreakToggle,
+  isPlayerInMatch,
+}: NewComponentProps) => {
+  const gamesPlayed = gameHistory[player.id] || 0;
+
+  return (
+    <div className="bg-white p-4 rounded shadow flex gap-4 items-center">
+      <div className="font-bold">選手 {player.id}</div>
+      <div>試合数: {gamesPlayed}</div>
+      <div>勝利数: {winCount}</div>
+
+      {!isPlayerInMatch(player.id) && (
+        <div className="ml-auto">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded inline-block"
+            onClick={() => onBreakToggle(player.id)}
+          >
+            休憩
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default MainComponent;
