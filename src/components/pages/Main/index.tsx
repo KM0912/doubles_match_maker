@@ -42,16 +42,18 @@ function NewComponent({
   const gamesPlayed = gameHistory[player.id] || 0;
 
   return (
-    <div className="bg-white p-4 rounded shadow">
+    <div className="bg-white p-4 rounded shadow flex gap-4 items-center">
       <div className="font-bold">選手 {player.id}</div>
       <div>試合数: {gamesPlayed}</div>
       {!isPlayerInMatch(player.id) && (
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 inline-block"
-          onClick={() => onBreakToggle(player.id)}
-        >
-          休憩
-        </button>
+        <div className="ml-auto">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded inline-block"
+            onClick={() => onBreakToggle(player.id)}
+          >
+            休憩
+          </button>
+        </div>
       )}
     </div>
   );
@@ -270,7 +272,7 @@ function MainComponent() {
         </button>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 mb-8">
+      <div className="mb-8">
         {players.map((player) => {
           const isPlaying = isPlayerInMatch(player.id);
           return (
