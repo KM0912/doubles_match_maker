@@ -518,12 +518,7 @@ function MainComponent() {
             </div>
           </div>
 
-          <button
-            onClick={completeMatches}
-            className="w-full bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 mt-8"
-          >
-            試合終了
-          </button>
+          <CompleteMatchesButton completeMatches={completeMatches} />
         </div>
       )}
     </div>
@@ -556,6 +551,21 @@ const PlayerCard = ({
         </div>
       )}
     </div>
+  );
+};
+
+const CompleteMatchesButton = ({
+  completeMatches,
+}: {
+  completeMatches: () => void;
+}) => {
+  return (
+    <button
+      onClick={completeMatches}
+      className="w-full bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 mt-8"
+    >
+      試合終了
+    </button>
   );
 };
 
