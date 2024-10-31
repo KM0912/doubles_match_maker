@@ -596,14 +596,11 @@ function MainComponent() {
                     className="bg-white p-4 rounded shadow cursor-pointer hover:bg-gray-100"
                     onClick={() => {
                       if (selectedPlayer) {
-                        const match = matches[selectedPlayer.matchIndex];
                         const team =
                           selectedPlayer.team === 1 ? "team1" : "team2";
                         const newMatches = [...matches];
                         const currentMatch =
                           newMatches[selectedPlayer.matchIndex];
-                        const selectedPlayerObj =
-                          currentMatch[team][selectedPlayer.playerIndex];
                         currentMatch[team][selectedPlayer.playerIndex] = player;
                         setMatches(newMatches);
                         setSelectedPlayer(null);
