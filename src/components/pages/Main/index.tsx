@@ -30,12 +30,14 @@ interface NewComponentProps {
   player: Player;
   gameHistory: GameHistory;
   onBreakToggle: (playerId: number) => void;
+  isPlayerInMatch: (playerId: number) => boolean; // Add this line to the interface
 }
 
 function NewComponent({
   player,
   gameHistory,
   onBreakToggle,
+  isPlayerInMatch, // Add this line to receive the function as a prop
 }: NewComponentProps) {
   const gamesPlayed = gameHistory[player.id] || 0;
 
@@ -43,42 +45,17 @@ function NewComponent({
     <div className="bg-white p-4 rounded shadow">
       <div className="font-bold">選手 {player.id}</div>
       <div>試合数: {gamesPlayed}</div>
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 inline-block"
-        onClick={() => onBreakToggle(player.id)}
-      >
-        休憩
-      </button>
+      {!isPlayerInMatch(player.id) && (
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 inline-block"
+          onClick={() => onBreakToggle(player.id)}
+        >
+          休憩
+        </button>
+      )}
     </div>
   );
 }
-
-// function StoryComponent() {
-//   const [gameHistory, setGameHistory] = useState<GameHistory>({ 1: 5, 2: 3 });
-//   const [onBreak, setOnBreak] = useState<GameHistory>({});
-
-//   const handleBreakToggle = (playerId: number) => {
-//     setOnBreak((prev) => ({
-//       ...prev,
-//       [playerId]: !prev[playerId],
-//     }));
-//   };
-
-//   const players: Player[] = [{ id: 1 }, { id: 2 }];
-
-//   return (
-//     <div>
-//       {players.map((player) => (
-//         <NewComponent
-//           key={player.id}
-//           player={player}
-//           gameHistory={gameHistory}
-//           onBreakToggle={handleBreakToggle}
-//         />
-//       ))}
-//     </div>
-//   );
-// }
 
 function MainComponent() {
   const [playerCount, setPlayerCount] = useState<number>(4);
@@ -346,6 +323,7 @@ function MainComponent() {
                     }));
                   }
                 }}
+                isPlayerInMatch={isPlayerInMatch}
               />
 
               <div className="text-center mt-2">
