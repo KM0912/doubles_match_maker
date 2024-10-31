@@ -29,6 +29,7 @@ interface PairHistory {
 interface NewComponentProps {
   player: Player;
   gameHistory: GameHistory;
+  winCount: number;
   onBreakToggle: (playerId: number) => void;
   isPlayerInMatch: (playerId: number) => boolean; // Add this line to the interface
 }
@@ -36,6 +37,7 @@ interface NewComponentProps {
 function NewComponent({
   player,
   gameHistory,
+  winCount,
   onBreakToggle,
   isPlayerInMatch, // Add this line to receive the function as a prop
 }: NewComponentProps) {
@@ -45,6 +47,8 @@ function NewComponent({
     <div className="bg-white p-4 rounded shadow flex gap-4 items-center">
       <div className="font-bold">選手 {player.id}</div>
       <div>試合数: {gamesPlayed}</div>
+      <div>勝利数: {winCount}</div>
+
       {!isPlayerInMatch(player.id) && (
         <div className="ml-auto">
           <button
@@ -316,7 +320,7 @@ function MainComponent() {
                 key={player.id}
                 player={player}
                 gameHistory={gameHistory}
-                // onBreakToggle={(playerId) => {}}
+                winCount={wins[player.id] || 0}
                 onBreakToggle={(playerId) => {
                   if (!selectedPlayer) {
                     setOnBreak((prev) => ({
@@ -327,10 +331,6 @@ function MainComponent() {
                 }}
                 isPlayerInMatch={isPlayerInMatch}
               />
-
-              <div className="text-center mt-2">
-                勝利数: {wins[player.id] || 0}
-              </div>
 
               {onBreak[player.id] && (
                 <div className="text-center mt-2 text-red-500 font-bold">
