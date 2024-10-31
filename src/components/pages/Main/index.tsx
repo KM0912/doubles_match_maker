@@ -1,16 +1,7 @@
 import React, { useState } from "react";
-
-interface Player {
-  id: number;
-  gamesPlayed: number;
-}
-
-interface Match {
-  team1: Player[];
-  team2: Player[];
-  id: number;
-  winner: number | null;
-}
+import { Match, Player } from "../../../types";
+import GenerateMatchesButton from "../../atoms/GenerateMatchesButton";
+import CompleteMatchesButton from "../../atoms/CompleteMatchesButton";
 
 interface GameHistory {
   [playerId: number]: number;
@@ -336,13 +327,11 @@ function MainComponent() {
         )}
       </div>
 
-      <button
+      <GenerateMatchesButton
         onClick={generateMatches}
-        className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
-        disabled={matches.length > 0 || players.length < 4}
-      >
-        試合組み合わせ生成
-      </button>
+        matches={matches}
+        players={players}
+      />
 
       {matches.length > 0 && (
         <div>
@@ -493,7 +482,7 @@ function MainComponent() {
             gameHistory={gameHistory}
             wins={wins}
           />
-          <CompleteMatchesButton completeMatches={completeMatches} />
+          <CompleteMatchesButton onClick={completeMatches} />
         </div>
       )}
     </div>
@@ -596,21 +585,6 @@ const WaitingPlayers = ({
           ))}
       </div>
     </div>
-  );
-};
-
-const CompleteMatchesButton = ({
-  completeMatches,
-}: {
-  completeMatches: () => void;
-}) => {
-  return (
-    <button
-      onClick={completeMatches}
-      className="w-full bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 mt-8"
-    >
-      試合終了
-    </button>
   );
 };
 
