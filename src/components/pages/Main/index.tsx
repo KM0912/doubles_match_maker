@@ -83,9 +83,6 @@ function MainComponent() {
     playerIndex: number;
   } | null>(null);
   const [onBreak, setOnBreak] = useState<OnBreakState>({});
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState<number | null>(
-    null
-  );
 
   const addPlayer = () => {
     setPlayerCount((prev) => prev + 1);
@@ -231,20 +228,6 @@ function MainComponent() {
     setWins(updatedWins);
   };
 
-  const handleDeletePlayer = (playerId: number) => {
-    if (isPlayerInMatch(playerId)) return;
-    setShowDeleteConfirm(playerId);
-  };
-
-  const confirmDelete = () => {
-    const newPlayers = players.filter(
-      (player) => player.id !== showDeleteConfirm
-    );
-    setPlayers(newPlayers);
-    setPlayerCount((prev) => prev - 1);
-    setShowDeleteConfirm(null);
-  };
-
   return (
     <div className="container mx-auto px-2 py-4 md:px-4 md:py-8 max-w-2xl">
       <h1 className="text-3xl font-bold mb-8 text-center">
@@ -305,17 +288,6 @@ function MainComponent() {
                 }
               }}
             >
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeletePlayer(player.id);
-                }}
-                className="absolute top-2 right-2 text-red-500 hover:text-red-700"
-                disabled={isPlaying}
-              >
-                <i className="fas fa-times"></i>
-              </button>
-
               <NewComponent
                 key={player.id}
                 player={player}
@@ -347,30 +319,6 @@ function MainComponent() {
           );
         })}
       </div>
-
-      {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-lg font-bold mb-4">
-              選手{showDeleteConfirm}を削除しますか？
-            </h3>
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={() => setShowDeleteConfirm(null)}
-                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-              >
-                キャンセル
-              </button>
-              <button
-                onClick={confirmDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-              >
-                削除
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className="mb-8">
         <button
