@@ -1,22 +1,22 @@
 import React, { useState } from "react";
-import { GameHistory, Match, OnBreakState, Player } from "../../../types";
+import {
+  GameHistory,
+  Match,
+  OnBreakState,
+  PairHistory,
+  Player,
+} from "../../../types";
 import GenerateMatchesButton from "../../atoms/GenerateMatchesButton";
 import CompleteMatchesButton from "../../atoms/CompleteMatchesButton";
 import WaitingPlayers from "../../molecules/WaitingPlayers";
 import CourtCounter from "../../molecules/CourtCounter";
 import CurrentMatch from "../../molecules/CurrentMatch";
 import PlayerStatusCard from "../../atoms/PlayerStatusCard";
-
-interface PairHistory {
-  [playerId: number]: {
-    [partnerId: number]: number;
-  };
-}
+import useMatchManagement from "../../../hooks/useMatchManagement";
 
 function MainComponent() {
   const [playerCount, setPlayerCount] = useState<number>(4);
   const [courts, setCourts] = useState<number>(1);
-  const [matches, setMatches] = useState<Match[]>([]);
   const [gameHistory, setGameHistory] = useState<GameHistory>({});
   const [players, setPlayers] = useState<Player[]>([
     { id: 1, gamesPlayed: 0 },
@@ -49,84 +49,6 @@ function MainComponent() {
         match.team1.some((p) => p.id === playerId) ||
         match.team2.some((p) => p.id === playerId)
     );
-  };
-
-  const findBestPairs = (players: Player[]) => {
-    let bestPairScore = Infinity;
-    let bestPairs: { team1: Player[]; team2: Player[] } | null = null;
-
-    for (let i = 0; i < players.length - 1; i++) {
-      for (let j = i + 1; j < players.length; j++) {
-        const team1 = [players[i], players[j]];
-        const remaining = players.filter((p) => !team1.includes(p));
-
-        for (let k = 0; k < remaining.length - 1; k++) {
-          for (let l = k + 1; l < remaining.length; l++) {
-            const team2 = [remaining[k], remaining[l]];
-            const pairScore =
-              (pairHistory[team1[0].id]?.[team1[1].id] || 0) +
-              (pairHistory[team2[0].id]?.[team2[1].id] || 0);
-
-            if (pairScore < bestPairScore) {
-              bestPairScore = pairScore;
-              bestPairs = { team1, team2 };
-            }
-          }
-        }
-      }
-    }
-
-    return bestPairs;
-  };
-
-  const generateMatches = () => {
-    const maxGames = Math.min(Math.floor(availablePlayers.length / 4), courts);
-    const newMatches: Match[] = [];
-
-    for (let i = 0; i < maxGames; i++) {
-      const currentPlayers = availablePlayers.slice(i * 4, i * 4 + 4);
-      if (currentPlayers.length === 4) {
-        const bestMatch = findBestPairs(currentPlayers);
-        if (bestMatch) {
-          newMatches.push({
-            team1: bestMatch.team1,
-            team2: bestMatch.team2,
-            id: Date.now() + i,
-            winner: null,
-          });
-        }
-      }
-    }
-
-    setMatches(newMatches);
-    const updatedGameHistory = { ...gameHistory };
-    const updatedPairHistory = { ...pairHistory };
-
-    newMatches.forEach((match) => {
-      [...match.team1, ...match.team2].forEach((player) => {
-        updatedGameHistory[player.id] =
-          (updatedGameHistory[player.id] || 0) + 1;
-      });
-
-      const [p1, p2] = match.team1;
-      updatedPairHistory[p1.id] = updatedPairHistory[p1.id] || {};
-      updatedPairHistory[p2.id] = updatedPairHistory[p2.id] || {};
-      updatedPairHistory[p1.id][p2.id] =
-        (updatedPairHistory[p1.id][p2.id] || 0) + 1;
-      updatedPairHistory[p2.id][p1.id] =
-        (updatedPairHistory[p2.id][p1.id] || 0) + 1;
-
-      const [p3, p4] = match.team2;
-      updatedPairHistory[p3.id] = updatedPairHistory[p3.id] || {};
-      updatedPairHistory[p4.id] = updatedPairHistory[p4.id] || {};
-      updatedPairHistory[p3.id][p4.id] =
-        (updatedPairHistory[p3.id][p4.id] || 0) + 1;
-      updatedPairHistory[p4.id][p3.id] =
-        (updatedPairHistory[p4.id][p3.id] || 0) + 1;
-    });
-
-    setGameHistory(updatedGameHistory);
-    setPairHistory(updatedPairHistory);
   };
 
   const completeMatches = () => {
@@ -195,6 +117,15 @@ function MainComponent() {
     });
     setWins(updatedWins);
   };
+
+  const { matches, setMatches, generateMatches } = useMatchManagement({
+    availablePlayers,
+    courts,
+    gameHistory,
+    pairHistory,
+    setGameHistory,
+    setPairHistory,
+  });
 
   return (
     <div className="container mx-auto px-2 py-4 md:px-4 md:py-8 max-w-2xl">

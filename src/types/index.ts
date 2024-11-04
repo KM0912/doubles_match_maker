@@ -14,6 +14,12 @@ export type GameHistory = {
   [playerId: number]: number;
 };
 
+export type PairHistory = {
+  [playerId: number]: {
+    [partnerId: number]: number;
+  };
+};
+
 export type OnBreakState = {
   [key: number]: boolean;
 };
