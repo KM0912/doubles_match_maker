@@ -3,9 +3,9 @@ import { GameHistory, Match, OnBreakState, Player } from "../../../types";
 import GenerateMatchesButton from "../../atoms/GenerateMatchesButton";
 import CompleteMatchesButton from "../../atoms/CompleteMatchesButton";
 import WaitingPlayers from "../../molecules/WaitingPlayers";
-import PlayerCard from "../../molecules/PlayerCard";
 import CourtCounter from "../../molecules/CourtCounter";
 import CurrentMatch from "../../molecules/CurrentMatch";
+import PlayerStatusCard from "../../atoms/PlayerStatusCard";
 
 interface PairHistory {
   [playerId: number]: {
@@ -221,59 +221,17 @@ function MainComponent() {
         {players.map((player) => {
           const isPlaying = isPlayerInMatch(player.id);
           return (
-            <div
+            <PlayerStatusCard
               key={player.id}
-              className={`${onBreak[player.id] ? "opacity-50" : ""} ${
-                isPlaying ? "ring-2 ring-green-500" : ""
-              } relative rounded-lg ${
-                selectedPlayer ? "cursor-pointer hover:bg-gray-100" : ""
-              } mb-4`}
-              onClick={() => {
-                if (selectedPlayer && isPlaying) {
-                  const match = matches.find((m) =>
-                    [...m.team1, ...m.team2].some((p) => p.id === player.id)
-                  );
-                  if (!match) return;
-                  const matchIndex = matches.indexOf(match);
-                  const team = match.team1.some((p) => p.id === player.id)
-                    ? 1
-                    : 2;
-                  const playerIndex =
-                    team === 1
-                      ? match.team1.findIndex((p) => p.id === player.id)
-                      : match.team2.findIndex((p) => p.id === player.id);
-                  swapPlayers(matchIndex, team, playerIndex);
-                }
-              }}
-            >
-              <PlayerCard
-                key={player.id}
-                player={player}
-                gameHistory={gameHistory}
-                winCount={wins[player.id] || 0}
-                onBreakToggle={(playerId) => {
-                  if (!selectedPlayer) {
-                    setOnBreak((prev) => ({
-                      ...prev,
-                      [playerId]: !prev[playerId],
-                    }));
-                  }
-                }}
-                isPlayerInMatch={isPlayerInMatch}
-              />
-
-              {onBreak[player.id] && (
-                <div className="text-center mt-2 text-red-500 font-bold">
-                  休憩中
-                </div>
-              )}
-
-              {isPlaying && (
-                <div className="text-center mt-2 text-green-500 font-bold">
-                  試合中
-                </div>
-              )}
-            </div>
+              player={player}
+              gameHistory={gameHistory}
+              wins={wins}
+              onBreak={onBreak}
+              isPlaying={isPlaying}
+              selectedPlayer={!!selectedPlayer}
+              setOnBreak={setOnBreak}
+              isPlayerInMatch={isPlayerInMatch}
+            />
           );
         })}
       </div>
