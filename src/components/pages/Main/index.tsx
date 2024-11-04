@@ -4,6 +4,7 @@ import GenerateMatchesButton from "../../atoms/GenerateMatchesButton";
 import CompleteMatchesButton from "../../atoms/CompleteMatchesButton";
 import WaitingPlayers from "../../molecules/WaitingPlayers";
 import PlayerCard from "../../molecules/PlayerCard";
+import CourtCounter from "../../molecules/CourtCounter";
 
 interface PairHistory {
   [playerId: number]: {
@@ -201,21 +202,11 @@ function MainComponent() {
       </h1>
 
       <div className="mb-8 space-y-4">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => setCourts((prev) => Math.max(1, prev - 1))}
-            className="bg-gray-200 px-3 py-1 rounded"
-          >
-            -
-          </button>
-          <span className="text-lg">{courts}コート</span>
-          <button
-            onClick={() => setCourts((prev) => prev + 1)}
-            className="bg-gray-200 px-3 py-1 rounded"
-          >
-            +
-          </button>
-        </div>
+        <CourtCounter
+          courts={courts}
+          setCourts={setCourts}
+          className="flex items-center gap-4"
+        />
 
         <button
           onClick={addPlayer}
