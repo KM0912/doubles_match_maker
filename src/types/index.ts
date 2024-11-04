@@ -9,3 +9,11 @@ export type Match = {
   id: number;
   winner: number | null;
 };
+
+export type GameHistory = {
+  [playerId: number]: number;
+};
+
+export type OnBreakState = {
+  [key: number]: boolean;
+};
