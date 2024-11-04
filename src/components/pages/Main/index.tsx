@@ -190,6 +190,24 @@ function MainComponent() {
     setWins(updatedWins);
   };
 
+  const resetMatchWinner = (matchIndex: number) => {
+    const newMatches = [...matches];
+    const match = newMatches[matchIndex];
+    const winningTeam = match.winner;
+
+    // 試合の勝者をリセット
+    match.winner = null;
+    setMatches(newMatches);
+
+    // 勝利数をリセット
+    const updatedWins = { ...wins };
+    const winningPlayers = winningTeam === 1 ? match.team1 : match.team2;
+    winningPlayers.forEach((player) => {
+      updatedWins[player.id] = (updatedWins[player.id] || 0) - 1;
+    });
+    setWins(updatedWins);
+  };
+
   return (
     <div className="container mx-auto px-2 py-4 md:px-4 md:py-8 max-w-2xl">
       <h1 className="text-3xl font-bold mb-8 text-center">
@@ -465,6 +483,17 @@ function MainComponent() {
                 {match.winner && (
                   <div className="text-center mt-4 font-bold text-green-500">
                     チーム{match.winner}の勝利！
+                  </div>
+                )}
+
+                {match.winner && (
+                  <div className="flex justify-center mt-4">
+                    <button
+                      onClick={() => resetMatchWinner(index)}
+                      className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+                    >
+                      勝敗を修正
+                    </button>
                   </div>
                 )}
               </div>
