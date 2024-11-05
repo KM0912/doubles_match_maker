@@ -5,7 +5,8 @@ type Props = {
   gameHistory: GameHistory;
   winCount: number;
   onBreakToggle: (playerId: number) => void;
-  isPlayerInMatch: (playerId: number) => boolean; // Add this line to the interface
+  isPlayerInMatch: (playerId: number) => boolean;
+  isPlayerOnBreak: boolean;
 };
 
 const PlayerCard = ({
@@ -14,6 +15,7 @@ const PlayerCard = ({
   winCount,
   onBreakToggle,
   isPlayerInMatch,
+  isPlayerOnBreak,
 }: Props) => {
   const gamesPlayed = gameHistory[player.id] || 0;
 
@@ -26,10 +28,12 @@ const PlayerCard = ({
       {!isPlayerInMatch(player.id) && (
         <div className="ml-auto">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded inline-block"
+            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded inline-block ${
+              isPlayerOnBreak ? "bg-red-500 hover:bg-red-700" : ""
+            }`}
             onClick={() => onBreakToggle(player.id)}
           >
-            休憩
+            {isPlayerOnBreak ? "休憩中" : "休憩"}
           </button>
         </div>
       )}

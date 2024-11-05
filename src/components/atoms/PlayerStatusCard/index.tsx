@@ -2,7 +2,7 @@ import React from "react";
 import PlayerCard from "../../molecules/PlayerCard";
 import { Player } from "../../../types";
 
-type Props = {
+type PlayerStatusCardProps = {
   player: Player;
   gameHistory: Record<number, number>;
   wins: Record<number, number>;
@@ -13,7 +13,7 @@ type Props = {
   isPlayerInMatch: (playerId: number) => boolean;
 };
 
-const PlayerStatusCard: React.FC<Props> = ({
+const PlayerStatusCard: React.FC<PlayerStatusCardProps> = ({
   player,
   gameHistory,
   wins,
@@ -46,11 +46,8 @@ const PlayerStatusCard: React.FC<Props> = ({
           }
         }}
         isPlayerInMatch={isPlayerInMatch}
+        isPlayerOnBreak={onBreak[player.id]}
       />
-
-      {onBreak[player.id] && (
-        <div className="text-center mt-2 text-red-500 font-bold">休憩中</div>
-      )}
 
       {isPlaying && (
         <div className="text-center mt-2 text-green-500 font-bold">試合中</div>
