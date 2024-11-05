@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  GameHistory,
-  Match,
-  OnBreakState,
-  PairHistory,
-  Player,
-} from "../../../types";
+import { GameHistory, PairHistory } from "../../../types";
 import GenerateMatchesButton from "../../atoms/GenerateMatchesButton";
 import CompleteMatchesButton from "../../atoms/CompleteMatchesButton";
 import WaitingPlayers from "../../molecules/WaitingPlayers";
@@ -13,17 +7,14 @@ import CurrentMatch from "../../molecules/CurrentMatch";
 import PlayerStatusCard from "../../atoms/PlayerStatusCard";
 import useMatchManagement from "../../../hooks/useMatchManagement";
 import CourtManager from "../../organisms/CourtManager";
+import usePlayerManager from "../../../hooks/usePlayerManager";
 
 function MainComponent() {
   const [playerCount, setPlayerCount] = useState<number>(4);
   const [courts, setCourts] = useState<number>(1);
   const [gameHistory, setGameHistory] = useState<GameHistory>({});
-  const [players, setPlayers] = useState<Player[]>([
-    { id: 1, gamesPlayed: 0 },
-    { id: 2, gamesPlayed: 0 },
-    { id: 3, gamesPlayed: 0 },
-    { id: 4, gamesPlayed: 0 },
-  ]);
+  const { players, setPlayers, onBreak, setOnBreak, availablePlayers } =
+    usePlayerManager();
   const [pairHistory, setPairHistory] = useState<PairHistory>({});
   const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
   const [wins, setWins] = useState<GameHistory>({});
@@ -32,16 +23,6 @@ function MainComponent() {
     team: number;
     playerIndex: number;
   } | null>(null);
-  const [onBreak, setOnBreak] = useState<OnBreakState>({});
-
-  const addPlayer = () => {
-    setPlayerCount((prev) => prev + 1);
-    setPlayers([...players, { id: playerCount + 1, gamesPlayed: 0 }]);
-  };
-
-  const availablePlayers = [...players]
-    .filter((player) => !onBreak[player.id])
-    .sort((a, b) => a.gamesPlayed - b.gamesPlayed);
 
   const isPlayerInMatch = (playerId: number) => {
     return matches.some(
