@@ -1,23 +1,23 @@
 type Props = {
   courts: number;
-  setCourts: React.Dispatch<React.SetStateAction<number>>;
+  onIncrement: () => void;
+  onDecrement: () => void;
   className?: string;
 };
 
-const CourtCounter: React.FC<Props> = ({ courts, setCourts, className }) => {
+const CourtCounter: React.FC<Props> = ({
+  courts,
+  onIncrement,
+  onDecrement,
+  className,
+}) => {
   return (
     <div className={className}>
-      <button
-        onClick={() => setCourts((prev) => Math.max(1, prev - 1))}
-        className="bg-gray-200 px-3 py-1 rounded"
-      >
+      <button onClick={onDecrement} className="bg-gray-200 px-3 py-1 rounded">
         -
       </button>
       <span className="text-lg">{courts}コート</span>
-      <button
-        onClick={() => setCourts((prev) => prev + 1)}
-        className="bg-gray-200 px-3 py-1 rounded"
-      >
+      <button onClick={onIncrement} className="bg-gray-200 px-3 py-1 rounded">
         +
       </button>
     </div>

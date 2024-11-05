@@ -9,10 +9,10 @@ import {
 import GenerateMatchesButton from "../../atoms/GenerateMatchesButton";
 import CompleteMatchesButton from "../../atoms/CompleteMatchesButton";
 import WaitingPlayers from "../../molecules/WaitingPlayers";
-import CourtCounter from "../../molecules/CourtCounter";
 import CurrentMatch from "../../molecules/CurrentMatch";
 import PlayerStatusCard from "../../atoms/PlayerStatusCard";
 import useMatchManagement from "../../../hooks/useMatchManagement";
+import CourtManager from "../../organisms/CourtManager";
 
 function MainComponent() {
   const [playerCount, setPlayerCount] = useState<number>(4);
@@ -127,6 +127,11 @@ function MainComponent() {
     setPairHistory,
   });
 
+  const handleIncrementCourts = () => setCourts((prev) => prev + 1);
+  const handleDecrementCourts = () =>
+    setCourts((prev) => Math.max(1, prev - 1));
+  const handleAddPlayer = () => setPlayerCount((prev) => prev + 1);
+
   return (
     <div className="container mx-auto px-2 py-4 md:px-4 md:py-8 max-w-2xl">
       <h1 className="text-3xl font-bold mb-8 text-center">
@@ -134,18 +139,13 @@ function MainComponent() {
       </h1>
 
       <div className="mb-8 space-y-4">
-        <CourtCounter
+        <CourtManager
           courts={courts}
-          setCourts={setCourts}
-          className="flex items-center gap-4"
+          playerCount={playerCount}
+          onIncrementCourts={handleIncrementCourts}
+          onDecrementCourts={handleDecrementCourts}
+          onClickAddPlayer={handleAddPlayer}
         />
-
-        <button
-          onClick={addPlayer}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
-        >
-          参加者を追加（現在: {playerCount}人）
-        </button>
       </div>
 
       <div className="mb-8">
