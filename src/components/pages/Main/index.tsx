@@ -7,14 +7,20 @@ import CurrentMatch from "../../molecules/CurrentMatch";
 import PlayerStatusCard from "../../atoms/PlayerStatusCard";
 import useMatchManagement from "../../../hooks/useMatchManagement";
 import CourtManager from "../../organisms/CourtManager";
-import usePlayerManager from "../../../hooks/usePlayerManager";
+import { usePlayerContext } from "../../../contexts/PlayerContext";
 
 function MainComponent() {
-  const [playerCount, setPlayerCount] = useState<number>(4);
+  const {
+    players,
+    setPlayers,
+    addPlayer,
+    playerCount,
+    onBreak,
+    setOnBreak,
+    availablePlayers,
+  } = usePlayerContext();
   const [courts, setCourts] = useState<number>(1);
   const [gameHistory, setGameHistory] = useState<GameHistory>({});
-  const { players, setPlayers, onBreak, setOnBreak, availablePlayers } =
-    usePlayerManager();
   const [pairHistory, setPairHistory] = useState<PairHistory>({});
   const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
   const [wins, setWins] = useState<GameHistory>({});
@@ -111,7 +117,7 @@ function MainComponent() {
   const handleIncrementCourts = () => setCourts((prev) => prev + 1);
   const handleDecrementCourts = () =>
     setCourts((prev) => Math.max(1, prev - 1));
-  const handleAddPlayer = () => setPlayerCount((prev) => prev + 1);
+  const handleAddPlayer = () => addPlayer();
 
   return (
     <div className="container mx-auto px-2 py-4 md:px-4 md:py-8 max-w-2xl">
