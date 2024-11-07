@@ -11,6 +11,7 @@ type PlayerContextType = {
   players: Player[];
   setPlayers: React.Dispatch<React.SetStateAction<Player[]>>;
   addPlayer: () => void;
+  setOnBreak: (playerId: number, isOnBreak: boolean) => void;
   playerCount: number;
   availablePlayers: Player[];
 };
@@ -36,6 +37,13 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     ]);
   };
 
+  const setOnBreak = (playerId: number, isOnBreak: boolean) => {
+    const updatedPlayers = players.map((player) =>
+      player.id === playerId ? { ...player, onBreak: isOnBreak } : player
+    );
+    setPlayers(updatedPlayers);
+  };
+
   // プレイヤー数を返す
   const playerCount = useMemo(() => players.length, [players]);
 
@@ -50,6 +58,7 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     players,
     setPlayers,
     addPlayer,
+    setOnBreak,
     playerCount,
     availablePlayers,
   };

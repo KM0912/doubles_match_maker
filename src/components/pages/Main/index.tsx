@@ -4,11 +4,11 @@ import GenerateMatchesButton from "../../atoms/GenerateMatchesButton";
 import CompleteMatchesButton from "../../atoms/CompleteMatchesButton";
 import WaitingPlayers from "../../molecules/WaitingPlayers";
 import CurrentMatch from "../../molecules/CurrentMatch";
-import PlayerStatusCard from "../../atoms/PlayerStatusCard";
 import useMatchManagement from "../../../hooks/useMatchManagement";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 import CourtCounter from "../../molecules/CourtCounter";
 import useCourtManagement from "../../../hooks/useCourtManagement";
+import PlayerStatusCards from "../../molecules/PlayerStatusCards";
 
 function MainComponent() {
   const { players, setPlayers, addPlayer, playerCount, availablePlayers } =
@@ -109,13 +109,6 @@ function MainComponent() {
       setPairHistory,
     });
 
-  const setOnBreak = (playerId: number, isOnBreak: boolean) => {
-    const updatedPlayers = players.map((player) =>
-      player.id === playerId ? { ...player, onBreak: isOnBreak } : player
-    );
-    setPlayers(updatedPlayers);
-  };
-
   return (
     <div className="container mx-auto px-2 py-4 md:px-4 md:py-8 max-w-2xl">
       <h1 className="text-3xl font-bold mb-8 text-center">
@@ -138,20 +131,11 @@ function MainComponent() {
       </div>
 
       <div className="mb-8">
-        {players.map((player) => {
-          const isPlaying = isPlayerInMatch(player.id);
-          return (
-            <PlayerStatusCard
-              key={player.id}
-              player={player}
-              gameHistory={gameHistory}
-              isPlaying={isPlaying}
-              selectedPlayer={!!selectedPlayer}
-              setOnBreak={setOnBreak}
-              isPlayerInMatch={isPlayerInMatch}
-            />
-          );
-        })}
+        <PlayerStatusCards
+          isPlayerInMatch={isPlayerInMatch}
+          selectedPlayer={selectedPlayer}
+          gameHistory={gameHistory}
+        />
       </div>
 
       {/* <div className="mb-8">
