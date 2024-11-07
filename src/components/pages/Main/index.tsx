@@ -5,13 +5,12 @@ import CompleteMatchesButton from "../../atoms/CompleteMatchesButton";
 import WaitingPlayers from "../../molecules/WaitingPlayers";
 import CurrentMatch from "../../molecules/CurrentMatch";
 import useMatchManagement from "../../../hooks/useMatchManagement";
-import { usePlayerContext } from "../../../contexts/PlayerContext";
 import CourtCounter from "../../molecules/CourtCounter";
 import useCourtManagement from "../../../hooks/useCourtManagement";
 import PlayerStatusCards from "../../molecules/PlayerStatusCards";
+import AddPlayerButton from "../../atoms/AddPlayerButton";
 
 function MainComponent() {
-  const { addPlayer, playerCount } = usePlayerContext();
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
   const [gameHistory, setGameHistory] = useState<GameHistory>({});
   const [pairHistory, setPairHistory] = useState<PairHistory>({});
@@ -77,12 +76,7 @@ function MainComponent() {
           onDecrement={decrementCourts}
           className="flex items-center gap-4"
         />
-        <button
-          onClick={addPlayer}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
-        >
-          参加者を追加（現在: {playerCount}人）
-        </button>
+        <AddPlayerButton />
       </div>
 
       <div className="mb-8">
