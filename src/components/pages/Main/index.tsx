@@ -66,7 +66,6 @@ function MainComponent() {
     generateMatches,
     isPlayerInMatch,
   } = useMatchManagement({
-    availablePlayers,
     courts,
     gameHistory,
     pairHistory,

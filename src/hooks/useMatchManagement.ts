@@ -3,7 +3,6 @@ import { GameHistory, Match, PairHistory, Player } from "../types";
 import { usePlayerContext } from "../contexts/PlayerContext";
 
 type Props = {
-  availablePlayers: Player[];
   courts: number;
   gameHistory: GameHistory;
   pairHistory: PairHistory;
@@ -12,7 +11,6 @@ type Props = {
 };
 
 const useMatchManagement = ({
-  availablePlayers,
   courts,
   gameHistory,
   pairHistory,
@@ -20,7 +18,7 @@ const useMatchManagement = ({
   setPairHistory,
 }: Props) => {
   const [matches, setMatches] = useState<Match[]>([]);
-  const { players, setPlayers } = usePlayerContext();
+  const { players, setPlayers, availablePlayers } = usePlayerContext();
 
   const generateMatches = () => {
     const maxGames = Math.min(Math.floor(availablePlayers.length / 4), courts);
