@@ -11,8 +11,7 @@ import useCourtManagement from "../../../hooks/useCourtManagement";
 import PlayerStatusCards from "../../molecules/PlayerStatusCards";
 
 function MainComponent() {
-  const { players, setPlayers, addPlayer, playerCount, availablePlayers } =
-    usePlayerContext();
+  const { addPlayer, playerCount } = usePlayerContext();
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
   const [gameHistory, setGameHistory] = useState<GameHistory>({});
   const [pairHistory, setPairHistory] = useState<PairHistory>({});
@@ -22,15 +21,6 @@ function MainComponent() {
     team: number;
     playerIndex: number;
   } | null>(null);
-
-  const completeMatches = () => {
-    const updatedPlayers = players.map((player) => ({
-      ...player,
-      gamesPlayed: gameHistory[player.id] || 0,
-    }));
-    setPlayers(updatedPlayers);
-    setMatches([]);
-  };
 
   const swapPlayers = (
     matchIndex: number,
@@ -64,6 +54,7 @@ function MainComponent() {
     setMatchWinner,
     resetMatchWinner,
     generateMatches,
+    completeMatches,
     isPlayerInMatch,
   } = useMatchManagement({
     courts,

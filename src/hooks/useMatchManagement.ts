@@ -98,6 +98,15 @@ const useMatchManagement = ({
     return bestPairs;
   };
 
+  const completeMatches = () => {
+    const updatedPlayers = players.map((player) => ({
+      ...player,
+      gamesPlayed: gameHistory[player.id] || 0,
+    }));
+    setPlayers(updatedPlayers);
+    setMatches([]);
+  };
+
   const isPlayerInMatch = (playerId: number) => {
     return matches.some(
       (match) =>
@@ -150,6 +159,7 @@ const useMatchManagement = ({
     setMatchWinner,
     resetMatchWinner,
     generateMatches,
+    completeMatches,
     isPlayerInMatch,
   };
 };
