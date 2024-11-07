@@ -25,17 +25,17 @@ type Props = {
 
 export const PlayerProvider: React.FC<Props> = ({ children }) => {
   const [players, setPlayers] = useState<Player[]>([
-    { id: 1, gamesPlayed: 0 },
-    { id: 2, gamesPlayed: 0 },
-    { id: 3, gamesPlayed: 0 },
-    { id: 4, gamesPlayed: 0 },
+    { id: 1, gamesPlayed: 0, wins: 0 },
+    { id: 2, gamesPlayed: 0, wins: 0 },
+    { id: 3, gamesPlayed: 0, wins: 0 },
+    { id: 4, gamesPlayed: 0, wins: 0 },
   ]);
   const [onBreak, setOnBreak] = useState<OnBreakState>({});
 
   const addPlayer = () => {
     setPlayers((prevPlayers) => [
       ...prevPlayers,
-      { id: prevPlayers.length + 1, gamesPlayed: 0 },
+      { id: prevPlayers.length + 1, gamesPlayed: 0, wins: 0 },
     ]);
   };
 

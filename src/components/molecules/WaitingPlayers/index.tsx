@@ -18,7 +18,6 @@ type Props = {
     } | null
   ) => void;
   gameHistory: GameHistory;
-  wins: GameHistory;
 };
 
 const WaitingPlayers = ({
@@ -28,7 +27,6 @@ const WaitingPlayers = ({
   setMatches,
   setSelectedPlayer,
   gameHistory,
-  wins,
 }: Props) => {
   const { players, onBreak } = usePlayerContext();
   return (
@@ -57,9 +55,6 @@ const WaitingPlayers = ({
               <div className="text-center">選手{player.id}</div>
               <div className="text-center text-gray-500">
                 試合数: {gameHistory[player.id] || 0}
-              </div>
-              <div className="text-center text-blue-500">
-                勝利数: {wins[player.id] || 0}
               </div>
             </div>
           ))}

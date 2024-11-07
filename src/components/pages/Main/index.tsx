@@ -6,8 +6,9 @@ import WaitingPlayers from "../../molecules/WaitingPlayers";
 import CurrentMatch from "../../molecules/CurrentMatch";
 import PlayerStatusCard from "../../atoms/PlayerStatusCard";
 import useMatchManagement from "../../../hooks/useMatchManagement";
-import CourtManager from "../../organisms/CourtManager";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
+import CourtCounter from "../../molecules/CourtCounter";
+import useCourtManagement from "../../../hooks/useCourtManagement";
 
 function MainComponent() {
   const {
@@ -19,11 +20,10 @@ function MainComponent() {
     setOnBreak,
     availablePlayers,
   } = usePlayerContext();
-  const [courts, setCourts] = useState<number>(1);
+  const { courts, incrementCourts, decrementCourts } = useCourtManagement();
   const [gameHistory, setGameHistory] = useState<GameHistory>({});
   const [pairHistory, setPairHistory] = useState<PairHistory>({});
-  const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
-  const [wins, setWins] = useState<GameHistory>({});
+  // const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
   const [selectedPlayer, setSelectedPlayer] = useState<{
     matchIndex: number;
     team: number;
@@ -71,12 +71,17 @@ function MainComponent() {
     match.winner = winningTeam;
     setMatches(newMatches);
 
-    const updatedWins = { ...wins };
+    // 勝利数を更新
     const winningPlayers = winningTeam === 1 ? match.team1 : match.team2;
-    winningPlayers.forEach((player) => {
-      updatedWins[player.id] = (updatedWins[player.id] || 0) + 1;
-    });
-    setWins(updatedWins);
+    const winningPlayerIds = new Set(winningPlayers.map((player) => player.id));
+
+    const updatedPlayers = players.map((player) =>
+      winningPlayerIds.has(player.id)
+        ? { ...player, wins: player.wins + 1 }
+        : player
+    );
+
+    setPlayers(updatedPlayers);
   };
 
   const resetMatchWinner = (matchIndex: number) => {
@@ -89,12 +94,16 @@ function MainComponent() {
     setMatches(newMatches);
 
     // 勝利数をリセット
-    const updatedWins = { ...wins };
     const winningPlayers = winningTeam === 1 ? match.team1 : match.team2;
-    winningPlayers.forEach((player) => {
-      updatedWins[player.id] = (updatedWins[player.id] || 0) - 1;
-    });
-    setWins(updatedWins);
+    const winningPlayerIds = new Set(winningPlayers.map((player) => player.id));
+
+    const updatedPlayers = players.map((player) =>
+      winningPlayerIds.has(player.id)
+        ? { ...player, wins: player.wins - 1 }
+        : player
+    );
+
+    setPlayers(updatedPlayers);
   };
 
   const { matches, setMatches, generateMatches, isPlayerInMatch } =
@@ -107,11 +116,6 @@ function MainComponent() {
       setPairHistory,
     });
 
-  const handleIncrementCourts = () => setCourts((prev) => prev + 1);
-  const handleDecrementCourts = () =>
-    setCourts((prev) => Math.max(1, prev - 1));
-  const handleAddPlayer = () => addPlayer();
-
   return (
     <div className="container mx-auto px-2 py-4 md:px-4 md:py-8 max-w-2xl">
       <h1 className="text-3xl font-bold mb-8 text-center">
@@ -119,13 +123,18 @@ function MainComponent() {
       </h1>
 
       <div className="mb-8 space-y-4">
-        <CourtManager
+        <CourtCounter
           courts={courts}
-          playerCount={playerCount}
-          onIncrementCourts={handleIncrementCourts}
-          onDecrementCourts={handleDecrementCourts}
-          onClickAddPlayer={handleAddPlayer}
+          onIncrement={incrementCourts}
+          onDecrement={decrementCourts}
+          className="flex items-center gap-4"
         />
+        <button
+          onClick={addPlayer}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
+        >
+          参加者を追加（現在: {playerCount}人）
+        </button>
       </div>
 
       <div className="mb-8">
@@ -136,7 +145,6 @@ function MainComponent() {
               key={player.id}
               player={player}
               gameHistory={gameHistory}
-              wins={wins}
               onBreak={onBreak}
               isPlaying={isPlaying}
               selectedPlayer={!!selectedPlayer}
@@ -216,7 +224,6 @@ function MainComponent() {
             setMatches={setMatches}
             setSelectedPlayer={setSelectedPlayer}
             gameHistory={gameHistory}
-            wins={wins}
           />
           <CompleteMatchesButton onClick={completeMatches} />
         </div>

@@ -1,12 +1,13 @@
 export type Player = {
   id: number;
   gamesPlayed: number;
+  wins: number;
 };
 
 export type Match = {
+  id: number;
   team1: Player[];
   team2: Player[];
-  id: number;
   winner: number | null;
 };
 
