@@ -1,9 +1,8 @@
-import { GameHistory, Match, OnBreakState, Player } from "../../../types";
+import { usePlayerContext } from "../../../contexts/PlayerContext";
+import { GameHistory, Match } from "../../../types";
 
 type Props = {
-  players: Player[];
   isPlayerInMatch: (playerId: number) => boolean;
-  onBreak: OnBreakState;
   selectedPlayer: {
     matchIndex: number;
     team: number;
@@ -23,9 +22,7 @@ type Props = {
 };
 
 const WaitingPlayers = ({
-  players,
   isPlayerInMatch,
-  onBreak,
   selectedPlayer,
   matches,
   setMatches,
@@ -33,6 +30,7 @@ const WaitingPlayers = ({
   gameHistory,
   wins,
 }: Props) => {
+  const { players, onBreak } = usePlayerContext();
   return (
     <div className="mt-8">
       <h2 className="text-xl font-bold mb-4">待機中の選手</h2>

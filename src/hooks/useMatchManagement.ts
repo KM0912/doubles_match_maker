@@ -98,10 +98,19 @@ const useMatchManagement = ({
     return bestPairs;
   };
 
+  const isPlayerInMatch = (playerId: number) => {
+    return matches.some(
+      (match) =>
+        match.team1.some((p) => p.id === playerId) ||
+        match.team2.some((p) => p.id === playerId)
+    );
+  };
+
   return {
     matches,
     setMatches,
     generateMatches,
+    isPlayerInMatch,
   };
 };
 

@@ -30,14 +30,6 @@ function MainComponent() {
     playerIndex: number;
   } | null>(null);
 
-  const isPlayerInMatch = (playerId: number) => {
-    return matches.some(
-      (match) =>
-        match.team1.some((p) => p.id === playerId) ||
-        match.team2.some((p) => p.id === playerId)
-    );
-  };
-
   const completeMatches = () => {
     const updatedPlayers = players.map((player) => ({
       ...player,
@@ -105,14 +97,15 @@ function MainComponent() {
     setWins(updatedWins);
   };
 
-  const { matches, setMatches, generateMatches } = useMatchManagement({
-    availablePlayers,
-    courts,
-    gameHistory,
-    pairHistory,
-    setGameHistory,
-    setPairHistory,
-  });
+  const { matches, setMatches, generateMatches, isPlayerInMatch } =
+    useMatchManagement({
+      availablePlayers,
+      courts,
+      gameHistory,
+      pairHistory,
+      setGameHistory,
+      setPairHistory,
+    });
 
   const handleIncrementCourts = () => setCourts((prev) => prev + 1);
   const handleDecrementCourts = () =>
@@ -217,9 +210,7 @@ function MainComponent() {
           />
 
           <WaitingPlayers
-            players={players}
             isPlayerInMatch={isPlayerInMatch}
-            onBreak={onBreak}
             selectedPlayer={selectedPlayer}
             matches={matches}
             setMatches={setMatches}
