@@ -5,15 +5,13 @@ import React, {
   ReactNode,
   useMemo,
 } from "react";
-import { OnBreakState, Player } from "../types";
+import { Player } from "../types";
 
 type PlayerContextType = {
   players: Player[];
   setPlayers: React.Dispatch<React.SetStateAction<Player[]>>;
   addPlayer: () => void;
   playerCount: number;
-  onBreak: OnBreakState;
-  setOnBreak: React.Dispatch<React.SetStateAction<OnBreakState>>;
   availablePlayers: Player[];
 };
 
@@ -25,17 +23,16 @@ type Props = {
 
 export const PlayerProvider: React.FC<Props> = ({ children }) => {
   const [players, setPlayers] = useState<Player[]>([
-    { id: 1, gamesPlayed: 0, wins: 0 },
-    { id: 2, gamesPlayed: 0, wins: 0 },
-    { id: 3, gamesPlayed: 0, wins: 0 },
-    { id: 4, gamesPlayed: 0, wins: 0 },
+    { id: 1, gamesPlayed: 0, wins: 0, onBreak: false },
+    { id: 2, gamesPlayed: 0, wins: 0, onBreak: false },
+    { id: 3, gamesPlayed: 0, wins: 0, onBreak: false },
+    { id: 4, gamesPlayed: 0, wins: 0, onBreak: false },
   ]);
-  const [onBreak, setOnBreak] = useState<OnBreakState>({});
 
   const addPlayer = () => {
     setPlayers((prevPlayers) => [
       ...prevPlayers,
-      { id: prevPlayers.length + 1, gamesPlayed: 0, wins: 0 },
+      { id: prevPlayers.length + 1, gamesPlayed: 0, wins: 0, onBreak: false },
     ]);
   };
 
@@ -45,17 +42,15 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
   // 試合に参加可能なプレイヤーを返す
   const availablePlayers = useMemo(() => {
     return [...players]
-      .filter((player) => !onBreak[player.id])
+      .filter((player) => !player.onBreak)
       .sort((a, b) => a.gamesPlayed - b.gamesPlayed);
-  }, [players, onBreak]);
+  }, [players]);
 
   const value = {
     players,
     setPlayers,
     addPlayer,
     playerCount,
-    onBreak,
-    setOnBreak,
     availablePlayers,
   };
 

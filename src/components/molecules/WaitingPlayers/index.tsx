@@ -28,15 +28,13 @@ const WaitingPlayers = ({
   setSelectedPlayer,
   gameHistory,
 }: Props) => {
-  const { players, onBreak } = usePlayerContext();
+  const { players } = usePlayerContext();
   return (
     <div className="mt-8">
       <h2 className="text-xl font-bold mb-4">待機中の選手</h2>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
         {players
-          .filter(
-            (player) => !isPlayerInMatch(player.id) && !onBreak[player.id]
-          )
+          .filter((player) => !isPlayerInMatch(player.id) && !player.onBreak)
           .map((player) => (
             <div
               key={player.id}

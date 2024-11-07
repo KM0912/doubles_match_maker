@@ -11,15 +11,8 @@ import CourtCounter from "../../molecules/CourtCounter";
 import useCourtManagement from "../../../hooks/useCourtManagement";
 
 function MainComponent() {
-  const {
-    players,
-    setPlayers,
-    addPlayer,
-    playerCount,
-    onBreak,
-    setOnBreak,
-    availablePlayers,
-  } = usePlayerContext();
+  const { players, setPlayers, addPlayer, playerCount, availablePlayers } =
+    usePlayerContext();
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
   const [gameHistory, setGameHistory] = useState<GameHistory>({});
   const [pairHistory, setPairHistory] = useState<PairHistory>({});
@@ -116,6 +109,13 @@ function MainComponent() {
       setPairHistory,
     });
 
+  const setOnBreak = (playerId: number, isOnBreak: boolean) => {
+    const updatedPlayers = players.map((player) =>
+      player.id === playerId ? { ...player, onBreak: isOnBreak } : player
+    );
+    setPlayers(updatedPlayers);
+  };
+
   return (
     <div className="container mx-auto px-2 py-4 md:px-4 md:py-8 max-w-2xl">
       <h1 className="text-3xl font-bold mb-8 text-center">
@@ -145,7 +145,6 @@ function MainComponent() {
               key={player.id}
               player={player}
               gameHistory={gameHistory}
-              onBreak={onBreak}
               isPlaying={isPlaying}
               selectedPlayer={!!selectedPlayer}
               setOnBreak={setOnBreak}

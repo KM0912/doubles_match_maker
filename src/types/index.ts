@@ -2,6 +2,7 @@ export type Player = {
   id: number;
   gamesPlayed: number;
   wins: number;
+  onBreak: boolean;
 };
 
 export type Match = {
