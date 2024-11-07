@@ -1,5 +1,5 @@
 import { usePlayerContext } from "../../../contexts/PlayerContext";
-import { GameHistory, Match } from "../../../types";
+import { Match } from "../../../types";
 
 type Props = {
   isPlayerInMatch: (playerId: number) => boolean;
@@ -17,7 +17,6 @@ type Props = {
       playerIndex: number;
     } | null
   ) => void;
-  gameHistory: GameHistory;
 };
 
 const WaitingPlayers = ({
@@ -26,7 +25,6 @@ const WaitingPlayers = ({
   matches,
   setMatches,
   setSelectedPlayer,
-  gameHistory,
 }: Props) => {
   const { players } = usePlayerContext();
   return (
@@ -52,7 +50,7 @@ const WaitingPlayers = ({
             >
               <div className="text-center">選手{player.id}</div>
               <div className="text-center text-gray-500">
-                試合数: {gameHistory[player.id] || 0}
+                試合数: {player.gamesPlayed || 0}
               </div>
             </div>
           ))}

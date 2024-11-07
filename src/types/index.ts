@@ -12,10 +12,6 @@ export type Match = {
   winner: number | null;
 };
 
-export type GameHistory = {
-  [playerId: number]: number;
-};
-
 export type PairHistory = {
   [playerId: number]: {
     [partnerId: number]: number;

@@ -4,7 +4,6 @@ import { Player } from "../../../types";
 
 type PlayerStatusCardProps = {
   player: Player;
-  gameHistory: Record<number, number>;
   isPlaying: boolean;
   selectedPlayer: boolean;
   setOnBreak: (playerId: number, isOnBreak: boolean) => void;
@@ -13,7 +12,6 @@ type PlayerStatusCardProps = {
 
 const PlayerStatusCard: React.FC<PlayerStatusCardProps> = ({
   player,
-  gameHistory,
   isPlaying,
   selectedPlayer,
   setOnBreak,
@@ -31,7 +29,6 @@ const PlayerStatusCard: React.FC<PlayerStatusCardProps> = ({
       <PlayerCard
         key={player.id}
         player={player}
-        gameHistory={gameHistory}
         winCount={player.wins}
         onBreakToggle={(playerId) => {
           if (!selectedPlayer) {

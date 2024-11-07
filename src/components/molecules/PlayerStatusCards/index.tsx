@@ -1,5 +1,4 @@
 import { usePlayerContext } from "../../../contexts/PlayerContext";
-import { GameHistory } from "../../../types";
 import PlayerStatusCard from "../../atoms/PlayerStatusCard";
 
 type Props = {
@@ -9,13 +8,11 @@ type Props = {
     team: number;
     playerIndex: number;
   } | null;
-  gameHistory: GameHistory;
 };
 
 const PlayerStatusCards: React.FC<Props> = ({
   isPlayerInMatch,
   selectedPlayer,
-  gameHistory,
 }) => {
   const { players, setOnBreak } = usePlayerContext();
   return (
@@ -26,7 +23,6 @@ const PlayerStatusCards: React.FC<Props> = ({
           <PlayerStatusCard
             key={player.id}
             player={player}
-            gameHistory={gameHistory}
             isPlaying={isPlaying}
             selectedPlayer={!!selectedPlayer}
             setOnBreak={setOnBreak}

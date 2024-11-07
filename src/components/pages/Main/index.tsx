@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { GameHistory, PairHistory } from "../../../types";
+import { PairHistory } from "../../../types";
 import GenerateMatchesButton from "../../atoms/GenerateMatchesButton";
 import CompleteMatchesButton from "../../atoms/CompleteMatchesButton";
 import WaitingPlayers from "../../molecules/WaitingPlayers";
@@ -12,7 +12,6 @@ import AddPlayerButton from "../../atoms/AddPlayerButton";
 
 function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
-  const [gameHistory, setGameHistory] = useState<GameHistory>({});
   const [pairHistory, setPairHistory] = useState<PairHistory>({});
   // const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
   const [selectedPlayer, setSelectedPlayer] = useState<{
@@ -57,9 +56,7 @@ function MainComponent() {
     isPlayerInMatch,
   } = useMatchManagement({
     courts,
-    gameHistory,
     pairHistory,
-    setGameHistory,
     setPairHistory,
   });
 
@@ -83,7 +80,6 @@ function MainComponent() {
         <PlayerStatusCards
           isPlayerInMatch={isPlayerInMatch}
           selectedPlayer={selectedPlayer}
-          gameHistory={gameHistory}
         />
       </div>
 
@@ -151,7 +147,6 @@ function MainComponent() {
             matches={matches}
             setMatches={setMatches}
             setSelectedPlayer={setSelectedPlayer}
-            gameHistory={gameHistory}
           />
           <CompleteMatchesButton onClick={completeMatches} />
         </div>

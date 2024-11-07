@@ -1,22 +1,14 @@
 import { useState } from "react";
-import { GameHistory, Match, PairHistory, Player } from "../types";
+import { Match, PairHistory, Player } from "../types";
 import { usePlayerContext } from "../contexts/PlayerContext";
 
 type Props = {
   courts: number;
-  gameHistory: GameHistory;
   pairHistory: PairHistory;
-  setGameHistory: React.Dispatch<React.SetStateAction<GameHistory>>;
   setPairHistory: React.Dispatch<React.SetStateAction<PairHistory>>;
 };
 
-const useMatchManagement = ({
-  courts,
-  gameHistory,
-  pairHistory,
-  setGameHistory,
-  setPairHistory,
-}: Props) => {
+const useMatchManagement = ({ courts, pairHistory, setPairHistory }: Props) => {
   const [matches, setMatches] = useState<Match[]>([]);
   const { players, setPlayers, availablePlayers } = usePlayerContext();
 
@@ -40,15 +32,9 @@ const useMatchManagement = ({
     }
 
     setMatches(newMatches);
-    const updatedGameHistory = { ...gameHistory };
     const updatedPairHistory = { ...pairHistory };
 
     newMatches.forEach((match) => {
-      [...match.team1, ...match.team2].forEach((player) => {
-        updatedGameHistory[player.id] =
-          (updatedGameHistory[player.id] || 0) + 1;
-      });
-
       const [p1, p2] = match.team1;
       updatedPairHistory[p1.id] = updatedPairHistory[p1.id] || {};
       updatedPairHistory[p2.id] = updatedPairHistory[p2.id] || {};
@@ -66,7 +52,6 @@ const useMatchManagement = ({
         (updatedPairHistory[p4.id][p3.id] || 0) + 1;
     });
 
-    setGameHistory(updatedGameHistory);
     setPairHistory(updatedPairHistory);
   };
 
@@ -99,10 +84,16 @@ const useMatchManagement = ({
   };
 
   const completeMatches = () => {
-    const updatedPlayers = players.map((player) => ({
-      ...player,
-      gamesPlayed: gameHistory[player.id] || 0,
-    }));
+    const playersInMatches = matches.reduce(
+      (acc, match) => [...acc, ...match.team1, ...match.team2],
+      [] as Player[]
+    );
+    const updatedPlayers = players.map((player) =>
+      playersInMatches.some((p) => p.id === player.id)
+        ? { ...player, gamesPlayed: player.gamesPlayed + 1 }
+        : player
+    );
+
     setPlayers(updatedPlayers);
     setMatches([]);
   };
