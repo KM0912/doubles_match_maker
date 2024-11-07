@@ -58,56 +58,21 @@ function MainComponent() {
     setSelectedPlayer(null);
   };
 
-  const setMatchWinner = (matchIndex: number, winningTeam: number) => {
-    const newMatches = [...matches];
-    const match = newMatches[matchIndex];
-    match.winner = winningTeam;
-    setMatches(newMatches);
-
-    // 勝利数を更新
-    const winningPlayers = winningTeam === 1 ? match.team1 : match.team2;
-    const winningPlayerIds = new Set(winningPlayers.map((player) => player.id));
-
-    const updatedPlayers = players.map((player) =>
-      winningPlayerIds.has(player.id)
-        ? { ...player, wins: player.wins + 1 }
-        : player
-    );
-
-    setPlayers(updatedPlayers);
-  };
-
-  const resetMatchWinner = (matchIndex: number) => {
-    const newMatches = [...matches];
-    const match = newMatches[matchIndex];
-    const winningTeam = match.winner;
-
-    // 試合の勝者をリセット
-    match.winner = null;
-    setMatches(newMatches);
-
-    // 勝利数をリセット
-    const winningPlayers = winningTeam === 1 ? match.team1 : match.team2;
-    const winningPlayerIds = new Set(winningPlayers.map((player) => player.id));
-
-    const updatedPlayers = players.map((player) =>
-      winningPlayerIds.has(player.id)
-        ? { ...player, wins: player.wins - 1 }
-        : player
-    );
-
-    setPlayers(updatedPlayers);
-  };
-
-  const { matches, setMatches, generateMatches, isPlayerInMatch } =
-    useMatchManagement({
-      availablePlayers,
-      courts,
-      gameHistory,
-      pairHistory,
-      setGameHistory,
-      setPairHistory,
-    });
+  const {
+    matches,
+    setMatches,
+    setMatchWinner,
+    resetMatchWinner,
+    generateMatches,
+    isPlayerInMatch,
+  } = useMatchManagement({
+    availablePlayers,
+    courts,
+    gameHistory,
+    pairHistory,
+    setGameHistory,
+    setPairHistory,
+  });
 
   return (
     <div className="container mx-auto px-2 py-4 md:px-4 md:py-8 max-w-2xl">

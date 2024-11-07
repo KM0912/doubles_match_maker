@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { GameHistory, Match, PairHistory, Player } from "../types";
+import { usePlayerContext } from "../contexts/PlayerContext";
 
 type Props = {
   availablePlayers: Player[];
@@ -19,6 +20,7 @@ const useMatchManagement = ({
   setPairHistory,
 }: Props) => {
   const [matches, setMatches] = useState<Match[]>([]);
+  const { players, setPlayers } = usePlayerContext();
 
   const generateMatches = () => {
     const maxGames = Math.min(Math.floor(availablePlayers.length / 4), courts);
@@ -106,9 +108,49 @@ const useMatchManagement = ({
     );
   };
 
+  const setMatchWinner = (matchIndex: number, winningTeam: number) => {
+    const newMatches = [...matches];
+    const match = newMatches[matchIndex];
+    match.winner = winningTeam;
+    setMatches(newMatches);
+
+    const winningPlayers = winningTeam === 1 ? match.team1 : match.team2;
+    const winningPlayerIds = new Set(winningPlayers.map((player) => player.id));
+
+    const updatedPlayers = players.map((player) =>
+      winningPlayerIds.has(player.id)
+        ? { ...player, wins: player.wins + 1 }
+        : player
+    );
+
+    setPlayers(updatedPlayers);
+  };
+
+  const resetMatchWinner = (matchIndex: number) => {
+    const newMatches = [...matches];
+    const match = newMatches[matchIndex];
+    const winningTeam = match.winner;
+
+    match.winner = null;
+    setMatches(newMatches);
+
+    const winningPlayers = winningTeam === 1 ? match.team1 : match.team2;
+    const winningPlayerIds = new Set(winningPlayers.map((player) => player.id));
+
+    const updatedPlayers = players.map((player) =>
+      winningPlayerIds.has(player.id)
+        ? { ...player, wins: player.wins - 1 }
+        : player
+    );
+
+    setPlayers(updatedPlayers);
+  };
+
   return {
     matches,
     setMatches,
+    setMatchWinner,
+    resetMatchWinner,
     generateMatches,
     isPlayerInMatch,
   };
