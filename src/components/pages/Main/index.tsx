@@ -199,11 +199,7 @@ function MainComponent() {
         )}
       </div> */}
 
-      <GenerateMatchesButton
-        onClick={generateMatches}
-        matches={matches}
-        players={players}
-      />
+      <GenerateMatchesButton onClick={generateMatches} matches={matches} />
 
       {matches.length > 0 && (
         <div>

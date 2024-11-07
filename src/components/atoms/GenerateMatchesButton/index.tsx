@@ -1,13 +1,14 @@
-import { Match, Player } from "../../../types";
+import { usePlayerContext } from "../../../contexts/PlayerContext";
+import { Match } from "../../../types";
 import ActionButton from "../ActionButton";
 
 type Props = {
   onClick: () => void;
   matches: Match[];
-  players: Player[];
 };
 
-const GenerateMatchesButton = ({ onClick, matches, players }: Props) => {
+const GenerateMatchesButton = ({ onClick, matches }: Props) => {
+  const { players } = usePlayerContext();
   return (
     <ActionButton
       onClick={onClick}
