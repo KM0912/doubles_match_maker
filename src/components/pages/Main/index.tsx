@@ -67,12 +67,13 @@ function MainComponent() {
       </h1>
 
       <div className="mb-8 space-y-4">
-        <CourtCounter
-          courts={courts}
-          onIncrement={incrementCourts}
-          onDecrement={decrementCourts}
-          className="flex items-center gap-4"
-        />
+        <div className="flex items-center gap-4">
+          <CourtCounter
+            courts={courts}
+            onIncrement={incrementCourts}
+            onDecrement={decrementCourts}
+          />
+        </div>
         <AddPlayerButton />
       </div>
 
