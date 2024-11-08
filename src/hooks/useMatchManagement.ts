@@ -2,6 +2,12 @@ import { useState } from "react";
 import { Match, PairHistory, Player } from "../types";
 import { usePlayerContext } from "../contexts/PlayerContext";
 
+type selectedPlayer = {
+  matchIndex: number;
+  team: number;
+  playerIndex: number;
+};
+
 type Props = {
   courts: number;
   pairHistory: PairHistory;
@@ -10,6 +16,9 @@ type Props = {
 
 const useMatchManagement = ({ courts, pairHistory, setPairHistory }: Props) => {
   const [matches, setMatches] = useState<Match[]>([]);
+  const [selectedPlayer, setSelectedPlayer] = useState<selectedPlayer | null>(
+    null
+  );
   const { players, setPlayers, availablePlayers } = usePlayerContext();
 
   const generateMatches = () => {
@@ -144,6 +153,32 @@ const useMatchManagement = ({ courts, pairHistory, setPairHistory }: Props) => {
     setPlayers(updatedPlayers);
   };
 
+  const swapPlayers = (
+    matchIndex: number,
+    teamNumber: number,
+    playerIndex: number
+  ) => {
+    if (!selectedPlayer) {
+      setSelectedPlayer({ matchIndex, team: teamNumber, playerIndex });
+      return;
+    }
+
+    const newMatches = [...matches];
+    const currentMatch = newMatches[matchIndex];
+    const previousMatch = newMatches[selectedPlayer.matchIndex];
+
+    const currentTeam = teamNumber === 1 ? "team1" : "team2";
+    const previousTeam = selectedPlayer.team === 1 ? "team1" : "team2";
+
+    const temp = currentMatch[currentTeam][playerIndex];
+    currentMatch[currentTeam][playerIndex] =
+      previousMatch[previousTeam][selectedPlayer.playerIndex];
+    previousMatch[previousTeam][selectedPlayer.playerIndex] = temp;
+
+    setMatches(newMatches);
+    setSelectedPlayer(null);
+  };
+
   return {
     matches,
     setMatches,
@@ -152,6 +187,9 @@ const useMatchManagement = ({ courts, pairHistory, setPairHistory }: Props) => {
     generateMatches,
     completeMatches,
     isPlayerInMatch,
+    selectedPlayer,
+    setSelectedPlayer,
+    swapPlayers,
   };
 };
 

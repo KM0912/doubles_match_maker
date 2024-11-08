@@ -5,7 +5,6 @@ import { Player } from "../../../types";
 type PlayerStatusCardProps = {
   player: Player;
   isPlaying: boolean;
-  selectedPlayer: boolean;
   setOnBreak: (playerId: number, isOnBreak: boolean) => void;
   isPlayerInMatch: (playerId: number) => boolean;
 };
@@ -13,7 +12,6 @@ type PlayerStatusCardProps = {
 const PlayerStatusCard: React.FC<PlayerStatusCardProps> = ({
   player,
   isPlaying,
-  selectedPlayer,
   setOnBreak,
   isPlayerInMatch,
 }) => {
@@ -22,19 +20,13 @@ const PlayerStatusCard: React.FC<PlayerStatusCardProps> = ({
       key={player.id}
       className={`${player.onBreak ? "opacity-50" : ""} ${
         isPlaying ? "ring-2 ring-green-500" : ""
-      } relative rounded-lg ${
-        selectedPlayer ? "cursor-pointer hover:bg-gray-100" : ""
-      } mb-4`}
+      } relative rounded-lg mb-4`}
     >
       <PlayerCard
         key={player.id}
         player={player}
         winCount={player.wins}
-        onBreakToggle={(playerId) => {
-          if (!selectedPlayer) {
-            setOnBreak(playerId, !player.onBreak);
-          }
-        }}
+        onBreakToggle={(playerId) => setOnBreak(playerId, !player.onBreak)}
         isPlayerInMatch={isPlayerInMatch}
         isPlayerOnBreak={player.onBreak}
       />

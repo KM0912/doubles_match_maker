@@ -3,17 +3,9 @@ import PlayerStatusCard from "../../atoms/PlayerStatusCard";
 
 type Props = {
   isPlayerInMatch: (playerId: number) => boolean;
-  selectedPlayer: {
-    matchIndex: number;
-    team: number;
-    playerIndex: number;
-  } | null;
 };
 
-const PlayerStatusCards: React.FC<Props> = ({
-  isPlayerInMatch,
-  selectedPlayer,
-}) => {
+const PlayerStatusCards: React.FC<Props> = ({ isPlayerInMatch }) => {
   const { players, setOnBreak } = usePlayerContext();
   return (
     <>
@@ -24,7 +16,6 @@ const PlayerStatusCards: React.FC<Props> = ({
             key={player.id}
             player={player}
             isPlaying={isPlaying}
-            selectedPlayer={!!selectedPlayer}
             setOnBreak={setOnBreak}
             isPlayerInMatch={isPlayerInMatch}
           />

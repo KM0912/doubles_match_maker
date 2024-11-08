@@ -1,50 +1,16 @@
 import React, { useState } from "react";
 import { PairHistory } from "../../../types";
-import GenerateMatchesButton from "../../atoms/GenerateMatchesButton";
-import CompleteMatchesButton from "../../atoms/CompleteMatchesButton";
-import WaitingPlayers from "../../molecules/WaitingPlayers";
-import CurrentMatch from "../../molecules/CurrentMatch";
 import useMatchManagement from "../../../hooks/useMatchManagement";
 import CourtCounter from "../../molecules/CourtCounter";
 import useCourtManagement from "../../../hooks/useCourtManagement";
 import PlayerStatusCards from "../../molecules/PlayerStatusCards";
 import AddPlayerButton from "../../atoms/AddPlayerButton";
+import MatchControlPanel from "../../organisms/MatchControlPanel";
 
 function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
   const [pairHistory, setPairHistory] = useState<PairHistory>({});
   // const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
-  const [selectedPlayer, setSelectedPlayer] = useState<{
-    matchIndex: number;
-    team: number;
-    playerIndex: number;
-  } | null>(null);
-
-  const swapPlayers = (
-    matchIndex: number,
-    teamNumber: number,
-    playerIndex: number
-  ) => {
-    if (!selectedPlayer) {
-      setSelectedPlayer({ matchIndex, team: teamNumber, playerIndex });
-      return;
-    }
-
-    const newMatches = [...matches];
-    const currentMatch = newMatches[matchIndex];
-    const previousMatch = newMatches[selectedPlayer.matchIndex];
-
-    const currentTeam = teamNumber === 1 ? "team1" : "team2";
-    const previousTeam = selectedPlayer.team === 1 ? "team1" : "team2";
-
-    const temp = currentMatch[currentTeam][playerIndex];
-    currentMatch[currentTeam][playerIndex] =
-      previousMatch[previousTeam][selectedPlayer.playerIndex];
-    previousMatch[previousTeam][selectedPlayer.playerIndex] = temp;
-
-    setMatches(newMatches);
-    setSelectedPlayer(null);
-  };
 
   const {
     matches,
@@ -54,6 +20,9 @@ function MainComponent() {
     generateMatches,
     completeMatches,
     isPlayerInMatch,
+    selectedPlayer,
+    setSelectedPlayer,
+    swapPlayers,
   } = useMatchManagement({
     courts,
     pairHistory,
@@ -78,10 +47,7 @@ function MainComponent() {
       </div>
 
       <div className="mb-8">
-        <PlayerStatusCards
-          isPlayerInMatch={isPlayerInMatch}
-          selectedPlayer={selectedPlayer}
-        />
+        <PlayerStatusCards isPlayerInMatch={isPlayerInMatch} />
       </div>
 
       {/* <div className="mb-8">
@@ -129,29 +95,11 @@ function MainComponent() {
         )}
       </div> */}
 
-      <GenerateMatchesButton onClick={generateMatches} matches={matches} />
-
-      {matches.length > 0 && (
-        <div>
-          <CurrentMatch
-            matches={matches}
-            selectedPlayer={selectedPlayer}
-            swapPlayers={swapPlayers}
-            setMatchWinner={setMatchWinner}
-            setSelectedPlayer={setSelectedPlayer}
-            resetMatchWinner={resetMatchWinner}
-          />
-
-          <WaitingPlayers
-            isPlayerInMatch={isPlayerInMatch}
-            selectedPlayer={selectedPlayer}
-            matches={matches}
-            setMatches={setMatches}
-            setSelectedPlayer={setSelectedPlayer}
-          />
-          <CompleteMatchesButton onClick={completeMatches} />
-        </div>
-      )}
+      <MatchControlPanel
+        courts={courts}
+        pairHistory={pairHistory}
+        setPairHistory={setPairHistory}
+      />
     </div>
   );
 }
