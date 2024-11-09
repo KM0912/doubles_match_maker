@@ -15,9 +15,6 @@ const MatchControlPanel: React.FC<Props> = ({ courts }) => {
     completeMatches,
     selectedPlayer,
     setSelectedPlayer,
-    swapPlayers,
-    setMatchWinner,
-    resetMatchWinner,
     isPlayerInMatch,
   } = useMatchContext();
 
@@ -27,14 +24,7 @@ const MatchControlPanel: React.FC<Props> = ({ courts }) => {
 
       {matches.length > 0 && (
         <div>
-          <CurrentMatch
-            matches={matches}
-            selectedPlayer={selectedPlayer}
-            swapPlayers={swapPlayers}
-            setMatchWinner={setMatchWinner}
-            setSelectedPlayer={setSelectedPlayer}
-            resetMatchWinner={resetMatchWinner}
-          />
+          <CurrentMatch />
 
           <WaitingPlayers
             isPlayerInMatch={isPlayerInMatch}

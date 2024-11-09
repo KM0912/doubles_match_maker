@@ -1,32 +1,14 @@
-import { Match } from "../../../types";
+import { useMatchContext } from "../../../contexts/MatchContext";
 
-type Props = {
-  matches: Match[];
-  selectedPlayer: {
-    matchIndex: number;
-    team: number;
-    playerIndex: number;
-  } | null;
-  swapPlayers: (matchIndex: number, team: number, playerIndex: number) => void;
-  setMatchWinner: (matchIndex: number, team: number) => void;
-  setSelectedPlayer: (
-    player: {
-      matchIndex: number;
-      team: number;
-      playerIndex: number;
-    } | null
-  ) => void;
-  resetMatchWinner: (matchIndex: number) => void;
-};
-
-const CurrentMatch: React.FC<Props> = ({
-  matches,
-  selectedPlayer,
-  swapPlayers,
-  setMatchWinner,
-  setSelectedPlayer,
-  resetMatchWinner,
-}) => {
+const CurrentMatch: React.FC = () => {
+  const {
+    matches,
+    selectedPlayer,
+    swapPlayers,
+    setMatchWinner,
+    setSelectedPlayer,
+    resetMatchWinner,
+  } = useMatchContext();
   return (
     <>
       <h2 className="text-xl font-bold mb-4">現在の試合</h2>
