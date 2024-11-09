@@ -23,8 +23,6 @@ type MatchContextType = {
     teamNumber: number,
     playerIndex: number
   ) => void;
-  setMatchWinner: (matchIndex: number, winningTeam: number) => void;
-  resetMatchWinner: (matchIndex: number) => void;
 };
 
 type Props = {
@@ -126,44 +124,6 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     setSelectedPlayer(null);
   };
 
-  const setMatchWinner = (matchIndex: number, winningTeam: number) => {
-    const newMatches = [...matches];
-    const match = newMatches[matchIndex];
-    match.winner = winningTeam;
-    setMatches(newMatches);
-
-    const winningPlayers = winningTeam === 1 ? match.team1 : match.team2;
-    const winningPlayerIds = new Set(winningPlayers.map((player) => player.id));
-
-    const updatedPlayers = players.map((player) =>
-      winningPlayerIds.has(player.id)
-        ? { ...player, wins: player.wins + 1 }
-        : player
-    );
-
-    setPlayers(updatedPlayers);
-  };
-
-  const resetMatchWinner = (matchIndex: number) => {
-    const newMatches = [...matches];
-    const match = newMatches[matchIndex];
-    const winningTeam = match.winner;
-
-    match.winner = null;
-    setMatches(newMatches);
-
-    const winningPlayers = winningTeam === 1 ? match.team1 : match.team2;
-    const winningPlayerIds = new Set(winningPlayers.map((player) => player.id));
-
-    const updatedPlayers = players.map((player) =>
-      winningPlayerIds.has(player.id)
-        ? { ...player, wins: player.wins - 1 }
-        : player
-    );
-
-    setPlayers(updatedPlayers);
-  };
-
   // 指定したプレイヤーが試合中かどうかを返す
   const isPlayerInMatch = (playerId: number) => {
     return matches.some(
@@ -210,8 +170,6 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     setSelectedPlayer,
     isPlayerInMatch,
     swapPlayers,
-    setMatchWinner,
-    resetMatchWinner,
   };
 
   return (

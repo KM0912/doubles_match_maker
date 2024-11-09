@@ -1,14 +1,10 @@
 import { useMatchContext } from "../../../contexts/MatchContext";
+import useMatchWinner from "../../../hooks/useMatchWinner";
 
 const CurrentMatch: React.FC = () => {
-  const {
-    matches,
-    selectedPlayer,
-    swapPlayers,
-    setMatchWinner,
-    setSelectedPlayer,
-    resetMatchWinner,
-  } = useMatchContext();
+  const { matches, selectedPlayer, swapPlayers, setSelectedPlayer } =
+    useMatchContext();
+  const { updateMatchWinner, resetMatchWinner } = useMatchWinner();
 
   const isSelected = (
     matchIndex: number,
@@ -22,6 +18,7 @@ const CurrentMatch: React.FC = () => {
       selectedPlayer.playerIndex === playerIndex
     );
   };
+
   return (
     <>
       <h2 className="text-xl font-bold mb-4">現在の試合</h2>
@@ -125,13 +122,13 @@ const CurrentMatch: React.FC = () => {
             {!match.winner && (
               <div className="flex justify-center gap-4 mt-4">
                 <button
-                  onClick={() => setMatchWinner(index, 1)}
+                  onClick={() => updateMatchWinner(index, 1)}
                   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
                   チーム1勝利
                 </button>
                 <button
-                  onClick={() => setMatchWinner(index, 2)}
+                  onClick={() => updateMatchWinner(index, 2)}
                   className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                 >
                   チーム2勝利
