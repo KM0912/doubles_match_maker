@@ -9,7 +9,7 @@ type Props = {
 };
 
 const MatchControlPanel: React.FC<Props> = ({ courts }) => {
-  const { matches, completeMatches } = useMatchContext();
+  const { matches } = useMatchContext();
 
   return (
     <>
@@ -18,9 +18,8 @@ const MatchControlPanel: React.FC<Props> = ({ courts }) => {
       {matches.length > 0 && (
         <div>
           <CurrentMatch />
-
           <WaitingPlayers />
-          <CompleteMatchesButton onClick={completeMatches} />
+          <CompleteMatchesButton />
         </div>
       )}
     </>

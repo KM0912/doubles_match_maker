@@ -1,13 +1,11 @@
+import { useMatchContext } from "../../../contexts/MatchContext";
 import ActionButton from "../ActionButton";
 
-type Props = {
-  onClick: () => void;
-};
-
-const CompleteMatchesButton = ({ onClick }: Props) => {
+const CompleteMatchesButton = () => {
+  const { completeMatches } = useMatchContext();
   return (
     <ActionButton
-      onClick={onClick}
+      onClick={() => completeMatches()}
       className="bg-purple-500 text-white hover:bg-purple-600 mt-8"
     >
       試合終了
