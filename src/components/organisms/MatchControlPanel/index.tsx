@@ -1,5 +1,4 @@
-import useMatchManagement from "../../../hooks/useMatchManagement";
-import { PairHistory } from "../../../types";
+import { useMatchContext } from "../../../contexts/MatchContext";
 import CompleteMatchesButton from "../../atoms/CompleteMatchesButton";
 import GenerateMatchesButton from "../../atoms/GenerateMatchesButton";
 import CurrentMatch from "../../molecules/CurrentMatch";
@@ -7,35 +6,24 @@ import WaitingPlayers from "../../molecules/WaitingPlayers";
 
 type Props = {
   courts: number;
-  pairHistory: PairHistory;
-  setPairHistory: React.Dispatch<React.SetStateAction<PairHistory>>;
 };
 
-const MatchControlPanel: React.FC<Props> = ({
-  courts,
-  pairHistory,
-  setPairHistory,
-}) => {
+const MatchControlPanel: React.FC<Props> = ({ courts }) => {
   const {
     matches,
     setMatches,
-    setMatchWinner,
-    resetMatchWinner,
-    generateMatches,
     completeMatches,
-    isPlayerInMatch,
     selectedPlayer,
     setSelectedPlayer,
     swapPlayers,
-  } = useMatchManagement({
-    courts,
-    pairHistory,
-    setPairHistory,
-  });
+    setMatchWinner,
+    resetMatchWinner,
+    isPlayerInMatch,
+  } = useMatchContext();
 
   return (
     <>
-      <GenerateMatchesButton onClick={generateMatches} matches={matches} />
+      <GenerateMatchesButton courts={courts} />
 
       {matches.length > 0 && (
         <div>

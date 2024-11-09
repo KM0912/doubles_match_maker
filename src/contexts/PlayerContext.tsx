@@ -5,7 +5,7 @@ import React, {
   ReactNode,
   useMemo,
 } from "react";
-import { Player } from "../types";
+import { PairHistory, Player } from "../types";
 
 type PlayerContextType = {
   players: Player[];
@@ -14,6 +14,8 @@ type PlayerContextType = {
   setOnBreak: (playerId: number, isOnBreak: boolean) => void;
   playerCount: number;
   availablePlayers: Player[];
+  pairHistory: PairHistory;
+  setPairHistory: React.Dispatch<React.SetStateAction<PairHistory>>;
 };
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
@@ -29,6 +31,7 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     { id: 3, gamesPlayed: 0, wins: 0, onBreak: false },
     { id: 4, gamesPlayed: 0, wins: 0, onBreak: false },
   ]);
+  const [pairHistory, setPairHistory] = useState<PairHistory>({});
 
   const addPlayer = () => {
     setPlayers((prevPlayers) => [
@@ -61,6 +64,8 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     setOnBreak,
     playerCount,
     availablePlayers,
+    pairHistory,
+    setPairHistory,
   };
 
   return (

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { PairHistory } from "../../../types";
-import useMatchManagement from "../../../hooks/useMatchManagement";
 import CourtCounter from "../../molecules/CourtCounter";
 import useCourtManagement from "../../../hooks/useCourtManagement";
 import PlayerStatusCards from "../../molecules/PlayerStatusCards";
@@ -9,25 +8,7 @@ import MatchControlPanel from "../../organisms/MatchControlPanel";
 
 function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
-  const [pairHistory, setPairHistory] = useState<PairHistory>({});
   // const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
-
-  const {
-    matches,
-    setMatches,
-    setMatchWinner,
-    resetMatchWinner,
-    generateMatches,
-    completeMatches,
-    isPlayerInMatch,
-    selectedPlayer,
-    setSelectedPlayer,
-    swapPlayers,
-  } = useMatchManagement({
-    courts,
-    pairHistory,
-    setPairHistory,
-  });
 
   return (
     <div className="container mx-auto px-2 py-4 md:px-4 md:py-8 max-w-2xl">
@@ -47,7 +28,7 @@ function MainComponent() {
       </div>
 
       <div className="mb-8">
-        <PlayerStatusCards isPlayerInMatch={isPlayerInMatch} />
+        <PlayerStatusCards />
       </div>
 
       {/* <div className="mb-8">
@@ -95,11 +76,7 @@ function MainComponent() {
         )}
       </div> */}
 
-      <MatchControlPanel
-        courts={courts}
-        pairHistory={pairHistory}
-        setPairHistory={setPairHistory}
-      />
+      <MatchControlPanel courts={courts} />
     </div>
   );
 }

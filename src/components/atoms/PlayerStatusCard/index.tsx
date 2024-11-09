@@ -6,14 +6,14 @@ type PlayerStatusCardProps = {
   player: Player;
   isPlaying: boolean;
   setOnBreak: (playerId: number, isOnBreak: boolean) => void;
-  isPlayerInMatch: (playerId: number) => boolean;
+  isInMatch: boolean;
 };
 
 const PlayerStatusCard: React.FC<PlayerStatusCardProps> = ({
   player,
   isPlaying,
   setOnBreak,
-  isPlayerInMatch,
+  isInMatch: isPlayerInMatch,
 }) => {
   return (
     <div

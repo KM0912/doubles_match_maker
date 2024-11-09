@@ -1,17 +1,17 @@
+import { useMatchContext } from "../../../contexts/MatchContext";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
-import { Match } from "../../../types";
 import ActionButton from "../ActionButton";
 
 type Props = {
-  onClick: () => void;
-  matches: Match[];
+  courts: number;
 };
-
-const GenerateMatchesButton = ({ onClick, matches }: Props) => {
+const GenerateMatchesButton: React.FC<Props> = ({ courts }) => {
   const { players } = usePlayerContext();
+  const { matches, generateMatches } = useMatchContext();
+
   return (
     <ActionButton
-      onClick={onClick}
+      onClick={() => generateMatches(courts)}
       disabled={matches.length > 0 || players.length < 4}
       className="bg-green-500 text-white hover:bg-green-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
     >

@@ -1,7 +1,7 @@
 import React from "react";
 
 type ActionButtonProps = {
-  onClick: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
   className?: string;
   children: React.ReactNode;

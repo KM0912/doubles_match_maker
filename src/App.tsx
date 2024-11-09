@@ -3,12 +3,15 @@ import "./App.css";
 import MainComponent from "./components/pages/Main";
 import "tailwindcss/tailwind.css";
 import { PlayerProvider } from "./contexts/PlayerContext";
+import { MatchProvider } from "./contexts/MatchContext";
 
 function App() {
   return (
     <div className="App">
       <PlayerProvider>
-        <MainComponent />
+        <MatchProvider>
+          <MainComponent />
+        </MatchProvider>
       </PlayerProvider>
     </div>
   );
