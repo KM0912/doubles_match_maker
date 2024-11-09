@@ -1,32 +1,15 @@
+import { useMatchContext } from "../../../contexts/MatchContext";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
-import { Match } from "../../../types";
 
-type Props = {
-  isPlayerInMatch: (playerId: number) => boolean;
-  selectedPlayer: {
-    matchIndex: number;
-    team: number;
-    playerIndex: number;
-  } | null;
-  matches: Match[];
-  setMatches: (matches: Match[]) => void;
-  setSelectedPlayer: (
-    player: {
-      matchIndex: number;
-      team: number;
-      playerIndex: number;
-    } | null
-  ) => void;
-};
-
-const WaitingPlayers = ({
-  isPlayerInMatch,
-  selectedPlayer,
-  matches,
-  setMatches,
-  setSelectedPlayer,
-}: Props) => {
+const WaitingPlayers = () => {
   const { players } = usePlayerContext();
+  const {
+    matches,
+    setMatches,
+    isPlayerInMatch,
+    selectedPlayer,
+    setSelectedPlayer,
+  } = useMatchContext();
   return (
     <div className="mt-8">
       <h2 className="text-xl font-bold mb-4">待機中の選手</h2>

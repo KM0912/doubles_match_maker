@@ -9,14 +9,7 @@ type Props = {
 };
 
 const MatchControlPanel: React.FC<Props> = ({ courts }) => {
-  const {
-    matches,
-    setMatches,
-    completeMatches,
-    selectedPlayer,
-    setSelectedPlayer,
-    isPlayerInMatch,
-  } = useMatchContext();
+  const { matches, completeMatches } = useMatchContext();
 
   return (
     <>
@@ -26,13 +19,7 @@ const MatchControlPanel: React.FC<Props> = ({ courts }) => {
         <div>
           <CurrentMatch />
 
-          <WaitingPlayers
-            isPlayerInMatch={isPlayerInMatch}
-            selectedPlayer={selectedPlayer}
-            matches={matches}
-            setMatches={setMatches}
-            setSelectedPlayer={setSelectedPlayer}
-          />
+          <WaitingPlayers />
           <CompleteMatchesButton onClick={completeMatches} />
         </div>
       )}
