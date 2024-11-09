@@ -9,6 +9,19 @@ const CurrentMatch: React.FC = () => {
     setSelectedPlayer,
     resetMatchWinner,
   } = useMatchContext();
+
+  const isSelected = (
+    matchIndex: number,
+    team: number,
+    playerIndex: number
+  ) => {
+    return (
+      selectedPlayer &&
+      selectedPlayer.matchIndex === matchIndex &&
+      selectedPlayer.team === team &&
+      selectedPlayer.playerIndex === playerIndex
+    );
+  };
   return (
     <>
       <h2 className="text-xl font-bold mb-4">現在の試合</h2>
@@ -23,10 +36,7 @@ const CurrentMatch: React.FC = () => {
               <div className="flex flex-col items-center space-y-2">
                 <div
                   className={`w-full text-center cursor-pointer hover:bg-gray-100 p-2 rounded ${
-                    selectedPlayer &&
-                    selectedPlayer.matchIndex === index &&
-                    selectedPlayer.team === 1 &&
-                    selectedPlayer.playerIndex === 0
+                    isSelected(index, 1, 0)
                       ? "bg-blue-100 ring-2 ring-blue-500"
                       : ""
                   }`}
@@ -46,10 +56,7 @@ const CurrentMatch: React.FC = () => {
                 </div>
                 <div
                   className={`w-full text-center cursor-pointer hover:bg-gray-100 p-2 rounded ${
-                    selectedPlayer &&
-                    selectedPlayer.matchIndex === index &&
-                    selectedPlayer.team === 1 &&
-                    selectedPlayer.playerIndex === 1
+                    isSelected(index, 1, 1)
                       ? "bg-blue-100 ring-2 ring-blue-500"
                       : ""
                   }`}
@@ -74,10 +81,7 @@ const CurrentMatch: React.FC = () => {
               <div className="flex flex-col items-center space-y-2">
                 <div
                   className={`w-full text-center cursor-pointer hover:bg-gray-100 p-2 rounded ${
-                    selectedPlayer &&
-                    selectedPlayer.matchIndex === index &&
-                    selectedPlayer.team === 2 &&
-                    selectedPlayer.playerIndex === 0
+                    isSelected(index, 2, 0)
                       ? "bg-blue-100 ring-2 ring-blue-500"
                       : ""
                   }`}
@@ -97,10 +101,7 @@ const CurrentMatch: React.FC = () => {
                 </div>
                 <div
                   className={`w-full text-center cursor-pointer hover:bg-gray-100 p-2 rounded ${
-                    selectedPlayer &&
-                    selectedPlayer.matchIndex === index &&
-                    selectedPlayer.team === 2 &&
-                    selectedPlayer.playerIndex === 1
+                    isSelected(index, 2, 1)
                       ? "bg-blue-100 ring-2 ring-blue-500"
                       : ""
                   }`}
