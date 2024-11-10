@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { MAX_COURTS } from "../constants";
 
 const useCourtManagement = () => {
   const [courts, setCourts] = useState<number>(1);
 
   const incrementCourts = () => {
-    setCourts((prevCourts) => prevCourts + 1);
+    setCourts((prevCourts) => Math.min(MAX_COURTS, prevCourts + 1));
   };
 
   const decrementCourts = () => {

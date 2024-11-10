@@ -15,7 +15,13 @@ const CourtCounter: React.FC<Props> = ({
         -
       </button>
       <span className="text-lg">{courts}コート</span>
-      <button onClick={onIncrement} className="bg-gray-200 px-3 py-1 rounded">
+      <button
+        onClick={onIncrement}
+        className={`bg-gray-200 px-3 py-1 rounded ${
+          courts >= 10 && "opacity-50"
+        }`}
+        disabled={courts >= 10}
+      >
         +
       </button>
     </>
