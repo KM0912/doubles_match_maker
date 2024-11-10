@@ -1,6 +1,7 @@
 import { useMatchContext } from "../../../contexts/MatchContext";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 import { selectedPlayer } from "../../../hooks/useSwapPlayer";
+import { Player } from "../../../types";
 
 type Props = {
   selectedPlayer: selectedPlayer;
@@ -10,6 +11,26 @@ type Props = {
 const WaitingPlayers = ({ selectedPlayer, updateSelectedPlayer }: Props) => {
   const { players } = usePlayerContext();
   const { matches, setMatches, isPlayerInMatch } = useMatchContext();
+
+  const handlePlayerClick = (player: Player) => {
+    if (!selectedPlayer) return;
+
+    try {
+      const team = selectedPlayer.team === 1 ? "team1" : "team2";
+      const newMatches = [...matches];
+      const currentMatch = newMatches[selectedPlayer.matchIndex];
+
+      if (!currentMatch) {
+        throw new Error("Selected match not found");
+      }
+
+      currentMatch[team][selectedPlayer.playerIndex] = player;
+      setMatches(newMatches);
+      updateSelectedPlayer(null);
+    } catch (error) {
+      console.error("Error swapping players:", error);
+    }
+  };
 
   return (
     <div className="mt-8">
@@ -21,16 +42,7 @@ const WaitingPlayers = ({ selectedPlayer, updateSelectedPlayer }: Props) => {
             <div
               key={player.id}
               className="bg-white p-4 rounded shadow cursor-pointer hover:bg-gray-100"
-              onClick={() => {
-                if (selectedPlayer) {
-                  const team = selectedPlayer.team === 1 ? "team1" : "team2";
-                  const newMatches = [...matches];
-                  const currentMatch = newMatches[selectedPlayer.matchIndex];
-                  currentMatch[team][selectedPlayer.playerIndex] = player;
-                  setMatches(newMatches);
-                  updateSelectedPlayer(null);
-                }
-              }}
+              onClick={() => handlePlayerClick(player)}
             >
               <div className="text-center">選手{player.id}</div>
               <div className="text-center text-gray-500">
