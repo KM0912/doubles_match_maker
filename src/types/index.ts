@@ -5,11 +5,14 @@ export type Player = {
   onBreak: boolean;
 };
 
+export type Team = [Player, Player];
+export type WinnerTeam = 1 | 2 | null;
+
 export type Match = {
   id: number;
-  team1: Player[];
-  team2: Player[];
-  winner: number | null;
+  team1: Team;
+  team2: Team;
+  winner: WinnerTeam;
 };
 
 export type PairHistory = {

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { Match, Player } from "../types";
+import { Match, Player, Team } from "../types";
 import { usePlayerContext } from "./PlayerContext";
 
 type MatchContextType = {
@@ -96,16 +96,16 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
 
   const findBestPairs = (players: Player[]) => {
     let bestPairScore = Infinity;
-    let bestPairs: { team1: Player[]; team2: Player[] } | null = null;
+    let bestPairs: { team1: Team; team2: Team } | null = null;
 
     for (let i = 0; i < players.length - 1; i++) {
       for (let j = i + 1; j < players.length; j++) {
-        const team1 = [players[i], players[j]];
+        const team1: Team = [players[i], players[j]];
         const remaining = players.filter((p) => !team1.includes(p));
 
         for (let k = 0; k < remaining.length - 1; k++) {
           for (let l = k + 1; l < remaining.length; l++) {
-            const team2 = [remaining[k], remaining[l]];
+            const team2: Team = [remaining[k], remaining[l]];
             const pairScore =
               (pairHistory[team1[0].id]?.[team1[1].id] || 0) +
               (pairHistory[team2[0].id]?.[team2[1].id] || 0);

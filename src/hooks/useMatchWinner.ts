@@ -1,11 +1,12 @@
 import { useMatchContext } from "../contexts/MatchContext";
 import { usePlayerContext } from "../contexts/PlayerContext";
+import { WinnerTeam } from "../types";
 
 const useMatchWinner = () => {
   const { players, setPlayers } = usePlayerContext();
   const { matches, setMatches } = useMatchContext();
 
-  const updateMatchWinner = (matchIndex: number, winningTeam: number) => {
+  const updateMatchWinner = (matchIndex: number, winningTeam: WinnerTeam) => {
     const newMatches = [...matches];
     const match = newMatches[matchIndex];
     match.winner = winningTeam;
