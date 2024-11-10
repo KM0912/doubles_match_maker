@@ -27,7 +27,12 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     const newMatches: Match[] = [];
 
     for (let i = 0; i < maxGames; i++) {
-      const currentPlayers = availablePlayers.slice(i * 4, i * 4 + 4);
+      // 試合数の少ない人 & idの小さい順に4人取り出す
+      const sortedPlayers = availablePlayers.sort(
+        (a, b) => a.gamesPlayed - b.gamesPlayed || a.id - b.id
+      );
+      const currentPlayers = sortedPlayers.slice(i * 4, i * 4 + 4);
+
       if (currentPlayers.length === 4) {
         const bestMatch = findBestPairs(currentPlayers);
         if (bestMatch) {

@@ -52,9 +52,7 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
 
   // 試合に参加可能なプレイヤーを返す
   const availablePlayers = useMemo(() => {
-    return [...players]
-      .filter((player) => !player.onBreak)
-      .sort((a, b) => a.gamesPlayed - b.gamesPlayed);
+    return [...players].filter((player) => !player.onBreak);
   }, [players]);
 
   const value = {
