@@ -2,27 +2,12 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 import { Match, Player } from "../types";
 import { usePlayerContext } from "./PlayerContext";
 
-type selectedPlayer = {
-  matchIndex: number;
-  team: number;
-  playerIndex: number;
-};
-
 type MatchContextType = {
   matches: Match[];
   setMatches: React.Dispatch<React.SetStateAction<Match[]>>;
   generateMatches: (courts: number) => void;
   completeMatches: () => void;
   isPlayerInMatch: (playerId: number) => boolean;
-  selectedPlayer: selectedPlayer | null;
-  setSelectedPlayer: React.Dispatch<
-    React.SetStateAction<selectedPlayer | null>
-  >;
-  swapPlayers: (
-    matchIndex: number,
-    teamNumber: number,
-    playerIndex: number
-  ) => void;
 };
 
 type Props = {
@@ -35,9 +20,6 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
   const [matches, setMatches] = useState<Match[]>([]);
   const { players, setPlayers, availablePlayers, pairHistory, setPairHistory } =
     usePlayerContext();
-  const [selectedPlayer, setSelectedPlayer] = useState<selectedPlayer | null>(
-    null
-  );
 
   // 新しい試合を生成する
   const generateMatches = (courts: number) => {
@@ -98,32 +80,6 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     setMatches([]);
   };
 
-  const swapPlayers = (
-    matchIndex: number,
-    teamNumber: number,
-    playerIndex: number
-  ) => {
-    if (!selectedPlayer) {
-      setSelectedPlayer({ matchIndex, team: teamNumber, playerIndex });
-      return;
-    }
-
-    const newMatches = [...matches];
-    const currentMatch = newMatches[matchIndex];
-    const previousMatch = newMatches[selectedPlayer.matchIndex];
-
-    const currentTeam = teamNumber === 1 ? "team1" : "team2";
-    const previousTeam = selectedPlayer.team === 1 ? "team1" : "team2";
-
-    const temp = currentMatch[currentTeam][playerIndex];
-    currentMatch[currentTeam][playerIndex] =
-      previousMatch[previousTeam][selectedPlayer.playerIndex];
-    previousMatch[previousTeam][selectedPlayer.playerIndex] = temp;
-
-    setMatches(newMatches);
-    setSelectedPlayer(null);
-  };
-
   // 指定したプレイヤーが試合中かどうかを返す
   const isPlayerInMatch = (playerId: number) => {
     return matches.some(
@@ -166,10 +122,7 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     setMatches,
     generateMatches,
     completeMatches,
-    selectedPlayer,
-    setSelectedPlayer,
     isPlayerInMatch,
-    swapPlayers,
   };
 
   return (

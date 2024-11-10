@@ -1,15 +1,11 @@
 import { useMatchContext } from "../../../contexts/MatchContext";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
+import useSwapPlayer from "../../../hooks/useSwapPlayer";
 
 const WaitingPlayers = () => {
   const { players } = usePlayerContext();
-  const {
-    matches,
-    setMatches,
-    isPlayerInMatch,
-    selectedPlayer,
-    setSelectedPlayer,
-  } = useMatchContext();
+  const { matches, setMatches, isPlayerInMatch } = useMatchContext();
+  const { selectedPlayer, setSelectedPlayer } = useSwapPlayer();
   return (
     <div className="mt-8">
       <h2 className="text-xl font-bold mb-4">待機中の選手</h2>

@@ -1,22 +1,24 @@
 import { useMatchContext } from "../../../contexts/MatchContext";
 import useMatchWinner from "../../../hooks/useMatchWinner";
+import useSwapPlayer from "../../../hooks/useSwapPlayer";
 
 const CurrentMatch: React.FC = () => {
-  const { matches, selectedPlayer, swapPlayers, setSelectedPlayer } =
-    useMatchContext();
+  const { matches } = useMatchContext();
   const { updateMatchWinner, resetMatchWinner } = useMatchWinner();
+  const { swapPlayers, selectedPlayer, setSelectedPlayer, isPlayerSelected } =
+    useSwapPlayer();
 
-  const isSelected = (
+  const handleClickPlayer = (
     matchIndex: number,
     team: number,
     playerIndex: number
   ) => {
-    return (
-      selectedPlayer &&
-      selectedPlayer.matchIndex === matchIndex &&
-      selectedPlayer.team === team &&
-      selectedPlayer.playerIndex === playerIndex
-    );
+    if (!selectedPlayer) {
+      setSelectedPlayer({ matchIndex, team: team, playerIndex });
+      return;
+    }
+
+    swapPlayers(matchIndex, team, playerIndex);
   };
 
   return (
@@ -33,41 +35,21 @@ const CurrentMatch: React.FC = () => {
               <div className="flex flex-col items-center space-y-2">
                 <div
                   className={`w-full text-center cursor-pointer hover:bg-gray-100 p-2 rounded ${
-                    isSelected(index, 1, 0)
+                    isPlayerSelected(index, 1, 0)
                       ? "bg-blue-100 ring-2 ring-blue-500"
                       : ""
                   }`}
-                  onClick={() => {
-                    if (selectedPlayer) {
-                      swapPlayers(index, 1, 0);
-                    } else {
-                      setSelectedPlayer({
-                        matchIndex: index,
-                        team: 1,
-                        playerIndex: 0,
-                      });
-                    }
-                  }}
+                  onClick={() => handleClickPlayer(index, 1, 0)}
                 >
                   選手{match.team1[0].id}
                 </div>
                 <div
                   className={`w-full text-center cursor-pointer hover:bg-gray-100 p-2 rounded ${
-                    isSelected(index, 1, 1)
+                    isPlayerSelected(index, 1, 1)
                       ? "bg-blue-100 ring-2 ring-blue-500"
                       : ""
                   }`}
-                  onClick={() => {
-                    if (selectedPlayer) {
-                      swapPlayers(index, 1, 1);
-                    } else {
-                      setSelectedPlayer({
-                        matchIndex: index,
-                        team: 1,
-                        playerIndex: 1,
-                      });
-                    }
-                  }}
+                  onClick={() => handleClickPlayer(index, 1, 1)}
                 >
                   選手{match.team1[1].id}
                 </div>
@@ -78,41 +60,21 @@ const CurrentMatch: React.FC = () => {
               <div className="flex flex-col items-center space-y-2">
                 <div
                   className={`w-full text-center cursor-pointer hover:bg-gray-100 p-2 rounded ${
-                    isSelected(index, 2, 0)
+                    isPlayerSelected(index, 2, 0)
                       ? "bg-blue-100 ring-2 ring-blue-500"
                       : ""
                   }`}
-                  onClick={() => {
-                    if (selectedPlayer) {
-                      swapPlayers(index, 2, 0);
-                    } else {
-                      setSelectedPlayer({
-                        matchIndex: index,
-                        team: 2,
-                        playerIndex: 0,
-                      });
-                    }
-                  }}
+                  onClick={() => handleClickPlayer(index, 2, 0)}
                 >
                   選手{match.team2[0].id}
                 </div>
                 <div
                   className={`w-full text-center cursor-pointer hover:bg-gray-100 p-2 rounded ${
-                    isSelected(index, 2, 1)
+                    isPlayerSelected(index, 2, 1)
                       ? "bg-blue-100 ring-2 ring-blue-500"
                       : ""
                   }`}
-                  onClick={() => {
-                    if (selectedPlayer) {
-                      swapPlayers(index, 2, 1);
-                    } else {
-                      setSelectedPlayer({
-                        matchIndex: index,
-                        team: 2,
-                        playerIndex: 1,
-                      });
-                    }
-                  }}
+                  onClick={() => handleClickPlayer(index, 2, 1)}
                 >
                   選手{match.team2[1].id}
                 </div>
