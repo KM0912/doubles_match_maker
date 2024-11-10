@@ -1,6 +1,6 @@
 import { useMatchContext } from "../../../contexts/MatchContext";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
-import PlayerStatusCard from "../../atoms/PlayerStatusCard";
+import PlayerStatusCard from "../PlayerStatusCard";
 
 const PlayerStatusCards: React.FC = () => {
   const { players, setOnBreak } = usePlayerContext();
