@@ -1,4 +1,5 @@
 import { useMatchContext } from "../../../contexts/MatchContext";
+import useSwapPlayer from "../../../hooks/useSwapPlayer";
 import CompleteMatchesButton from "../../atoms/CompleteMatchesButton";
 import GenerateMatchesButton from "../../atoms/GenerateMatchesButton";
 import CurrentMatch from "../../molecules/CurrentMatch";
@@ -10,6 +11,12 @@ type Props = {
 
 const MatchControlPanel: React.FC<Props> = ({ courts }) => {
   const { matches } = useMatchContext();
+  const {
+    selectedPlayer,
+    updateSelectedPlayer,
+    isPlayerSelected,
+    swapPlayers,
+  } = useSwapPlayer();
 
   return (
     <>
@@ -17,8 +24,16 @@ const MatchControlPanel: React.FC<Props> = ({ courts }) => {
 
       {matches.length > 0 && (
         <div>
-          <CurrentMatch />
-          <WaitingPlayers />
+          <CurrentMatch
+            selectedPlayer={selectedPlayer}
+            updateSelectedPlayer={updateSelectedPlayer}
+            isPlayerSelected={isPlayerSelected}
+            swapPlayers={swapPlayers}
+          />
+          <WaitingPlayers
+            selectedPlayer={selectedPlayer}
+            updateSelectedPlayer={updateSelectedPlayer}
+          />
           <CompleteMatchesButton />
         </div>
       )}

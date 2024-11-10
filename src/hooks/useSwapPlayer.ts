@@ -1,27 +1,29 @@
 import { useState } from "react";
 import { useMatchContext } from "../contexts/MatchContext";
 
-type selectedPlayer = {
+export type selectedPlayer = {
   matchIndex: number;
   team: number;
   playerIndex: number;
-};
+} | null;
 
 const useSwapPlayer = () => {
-  const [selectedPlayer, setSelectedPlayer] = useState<selectedPlayer | null>(
-    null
-  );
+  const [selectedPlayer, setSelectedPlayer] = useState<selectedPlayer>(null);
   const { matches, setMatches } = useMatchContext();
+
+  const updateSelectedPlayer = (player: selectedPlayer) => {
+    setSelectedPlayer(player);
+  };
 
   const isPlayerSelected = (
     matchIndex: number,
-    team: number,
+    teamNumber: number,
     playerIndex: number
   ) => {
     return (
-      selectedPlayer &&
+      !!selectedPlayer &&
       selectedPlayer.matchIndex === matchIndex &&
-      selectedPlayer.team === team &&
+      selectedPlayer.team === teamNumber &&
       selectedPlayer.playerIndex === playerIndex
     );
   };
@@ -57,7 +59,7 @@ const useSwapPlayer = () => {
     swapPlayers,
     isPlayerSelected,
     selectedPlayer,
-    setSelectedPlayer,
+    updateSelectedPlayer,
   };
 };
 

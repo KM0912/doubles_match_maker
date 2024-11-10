@@ -1,12 +1,30 @@
 import { useMatchContext } from "../../../contexts/MatchContext";
 import useMatchWinner from "../../../hooks/useMatchWinner";
-import useSwapPlayer from "../../../hooks/useSwapPlayer";
+import { selectedPlayer } from "../../../hooks/useSwapPlayer";
 
-const CurrentMatch: React.FC = () => {
+type Props = {
+  selectedPlayer: selectedPlayer;
+  updateSelectedPlayer: (player: selectedPlayer) => void;
+  isPlayerSelected: (
+    matchIndex: number,
+    team: number,
+    playerIndex: number
+  ) => boolean;
+  swapPlayers: (
+    matchIndex: number,
+    teamNumber: number,
+    playerIndex: number
+  ) => void;
+};
+
+const CurrentMatch: React.FC<Props> = ({
+  selectedPlayer,
+  updateSelectedPlayer,
+  isPlayerSelected,
+  swapPlayers,
+}) => {
   const { matches } = useMatchContext();
   const { updateMatchWinner, resetMatchWinner } = useMatchWinner();
-  const { swapPlayers, selectedPlayer, setSelectedPlayer, isPlayerSelected } =
-    useSwapPlayer();
 
   const handleClickPlayer = (
     matchIndex: number,
@@ -14,7 +32,7 @@ const CurrentMatch: React.FC = () => {
     playerIndex: number
   ) => {
     if (!selectedPlayer) {
-      setSelectedPlayer({ matchIndex, team: team, playerIndex });
+      updateSelectedPlayer({ matchIndex, team: team, playerIndex });
       return;
     }
 
