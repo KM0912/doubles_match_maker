@@ -17,7 +17,6 @@ on:
 
 jobs:
   gpt-review:
-    if: contains(github.event.pull_request.labels.*.name, 'gptReview')
     runs-on: ubuntu-latest
     steps:
       - uses: anc95/ChatGPT-CodeReview@main
