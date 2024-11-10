@@ -1,7 +1,7 @@
 import { useMatchContext } from "../../../contexts/MatchContext";
 import ActionButton from "../ActionButton";
 
-const CompleteMatchesButton = () => {
+const CompleteMatchesButton: React.FC = () => {
   const { completeMatches } = useMatchContext();
   return (
     <ActionButton
