@@ -8,7 +8,10 @@ type Props = {
   updateSelectedPlayer: (player: selectedPlayer) => void;
 };
 
-const WaitingPlayers = ({ selectedPlayer, updateSelectedPlayer }: Props) => {
+const WaitingPlayers: React.FC<Props> = ({
+  selectedPlayer,
+  updateSelectedPlayer,
+}) => {
   const { players } = usePlayerContext();
   const { matches, setMatches, isPlayerInMatch } = useMatchContext();
 
