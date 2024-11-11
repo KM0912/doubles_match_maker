@@ -5,7 +5,7 @@ import React, {
   ReactNode,
   useMemo,
 } from "react";
-import { PairHistory, Player } from "../types";
+import { Match, PairHistory, Player } from "../types";
 
 type PlayerContextType = {
   players: Player[];
@@ -15,7 +15,7 @@ type PlayerContextType = {
   playerCount: number;
   availablePlayers: Player[];
   pairHistory: PairHistory;
-  setPairHistory: React.Dispatch<React.SetStateAction<PairHistory>>;
+  updatePairHistoryByMatches: (matches: Match[]) => void;
 };
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
@@ -55,6 +55,31 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     return [...players].filter((player) => !player.onBreak);
   }, [players]);
 
+  // ペアの履歴を更新する
+  const updatePairHistoryByMatches = (matches: Match[]) => {
+    const updatedPairHistory = { ...pairHistory };
+
+    matches.forEach((match) => {
+      const [p1, p2] = match.team1;
+      updatedPairHistory[p1.id] = updatedPairHistory[p1.id] || {};
+      updatedPairHistory[p2.id] = updatedPairHistory[p2.id] || {};
+      updatedPairHistory[p1.id][p2.id] =
+        (updatedPairHistory[p1.id][p2.id] || 0) + 1;
+      updatedPairHistory[p2.id][p1.id] =
+        (updatedPairHistory[p2.id][p1.id] || 0) + 1;
+
+      const [p3, p4] = match.team2;
+      updatedPairHistory[p3.id] = updatedPairHistory[p3.id] || {};
+      updatedPairHistory[p4.id] = updatedPairHistory[p4.id] || {};
+      updatedPairHistory[p3.id][p4.id] =
+        (updatedPairHistory[p3.id][p4.id] || 0) + 1;
+      updatedPairHistory[p4.id][p3.id] =
+        (updatedPairHistory[p4.id][p3.id] || 0) + 1;
+    });
+
+    setPairHistory(updatedPairHistory);
+  };
+
   const value = {
     players,
     setPlayers,
@@ -63,7 +88,7 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     playerCount,
     availablePlayers,
     pairHistory,
-    setPairHistory,
+    updatePairHistoryByMatches,
   };
 
   return (
