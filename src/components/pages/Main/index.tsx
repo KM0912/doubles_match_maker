@@ -12,9 +12,11 @@ function MainComponent() {
 
   return (
     <div className="container mx-auto px-2 py-4 md:px-4 md:py-8 max-w-2xl">
-      <h1 className="text-3xl font-bold mb-8 text-center">
-        バドミントン試合マッチング
-      </h1>
+      <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-4 rounded-lg shadow-md mb-8">
+        <h1 className="text-xl font-bold text-center">
+          ダブルス組み合わせメーカー
+        </h1>
+      </div>
 
       <div className="mb-8 space-y-4">
         <div className="flex items-center gap-4">
