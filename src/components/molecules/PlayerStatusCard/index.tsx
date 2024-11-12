@@ -20,7 +20,7 @@ const PlayerStatusCard: React.FC<PlayerStatusCardProps> = ({
       key={player.id}
       className={`${player.onBreak ? "opacity-50" : ""} ${
         isPlaying ? "ring-2 ring-green-500" : ""
-      } relative rounded-lg mb-4`}
+      } rounded-lg mb-4`}
     >
       <PlayerCard
         key={player.id}

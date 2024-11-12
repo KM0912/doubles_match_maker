@@ -12,6 +12,7 @@ type PlayerContextType = {
   players: Player[];
   updatePlayers: (players: Player[]) => void;
   addPlayer: () => void;
+  resetPlayers: () => void;
   setOnBreak: (playerId: number, isOnBreak: boolean) => void;
   playerCount: number;
   availablePlayers: Player[];
@@ -21,17 +22,19 @@ type PlayerContextType = {
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
+const defaultPlayers: Player[] = [
+  { id: 1, gamesPlayed: 0, wins: 0, onBreak: false },
+  { id: 2, gamesPlayed: 0, wins: 0, onBreak: false },
+  { id: 3, gamesPlayed: 0, wins: 0, onBreak: false },
+  { id: 4, gamesPlayed: 0, wins: 0, onBreak: false },
+];
+
 type Props = {
   children: ReactNode;
 };
 
 export const PlayerProvider: React.FC<Props> = ({ children }) => {
-  const [players, setPlayers] = useState<Player[]>([
-    { id: 1, gamesPlayed: 0, wins: 0, onBreak: false },
-    { id: 2, gamesPlayed: 0, wins: 0, onBreak: false },
-    { id: 3, gamesPlayed: 0, wins: 0, onBreak: false },
-    { id: 4, gamesPlayed: 0, wins: 0, onBreak: false },
-  ]);
+  const [players, setPlayers] = useState<Player[]>(defaultPlayers);
   const [pairHistory, setPairHistory] = useState<PairHistory>({});
   const [initialized, setInitialized] = useState(false);
   useEffect(() => {
@@ -54,6 +57,10 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
       ...prevPlayers,
       { id: prevPlayers.length + 1, gamesPlayed: 0, wins: 0, onBreak: false },
     ]);
+  };
+
+  const resetPlayers = () => {
+    setPlayers(defaultPlayers);
   };
 
   const setOnBreak = (playerId: number, isOnBreak: boolean) => {
@@ -113,6 +120,7 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     players,
     updatePlayers,
     addPlayer,
+    resetPlayers,
     setOnBreak,
     playerCount,
     availablePlayers,

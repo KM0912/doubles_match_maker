@@ -5,6 +5,7 @@ import PlayerStatusCards from "../../molecules/PlayerStatusCards";
 import AddPlayerButton from "../../atoms/AddPlayerButton";
 import MatchControlPanel from "../../organisms/MatchControlPanel";
 import PairHistoryTable from "../../organisms/PairHistoryTable";
+import ResetButton from "../../atoms/ResetButton";
 
 function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
@@ -18,6 +19,7 @@ function MainComponent() {
       </div>
 
       <div className="mb-8 space-y-4">
+        <ResetButton />
         <div className="flex items-center gap-4">
           <CourtCounter
             courts={courts}
