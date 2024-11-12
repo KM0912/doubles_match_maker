@@ -56,10 +56,16 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
   };
 
   const addPlayer = () => {
-    setPlayers((prevPlayers) => [
-      ...prevPlayers,
-      { id: prevPlayers.length + 1, gamesPlayed: 0, wins: 0, onBreak: false },
-    ]);
+    setPlayers((prevPlayers) => {
+      const maxId = prevPlayers.reduce(
+        (max, player) => Math.max(max, player.id),
+        0
+      );
+      return [
+        ...prevPlayers,
+        { id: maxId + 1, gamesPlayed: 0, wins: 0, onBreak: false },
+      ];
+    });
   };
 
   const removePlayer = (playerId: number) => {
