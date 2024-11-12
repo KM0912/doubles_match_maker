@@ -1,7 +1,7 @@
 import React from "react";
 import CourtCounter from "../../molecules/CourtCounter";
 import useCourtManagement from "../../../hooks/useCourtManagement";
-import PlayerStatusCards from "../../molecules/PlayerStatusCards";
+import PlayerCards from "../../molecules/PlayerCards";
 import AddPlayerButton from "../../atoms/AddPlayerButton";
 import MatchControlPanel from "../../organisms/MatchControlPanel";
 import PairHistoryTable from "../../organisms/PairHistoryTable";
@@ -31,7 +31,7 @@ function MainComponent() {
       </div>
 
       <div className="mb-8">
-        <PlayerStatusCards />
+        <PlayerCards />
       </div>
 
       <div className="mb-8">
