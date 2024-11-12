@@ -39,14 +39,16 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
   const [initialized, setInitialized] = useState(false);
   useEffect(() => {
     loadPlayersFromLocalStorage();
+    loadPairHistoryFromLocalStorage();
     setInitialized(true);
   }, []);
 
   useEffect(() => {
     if (initialized) {
       savePlayersToLocalStorage(players);
+      savePairHistoryToLocalStorage(pairHistory);
     }
-  }, [players, initialized]);
+  }, [players, pairHistory, initialized]);
 
   const updatePlayers = (players: Player[]) => {
     setPlayers(players);
@@ -111,6 +113,19 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     const players = localStorage.getItem("players");
     if (players) {
       setPlayers(JSON.parse(players));
+      return true;
+    }
+    return false;
+  };
+
+  const savePairHistoryToLocalStorage = (pairHistory: PairHistory) => {
+    localStorage.setItem("pairHistory", JSON.stringify(pairHistory));
+  };
+
+  const loadPairHistoryFromLocalStorage = (): boolean => {
+    const pairHistory = localStorage.getItem("pairHistory");
+    if (pairHistory) {
+      setPairHistory(JSON.parse(pairHistory));
       return true;
     }
     return false;
