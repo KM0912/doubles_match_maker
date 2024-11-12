@@ -4,12 +4,13 @@ import React, {
   useState,
   ReactNode,
   useMemo,
+  useEffect,
 } from "react";
 import { Match, PairHistory, Player } from "../types";
 
 type PlayerContextType = {
   players: Player[];
-  setPlayers: React.Dispatch<React.SetStateAction<Player[]>>;
+  updatePlayers: (players: Player[]) => void;
   addPlayer: () => void;
   setOnBreak: (playerId: number, isOnBreak: boolean) => void;
   playerCount: number;
@@ -32,6 +33,21 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     { id: 4, gamesPlayed: 0, wins: 0, onBreak: false },
   ]);
   const [pairHistory, setPairHistory] = useState<PairHistory>({});
+  const [initialized, setInitialized] = useState(false);
+  useEffect(() => {
+    loadPlayersFromLocalStorage();
+    setInitialized(true);
+  }, []);
+
+  useEffect(() => {
+    if (initialized) {
+      savePlayersToLocalStorage(players);
+    }
+  }, [players, initialized]);
+
+  const updatePlayers = (players: Player[]) => {
+    setPlayers(players);
+  };
 
   const addPlayer = () => {
     setPlayers((prevPlayers) => [
@@ -80,9 +96,22 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     setPairHistory(updatedPairHistory);
   };
 
+  const savePlayersToLocalStorage = (players: Player[]) => {
+    localStorage.setItem("players", JSON.stringify(players));
+  };
+
+  const loadPlayersFromLocalStorage = (): boolean => {
+    const players = localStorage.getItem("players");
+    if (players) {
+      setPlayers(JSON.parse(players));
+      return true;
+    }
+    return false;
+  };
+
   const value = {
     players,
-    setPlayers,
+    updatePlayers,
     addPlayer,
     setOnBreak,
     playerCount,

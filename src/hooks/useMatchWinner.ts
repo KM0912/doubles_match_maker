@@ -3,7 +3,7 @@ import { usePlayerContext } from "../contexts/PlayerContext";
 import { WinnerTeam } from "../types";
 
 const useMatchWinner = () => {
-  const { players, setPlayers } = usePlayerContext();
+  const { players, updatePlayers } = usePlayerContext();
   const { matches, setMatches } = useMatchContext();
 
   const updateMatchWinner = (matchIndex: number, winningTeam: WinnerTeam) => {
@@ -21,7 +21,7 @@ const useMatchWinner = () => {
         : player
     );
 
-    setPlayers(updatedPlayers);
+    updatePlayers(updatedPlayers);
   };
 
   const resetMatchWinner = (matchIndex: number) => {
@@ -48,7 +48,7 @@ const useMatchWinner = () => {
         ? { ...player, wins: Math.max(0, player.wins - 1) }
         : player
     );
-    setPlayers(updatedPlayers);
+    updatePlayers(updatedPlayers);
   };
 
   return { updateMatchWinner, resetMatchWinner };

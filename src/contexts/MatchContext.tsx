@@ -20,7 +20,7 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
   const [matches, setMatches] = useState<Match[]>([]);
   const {
     players,
-    setPlayers,
+    updatePlayers,
     availablePlayers,
     pairHistory,
     updatePairHistoryByMatches,
@@ -65,7 +65,7 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
         : player
     );
 
-    setPlayers(updatedPlayers);
+    updatePlayers(updatedPlayers);
     setMatches([]);
     updatePairHistoryByMatches(matches);
   };
