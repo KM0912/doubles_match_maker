@@ -12,6 +12,7 @@ type PlayerContextType = {
   players: Player[];
   updatePlayers: (players: Player[]) => void;
   addPlayer: () => void;
+  removePlayer: (playerId: number) => void;
   resetPlayers: () => void;
   setOnBreak: (playerId: number, isOnBreak: boolean) => void;
   playerCount: number;
@@ -59,6 +60,12 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
       ...prevPlayers,
       { id: prevPlayers.length + 1, gamesPlayed: 0, wins: 0, onBreak: false },
     ]);
+  };
+
+  const removePlayer = (playerId: number) => {
+    setPlayers((prevPlayers) =>
+      prevPlayers.filter((player) => player.id !== playerId)
+    );
   };
 
   const resetPlayers = () => {
@@ -135,6 +142,7 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     players,
     updatePlayers,
     addPlayer,
+    removePlayer,
     resetPlayers,
     setOnBreak,
     playerCount,
