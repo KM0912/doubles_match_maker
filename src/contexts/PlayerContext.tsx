@@ -72,6 +72,16 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     setPlayers((prevPlayers) =>
       prevPlayers.filter((player) => player.id !== playerId)
     );
+
+    setPairHistory((prevPairHistory) => {
+      const newPairHistory: PairHistory = { ...prevPairHistory };
+      delete newPairHistory[playerId];
+      Object.keys(newPairHistory).forEach((key) => {
+        const numKey = Number(key);
+        delete newPairHistory[numKey][playerId];
+      });
+      return newPairHistory;
+    });
   };
 
   const resetPlayers = () => {
