@@ -1,8 +1,8 @@
 import { useMatchContext } from "../../../contexts/MatchContext";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
-import PlayerStatusCard from "../PlayerStatusCard";
+import PlayerCard from "../PlayerCard";
 
-const PlayerStatusCards: React.FC = () => {
+const PlayerCards: React.FC = () => {
   const { players, setOnBreak } = usePlayerContext();
   const { isPlayerInMatch } = useMatchContext();
   return (
@@ -10,7 +10,7 @@ const PlayerStatusCards: React.FC = () => {
       {players.map((player) => {
         const isInMatch = isPlayerInMatch(player.id);
         return (
-          <PlayerStatusCard
+          <PlayerCard
             key={player.id}
             player={player}
             isPlaying={isInMatch}
@@ -23,4 +23,4 @@ const PlayerStatusCards: React.FC = () => {
   );
 };
 
-export default PlayerStatusCards;
+export default PlayerCards;

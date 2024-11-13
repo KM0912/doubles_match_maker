@@ -20,7 +20,7 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
   const [matches, setMatches] = useState<Match[]>([]);
   const {
     players,
-    setPlayers,
+    updatePlayers,
     availablePlayers,
     pairHistory,
     updatePairHistoryByMatches,
@@ -31,23 +31,60 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     const maxGames = Math.min(Math.floor(availablePlayers.length / 4), courts);
     const newMatches: Match[] = [];
 
-    for (let i = 0; i < maxGames; i++) {
-      // 試合数の少ない人 & idの小さい順に4人取り出す
-      const sortedPlayers = availablePlayers.sort(
-        (a, b) => a.gamesPlayed - b.gamesPlayed || a.id - b.id
+    // 試合に参加するプレイヤーを選ぶ
+    let waitingPlayers = [...availablePlayers];
+    let currentPlayers: Player[] = [];
+    while (waitingPlayers.length > 0) {
+      // 試合に入れるプレイヤーの中で最小の試合数を取得
+      const minGamePlayed = Math.min(
+        ...waitingPlayers.map((p) => p.gamesPlayed)
       );
-      const currentPlayers = sortedPlayers.slice(i * 4, i * 4 + 4);
 
-      if (currentPlayers.length === 4) {
-        const bestMatch = findBestPairs(currentPlayers);
-        if (bestMatch) {
-          newMatches.push({
-            team1: bestMatch.team1,
-            team2: bestMatch.team2,
-            id: Date.now() + i,
-            winner: null,
-          });
-        }
+      // 試合数が最小のプレイヤーをwaitingAvailablePlayersから取り出して配列から削除する
+      const newGamePlayers = waitingPlayers.filter(
+        (p) => p.gamesPlayed === minGamePlayed
+      );
+      waitingPlayers = waitingPlayers.filter(
+        (p) => p.gamesPlayed !== minGamePlayed
+      );
+
+      if (currentPlayers.length + newGamePlayers.length >= maxGames * 4) {
+        // 試合に必要な人数に達している場合
+        // 試合に必要な残りの人数を計算
+        const remainingPlayers = maxGames * 4 - currentPlayers.length;
+
+        // newGamePlayersからランダムにremainingPlayers人取り出す
+        const randomPlayers = newGamePlayers
+          .sort(() => Math.random() - 0.5)
+          .slice(0, remainingPlayers);
+
+        currentPlayers.push(...randomPlayers);
+        break;
+      } else {
+        currentPlayers.push(...newGamePlayers);
+      }
+    }
+
+    // 試合を生成
+    for (let i = 0; i < maxGames; i++) {
+      // ペアを生成して試合を追加
+      const bestMatch = findBestPairs(currentPlayers);
+      if (bestMatch) {
+        newMatches.push({
+          team1: bestMatch.team1,
+          team2: bestMatch.team2,
+          id: Date.now() + i,
+          winner: null,
+        });
+
+        // 試合に参加したプレイヤーをcurrentPlayersから削除
+        const bestMatchPlayers = [...bestMatch.team1, ...bestMatch.team2];
+        currentPlayers = currentPlayers.filter(
+          (p) => !bestMatchPlayers.some((bp) => bp.id === p.id)
+        );
+      } else {
+        console.error("ペアの生成に失敗しました");
+        break;
       }
     }
 
@@ -65,7 +102,7 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
         : player
     );
 
-    setPlayers(updatedPlayers);
+    updatePlayers(updatedPlayers);
     setMatches([]);
     updatePairHistoryByMatches(matches);
   };

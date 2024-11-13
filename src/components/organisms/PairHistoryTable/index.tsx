@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
+import { Icon } from "@iconify/react";
 
 const PairHistoryTable: React.FC = () => {
   const { players, pairHistory } = usePlayerContext();
@@ -11,11 +12,11 @@ const PairHistoryTable: React.FC = () => {
         className="flex justify-between items-center w-full bg-gray-100 p-4 rounded-lg mb-2"
       >
         <h2 className="text-xl font-bold">ペア履歴</h2>
-        <i
-          className={`fas ${
-            isHistoryOpen ? "fa-chevron-up" : "fa-chevron-down"
-          }`}
-        ></i>
+        {isHistoryOpen ? (
+          <Icon icon="formkit:caretup" />
+        ) : (
+          <Icon icon="formkit:caretdown" />
+        )}
       </button>
 
       {isHistoryOpen && (

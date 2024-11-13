@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import CourtCounter from "../../molecules/CourtCounter";
 import useCourtManagement from "../../../hooks/useCourtManagement";
-import PlayerStatusCards from "../../molecules/PlayerStatusCards";
+import PlayerCards from "../../molecules/PlayerCards";
 import AddPlayerButton from "../../atoms/AddPlayerButton";
 import MatchControlPanel from "../../organisms/MatchControlPanel";
 import PairHistoryTable from "../../organisms/PairHistoryTable";
+import ResetButton from "../../atoms/ResetButton";
 
 function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
-  const [isHistoryOpen, setIsHistoryOpen] = useState<boolean>(false);
 
   return (
     <div className="container mx-auto px-2 py-4 md:px-4 md:py-8 max-w-2xl">
@@ -19,6 +19,7 @@ function MainComponent() {
       </div>
 
       <div className="mb-8 space-y-4">
+        <ResetButton />
         <div className="flex items-center gap-4">
           <CourtCounter
             courts={courts}
@@ -30,7 +31,7 @@ function MainComponent() {
       </div>
 
       <div className="mb-8">
-        <PlayerStatusCards />
+        <PlayerCards />
       </div>
 
       <div className="mb-8">
