@@ -76,15 +76,16 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
           id: Date.now() + i,
           winner: null,
         });
-      }
 
-      // 試合に参加したプレイヤーをcurrentPlayersから削除
-      const bestMatchPlayers = bestMatch
-        ? [...bestMatch.team1, ...bestMatch.team2]
-        : [];
-      currentPlayers = currentPlayers.filter(
-        (p) => !bestMatchPlayers.some((bp) => bp.id === p.id)
-      );
+        // 試合に参加したプレイヤーをcurrentPlayersから削除
+        const bestMatchPlayers = [...bestMatch.team1, ...bestMatch.team2];
+        currentPlayers = currentPlayers.filter(
+          (p) => !bestMatchPlayers.some((bp) => bp.id === p.id)
+        );
+      } else {
+        console.error("ペアの生成に失敗しました");
+        break;
+      }
     }
 
     setMatches(newMatches);
