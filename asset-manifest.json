@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/doubles_match_maker/static/css/main.cb7bbe3e.css",
-    "main.js": "/doubles_match_maker/static/js/main.79903377.js",
+    "main.css": "/doubles_match_maker/static/css/main.a50db0fe.css",
+    "main.js": "/doubles_match_maker/static/js/main.b8242f58.js",
     "static/js/453.0dcb6458.chunk.js": "/doubles_match_maker/static/js/453.0dcb6458.chunk.js",
     "index.html": "/doubles_match_maker/index.html",
-    "main.cb7bbe3e.css.map": "/doubles_match_maker/static/css/main.cb7bbe3e.css.map",
-    "main.79903377.js.map": "/doubles_match_maker/static/js/main.79903377.js.map",
+    "main.a50db0fe.css.map": "/doubles_match_maker/static/css/main.a50db0fe.css.map",
+    "main.b8242f58.js.map": "/doubles_match_maker/static/js/main.b8242f58.js.map",
     "453.0dcb6458.chunk.js.map": "/doubles_match_maker/static/js/453.0dcb6458.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.cb7bbe3e.css",
-    "static/js/main.79903377.js"
+    "static/css/main.a50db0fe.css",
+    "static/js/main.b8242f58.js"
   ]
 }
