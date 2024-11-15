@@ -86,6 +86,7 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
 
   const resetPlayers = () => {
     setPlayers(defaultPlayers);
+    setPairHistory({});
   };
 
   const setOnBreak = (playerId: number, isOnBreak: boolean) => {
