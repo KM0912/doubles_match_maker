@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { Match, Player, Team } from "../types";
 import { usePlayerContext } from "./PlayerContext";
+import { shufflePlayersArray } from "../utils/matchUtils";
 
 type MatchContextType = {
   matches: Match[];
@@ -51,12 +52,13 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
       if (currentPlayers.length + newGamePlayers.length >= maxGames * 4) {
         // 試合に必要な人数に達している場合
         // 試合に必要な残りの人数を計算
-        const remainingPlayers = maxGames * 4 - currentPlayers.length;
+        const playerCount = maxGames * 4 - currentPlayers.length;
 
-        // newGamePlayersからランダムにremainingPlayers人取り出す
-        const randomPlayers = newGamePlayers
-          .sort(() => Math.random() - 0.5)
-          .slice(0, remainingPlayers);
+        // newGamePlayersからランダムにplayerCount人取り出す
+        const randomPlayers = shufflePlayersArray(newGamePlayers).slice(
+          0,
+          playerCount
+        );
 
         currentPlayers.push(...randomPlayers);
         break;
