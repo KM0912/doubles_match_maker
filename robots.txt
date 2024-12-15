@@ -1,4 +1,4 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
-Sitemap: https://km0912.github.io/sitemap.xml
+Sitemap: https://km0912.github.io/doubles_match_maker/sitemap.xml
