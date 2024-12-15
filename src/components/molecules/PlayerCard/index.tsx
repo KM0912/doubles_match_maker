@@ -42,7 +42,7 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
           {!isPlayerInMatch && (
             <div className="ml-auto flex gap-2">
               <button
-                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded inline-block ${
+                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded inline-block text-sm ${
                   player.onBreak ? "bg-red-500 hover:bg-red-700" : ""
                 }`}
                 onClick={() => onBreakToggle(player.id)}
@@ -50,7 +50,7 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
                 {player.onBreak ? "休憩中" : "休憩"}
               </button>
               <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-4 rounded inline-block"
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block text-sm"
                 onClick={handleRemove}
               >
                 削除
