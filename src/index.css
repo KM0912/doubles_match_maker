@@ -15,3 +15,34 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+/* タブ全体のスタイル */
+.tab-container {
+  display: flex;
+  border-bottom: 2px solid black;
+  width: 300px; /* 必要に応じて幅を調整 */
+  margin: 20px auto;
+  font-family: sans-serif;
+}
+
+/* 各タブ項目 */
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+}
+
+/* アクティブなタブのスタイル */
+.tab-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: red;
+}
