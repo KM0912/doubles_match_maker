@@ -36,7 +36,6 @@ function MainComponent() {
 
       {activeTab === "settings" && (
         <div className="mb-8 space-y-4">
-          <ResetButton />
           <div className="flex items-center gap-4">
             <CourtCounter
               courts={courts}
@@ -45,6 +44,7 @@ function MainComponent() {
             />
           </div>
           <AddPlayerButton />
+          <ResetButton />
           <PlayerCards />
           <PairHistoryTable />
         </div>

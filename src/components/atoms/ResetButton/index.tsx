@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 import ConfirmDialog from "../../molecules/ConfirmDialog";
+import { Button } from "@mui/material";
 
 const ResetButton: React.FC = () => {
   const { resetPlayers } = usePlayerContext();
@@ -21,12 +22,14 @@ const ResetButton: React.FC = () => {
 
   return (
     <>
-      <button
+      <Button
         onClick={handleReset}
-        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full"
+        variant="contained"
+        color="warning"
+        fullWidth
       >
         リセット
-      </button>
+      </Button>
       {showConfirm && (
         <ConfirmDialog
           confirmText="本当にリセットしますか？"
