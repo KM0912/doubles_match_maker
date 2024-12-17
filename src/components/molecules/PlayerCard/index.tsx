@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Player } from "../../../types";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 import ConfirmDialog from "../ConfirmDialog";
+import { Button } from "@mui/material";
 
 type PlayerStatusCardProps = {
   player: Player;
@@ -41,20 +42,21 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
 
           {!isPlayerInMatch && (
             <div className="ml-auto flex gap-2">
-              <button
-                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded inline-block text-sm ${
-                  player.onBreak ? "bg-red-500 hover:bg-red-700" : ""
-                }`}
+              <Button
+                variant="contained"
+                color={player.onBreak ? "secondary" : "primary"}
+                size="small"
                 onClick={() => onBreakToggle(player.id)}
               >
                 {player.onBreak ? "休憩中" : "休憩"}
-              </button>
-              <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block text-sm"
+              </Button>
+              <Button
+                variant="contained"
+                color="warning"
                 onClick={handleRemove}
               >
                 削除
-              </button>
+              </Button>
             </div>
           )}
         </div>
