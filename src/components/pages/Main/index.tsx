@@ -6,12 +6,21 @@ import AddPlayerButton from "../../atoms/AddPlayerButton";
 import MatchControlPanel from "../../organisms/MatchControlPanel";
 import PairHistoryTable from "../../organisms/PairHistoryTable";
 import ResetButton from "../../atoms/ResetButton";
-import Tabs from "@mui/material/Tabs";
-import { AppBar, Container, Tab, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  BottomNavigation,
+  BottomNavigationAction,
+  Container,
+  Paper,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import SportsTennisIcon from "@mui/icons-material/SportsTennis";
 
 function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
-  const [activeTab, setActiveTab] = useState("settings");
+  const [activeMenu, setActiveMenu] = useState("settings");
 
   return (
     <>
@@ -29,20 +38,7 @@ function MainComponent() {
       </AppBar>
 
       <Container>
-        <div className="mb-8">
-          <Tabs
-            value={activeTab}
-            onChange={(event, newValue) => {
-              setActiveTab(newValue);
-            }}
-            variant="fullWidth"
-          >
-            <Tab label="設定" value="settings" />
-            <Tab label="試合" value="match" />
-          </Tabs>
-        </div>
-
-        {activeTab === "settings" && (
+        {activeMenu === "settings" && (
           <div className="mb-8 space-y-4">
             <div className="flex items-center gap-4">
               <CourtCounter
@@ -58,12 +54,37 @@ function MainComponent() {
           </div>
         )}
 
-        {activeTab === "match" && (
+        {activeMenu === "match" && (
           <div className="mb-8">
             <MatchControlPanel courts={courts} />
           </div>
         )}
       </Container>
+      <Paper
+        sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+        elevation={3}
+      >
+        <BottomNavigation
+          showLabels
+          value={activeMenu}
+          onChange={(event, newValue) => {
+            console.log(newValue);
+
+            setActiveMenu(newValue);
+          }}
+        >
+          <BottomNavigationAction
+            label="設定"
+            icon={<SettingsIcon />}
+            value="settings"
+          />
+          <BottomNavigationAction
+            label="試合"
+            icon={<SportsTennisIcon />}
+            value="match"
+          />
+        </BottomNavigation>
+      </Paper>
     </>
   );
 }
