@@ -37,7 +37,7 @@ function MainComponent() {
         </Toolbar>
       </AppBar>
 
-      <Container>
+      <Container className="py-8">
         {activeMenu === "settings" && (
           <div className="mb-8 space-y-4">
             <div className="flex items-center gap-4">
