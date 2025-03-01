@@ -2,7 +2,21 @@ import React, { useState } from "react";
 import { Player } from "../../../types";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 import ConfirmDialog from "../ConfirmDialog";
-import { Button } from "@mui/material";
+import {
+  Button,
+  Chip,
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  Badge,
+} from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import SportsIcon from "@mui/icons-material/Sports";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PauseCircleIcon from "@mui/icons-material/PauseCircle";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 
 type PlayerStatusCardProps = {
   player: Player;
@@ -29,44 +43,79 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
 
   return (
     <>
-      <div
-        key={player.id}
-        className={`${player.onBreak ? "opacity-50" : ""} ${
-          isPlaying ? "ring-2 ring-green-500" : ""
-        } rounded-lg mb-4`}
+      <Card
+        elevation={isPlaying ? 3 : 1}
+        sx={{
+          mb: 2,
+          opacity: player.onBreak ? 0.6 : 1,
+          border: isPlaying ? "2px solid #4caf50" : "none",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            transform: "translateY(-2px)",
+            boxShadow: 3,
+          },
+        }}
       >
-        <div className="bg-white p-4 rounded shadow flex gap-4 items-center">
-          <div className="font-bold">選手 {player.id}</div>
-          <div>試合数: {player.gamesPlayed}</div>
-          <div>勝利数: {player.wins}</div>
+        <CardContent sx={{ p: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+            <Badge
+              color={isPlaying ? "success" : "primary"}
+              badgeContent={isPlaying ? "試合中" : null}
+            >
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ display: "flex", alignItems: "center" }}
+              >
+                <PersonIcon sx={{ mr: 1 }} />
+                選手 {player.id}
+              </Typography>
+            </Badge>
+          </Box>
+
+          <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+            <Chip
+              icon={<SportsIcon />}
+              label={`試合数: ${player.gamesPlayed}`}
+              variant="outlined"
+              size="small"
+            />
+            <Chip
+              icon={<EmojiEventsIcon />}
+              label={`勝利数: ${player.wins}`}
+              variant="outlined"
+              color="primary"
+              size="small"
+            />
+          </Box>
 
           {!isPlayerInMatch && (
-            <div className="ml-auto flex gap-2">
+            <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
               <Button
-                variant="contained"
+                variant="outlined"
                 color={player.onBreak ? "secondary" : "primary"}
                 size="small"
                 onClick={() => onBreakToggle(player.id)}
+                startIcon={
+                  player.onBreak ? <PlayCircleIcon /> : <PauseCircleIcon />
+                }
               >
-                {player.onBreak ? "休憩中" : "休憩"}
+                {player.onBreak ? "復帰" : "休憩"}
               </Button>
               <Button
-                variant="contained"
-                color="warning"
+                variant="outlined"
+                color="error"
+                size="small"
                 onClick={handleRemove}
+                startIcon={<DeleteIcon />}
               >
                 削除
               </Button>
-            </div>
+            </Box>
           )}
-        </div>
+        </CardContent>
+      </Card>
 
-        {isPlaying && (
-          <div className="text-center mt-2 text-green-500 font-bold">
-            試合中
-          </div>
-        )}
-      </div>
       {showConfirm && (
         <ConfirmDialog
           confirmText="本当に削除しますか？"
