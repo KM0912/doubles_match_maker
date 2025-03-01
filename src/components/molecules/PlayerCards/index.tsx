@@ -9,39 +9,19 @@ const PlayerCards: React.FC = () => {
   const theme = useTheme();
   const isXsScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // プレイヤーを試合中と待機中に分類
-  const playingPlayers = players.filter((player) => isPlayerInMatch(player.id));
-  const waitingPlayers = players.filter(
-    (player) => !isPlayerInMatch(player.id)
-  );
+  // プレイヤーをID順にソート
+  const sortedPlayers = [...players].sort((a, b) => a.id - b.id);
 
   return (
     <Box>
-      {/* 試合中のプレイヤー */}
-      {playingPlayers.length > 0 && (
-        <Grid container spacing={1} sx={{ mb: 2 }}>
-          {playingPlayers.map((player) => (
-            <Grid item xs={isXsScreen ? 12 : 6} key={player.id}>
-              <PlayerCard
-                player={player}
-                isPlaying={true}
-                setOnBreak={setOnBreak}
-                isInMatch={true}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      )}
-
-      {/* 待機中のプレイヤー */}
       <Grid container spacing={1}>
-        {waitingPlayers.map((player) => (
+        {sortedPlayers.map((player) => (
           <Grid item xs={isXsScreen ? 12 : 6} key={player.id}>
             <PlayerCard
               player={player}
-              isPlaying={false}
+              isPlaying={isPlayerInMatch(player.id)}
               setOnBreak={setOnBreak}
-              isInMatch={false}
+              isInMatch={isPlayerInMatch(player.id)}
             />
           </Grid>
         ))}
