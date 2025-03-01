@@ -3,17 +3,14 @@ import { Player } from "../../../types";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 import ConfirmDialog from "../ConfirmDialog";
 import {
-  Button,
   Card,
   CardContent,
-  Typography,
   Box,
   IconButton,
   Tooltip,
   Chip,
   Avatar,
 } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import SportsIcon from "@mui/icons-material/Sports";
 import DeleteIcon from "@mui/icons-material/Delete";
