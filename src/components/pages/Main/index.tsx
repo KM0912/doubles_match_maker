@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SportsTennisIcon from "@mui/icons-material/SportsTennis";
+import PersonIcon from "@mui/icons-material/Person";
 
 function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
@@ -88,14 +89,23 @@ function MainComponent() {
               <ResetButton />
             </Box>
 
-            <Box sx={{ mb: 4 }}>
-              <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+            <Box sx={{ mb: 3 }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  mb: 1,
+                  fontWeight: "bold",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <PersonIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
                 参加者一覧
               </Typography>
               <PlayerCards />
             </Box>
 
-            <Divider sx={{ my: 3 }} />
+            <Divider sx={{ my: 2 }} />
 
             <Box>
               <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>

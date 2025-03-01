@@ -4,12 +4,14 @@ import { usePlayerContext } from "../../../contexts/PlayerContext";
 import ConfirmDialog from "../ConfirmDialog";
 import {
   Button,
-  Chip,
   Card,
   CardContent,
   Typography,
   Box,
-  Badge,
+  IconButton,
+  Tooltip,
+  Chip,
+  Avatar,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
@@ -44,75 +46,120 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
   return (
     <>
       <Card
-        elevation={isPlaying ? 3 : 1}
+        elevation={isPlaying ? 2 : 1}
         sx={{
-          mb: 2,
+          mb: 1,
           opacity: player.onBreak ? 0.6 : 1,
           border: isPlaying ? "2px solid #4caf50" : "none",
-          transition: "all 0.3s ease",
-          "&:hover": {
-            transform: "translateY(-2px)",
-            boxShadow: 3,
-          },
+          transition: "all 0.2s ease",
+          borderRadius: 1.5,
         }}
       >
-        <CardContent sx={{ p: 2 }}>
-          <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-            <Badge
-              color={isPlaying ? "success" : "primary"}
-              badgeContent={isPlaying ? "試合中" : null}
-            >
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ display: "flex", alignItems: "center" }}
+        <CardContent sx={{ p: 1.5, "&:last-child": { pb: 1.5 } }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Avatar
+                sx={{
+                  width: 40,
+                  height: 40,
+                  mr: 1.5,
+                  bgcolor: isPlaying
+                    ? "#4caf50"
+                    : player.onBreak
+                    ? "#9e9e9e"
+                    : "#1976d2",
+                  fontSize: "1rem",
+                  fontWeight: "bold",
+                }}
               >
-                <PersonIcon sx={{ mr: 1 }} />
-                選手 {player.id}
-              </Typography>
-            </Badge>
-          </Box>
+                {player.id}
+              </Avatar>
 
-          <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
-            <Chip
-              icon={<SportsIcon />}
-              label={`試合数: ${player.gamesPlayed}`}
-              variant="outlined"
-              size="small"
-            />
-            <Chip
-              icon={<EmojiEventsIcon />}
-              label={`勝利数: ${player.wins}`}
-              variant="outlined"
-              color="primary"
-              size="small"
-            />
-          </Box>
+              <Box>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  {isPlaying && (
+                    <Chip
+                      label="試合中"
+                      color="success"
+                      size="small"
+                      sx={{ height: 20, fontSize: "0.625rem", mb: 0.5 }}
+                    />
+                  )}
+                </Box>
 
-          {!isPlayerInMatch && (
-            <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
-              <Button
-                variant="outlined"
-                color={player.onBreak ? "secondary" : "primary"}
-                size="small"
-                onClick={() => onBreakToggle(player.id)}
-                startIcon={
-                  player.onBreak ? <PlayCircleIcon /> : <PauseCircleIcon />
-                }
-              >
-                {player.onBreak ? "復帰" : "休憩"}
-              </Button>
-              <Button
-                variant="outlined"
-                color="error"
-                size="small"
-                onClick={handleRemove}
-                startIcon={<DeleteIcon />}
-              >
-                削除
-              </Button>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Tooltip title="試合数">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        mr: 1.5,
+                        fontSize: "0.75rem",
+                      }}
+                    >
+                      <SportsIcon
+                        fontSize="small"
+                        sx={{ mr: 0.5, fontSize: "0.875rem" }}
+                      />
+                      {player.gamesPlayed}
+                    </Box>
+                  </Tooltip>
+
+                  <Tooltip title="勝利数">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "0.75rem",
+                      }}
+                    >
+                      <EmojiEventsIcon
+                        fontSize="small"
+                        sx={{ mr: 0.5, fontSize: "0.875rem", color: "#f57c00" }}
+                      />
+                      {player.wins}
+                    </Box>
+                  </Tooltip>
+                </Box>
+              </Box>
             </Box>
-          )}
+
+            {!isPlayerInMatch && (
+              <Box sx={{ display: "flex" }}>
+                <Tooltip title={player.onBreak ? "復帰" : "休憩"}>
+                  <IconButton
+                    size="small"
+                    color={player.onBreak ? "secondary" : "primary"}
+                    onClick={() => onBreakToggle(player.id)}
+                    sx={{ p: 0.5 }}
+                  >
+                    {player.onBreak ? (
+                      <PlayCircleIcon fontSize="small" />
+                    ) : (
+                      <PauseCircleIcon fontSize="small" />
+                    )}
+                  </IconButton>
+                </Tooltip>
+
+                <Tooltip title="削除">
+                  <IconButton
+                    size="small"
+                    color="error"
+                    onClick={handleRemove}
+                    sx={{ p: 0.5 }}
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            )}
+          </Box>
         </CardContent>
       </Card>
 
