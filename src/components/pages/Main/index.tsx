@@ -17,12 +17,12 @@ import {
   Box,
   Fade,
   useTheme,
-  Divider,
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SportsTennisIcon from "@mui/icons-material/SportsTennis";
-import PersonIcon from "@mui/icons-material/Person";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import HistoryIcon from "@mui/icons-material/History";
 
 function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
@@ -73,8 +73,19 @@ function MainComponent() {
       >
         <Fade in={activeMenu === "settings"} unmountOnExit>
           <Box sx={{ display: activeMenu === "settings" ? "block" : "none" }}>
-            <Box sx={{ mb: 3 }}>
-              <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+            <Paper elevation={1} sx={{ p: 2, mb: 3, borderRadius: 2 }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  mb: 2,
+                  fontWeight: "bold",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <span style={{ fontSize: "1.2em", marginRight: "0.4em" }}>
+                  ⚙️
+                </span>
                 基本設定
               </Typography>
               <CourtCounter
@@ -82,40 +93,46 @@ function MainComponent() {
                 onIncrement={incrementCourts}
                 onDecrement={decrementCourts}
               />
-            </Box>
+            </Paper>
 
-            <AddPlayerButton />
-
-            <Box sx={{ mb: 3 }}>
+            <Paper elevation={1} sx={{ p: 2, mb: 3, borderRadius: 2 }}>
               <Typography
                 variant="h6"
                 sx={{
-                  mb: 1,
+                  mb: 2,
                   fontWeight: "bold",
                   display: "flex",
                   alignItems: "center",
                 }}
               >
-                <PersonIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
+                <PersonAddIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
                 参加者一覧
               </Typography>
+              <Box sx={{ mb: 3 }}>
+                <AddPlayerButton />
+              </Box>
               <PlayerCards />
-            </Box>
+            </Paper>
 
-            <Divider sx={{ my: 2 }} />
-
-            <Box>
-              <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+            <Paper elevation={1} sx={{ p: 2, mb: 3, borderRadius: 2 }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  mb: 2,
+                  fontWeight: "bold",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <HistoryIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
                 ペア履歴
               </Typography>
               <PairHistoryTable />
-            </Box>
+            </Paper>
 
-            <Divider sx={{ my: 4 }} />
-
-            <Box sx={{ mb: 5 }}>
+            <Paper elevation={1} sx={{ p: 2, mb: 5, borderRadius: 2 }}>
               <Typography
-                variant="h5"
+                variant="h6"
                 sx={{
                   mb: 2,
                   fontWeight: "bold",
@@ -124,20 +141,33 @@ function MainComponent() {
                   alignItems: "center",
                 }}
               >
-                <WarningAmberIcon sx={{ mr: 1 }} />
+                <WarningAmberIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
                 データ管理
               </Typography>
               <ResetButton />
-            </Box>
+            </Paper>
           </Box>
         </Fade>
 
         <Fade in={activeMenu === "match"} unmountOnExit>
           <Box sx={{ display: activeMenu === "match" ? "block" : "none" }}>
-            <Typography variant="h5" sx={{ mb: 3, fontWeight: "bold" }}>
-              試合管理
-            </Typography>
-            <MatchControlPanel courts={courts} />
+            <Paper elevation={1} sx={{ p: 2, mb: 3, borderRadius: 2 }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  mb: 2,
+                  fontWeight: "bold",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <span style={{ fontSize: "1.2em", marginRight: "0.4em" }}>
+                  🎮
+                </span>
+                試合管理
+              </Typography>
+              <MatchControlPanel courts={courts} />
+            </Paper>
           </Box>
         </Fade>
       </Container>

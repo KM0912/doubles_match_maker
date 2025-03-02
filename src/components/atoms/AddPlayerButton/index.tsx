@@ -1,11 +1,11 @@
-import { Button, Paper, Typography, Box } from "@mui/material";
+import { Button, Typography, Box } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 
 const AddPlayerButton: React.FC = () => {
   const { addPlayer, playerCount } = usePlayerContext();
   return (
-    <Paper elevation={1} sx={{ p: 2, mb: 2, borderRadius: 2 }}>
+    <>
       <Box
         sx={{
           display: "flex",
@@ -14,7 +14,6 @@ const AddPlayerButton: React.FC = () => {
           mb: 1,
         }}
       >
-        <Typography variant="h6">参加者</Typography>
         <Typography variant="body2" color="text.secondary">
           現在: {playerCount}人
         </Typography>
@@ -38,7 +37,7 @@ const AddPlayerButton: React.FC = () => {
       >
         参加者を追加
       </Button>
-    </Paper>
+    </>
   );
 };
 
