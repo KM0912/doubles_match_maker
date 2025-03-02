@@ -22,6 +22,7 @@ import {
 import SettingsIcon from "@mui/icons-material/Settings";
 import SportsTennisIcon from "@mui/icons-material/SportsTennis";
 import PersonIcon from "@mui/icons-material/Person";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
@@ -86,10 +87,6 @@ function MainComponent() {
             <AddPlayerButton />
 
             <Box sx={{ mb: 3 }}>
-              <ResetButton />
-            </Box>
-
-            <Box sx={{ mb: 3 }}>
               <Typography
                 variant="h6"
                 sx={{
@@ -112,6 +109,25 @@ function MainComponent() {
                 ペア履歴
               </Typography>
               <PairHistoryTable />
+            </Box>
+
+            <Divider sx={{ my: 4 }} />
+
+            <Box sx={{ mb: 5 }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  mb: 2,
+                  fontWeight: "bold",
+                  color: theme.palette.error.main,
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <WarningAmberIcon sx={{ mr: 1 }} />
+                データ管理
+              </Typography>
+              <ResetButton />
             </Box>
           </Box>
         </Fade>
