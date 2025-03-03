@@ -45,18 +45,26 @@ function MainComponent() {
       >
         <Toolbar sx={{ display: "flex", justifyContent: "center" }}>
           <Typography
-            variant="h5"
+            variant="h6"
             align="center"
+            noWrap
             sx={{
               fontWeight: "bold",
-              letterSpacing: "0.1em",
+              letterSpacing: "0.05em",
               py: 1,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              fontSize: { xs: "1rem", sm: "1.25rem" },
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              maxWidth: "100%",
             }}
           >
-            <span style={{ fontSize: "1.2em", marginRight: "0.4em" }}>🏸</span>
+            <SportsTennisIcon
+              sx={{ mr: 1, fontSize: { xs: "1.2rem", sm: "1.5rem" } }}
+            />
             ダブルス組み合わせメーカー
           </Typography>
         </Toolbar>
