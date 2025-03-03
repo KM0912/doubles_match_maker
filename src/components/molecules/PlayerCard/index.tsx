@@ -12,7 +12,7 @@ import {
   Avatar,
 } from "@mui/material";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import SportsIcon from "@mui/icons-material/Sports";
+import SportsIcon from "@mui/icons-material/SportsTennis";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
@@ -46,7 +46,6 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
         elevation={isPlaying ? 2 : 1}
         sx={{
           mb: 1,
-          opacity: player.onBreak ? 0.6 : 1,
           border: isPlaying ? "2px solid #4caf50" : "none",
           transition: "all 0.2s ease",
           borderRadius: 1.5,
@@ -86,6 +85,19 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
                       color="success"
                       size="small"
                       sx={{ height: 20, fontSize: "0.625rem", mb: 0.5 }}
+                    />
+                  )}
+                  {player.onBreak && (
+                    <Chip
+                      label="休憩中"
+                      color="default"
+                      size="small"
+                      sx={{
+                        height: 20,
+                        fontSize: "0.625rem",
+                        mb: 0.5,
+                        ml: isPlaying ? 0.5 : 0,
+                      }}
                     />
                   )}
                 </Box>
