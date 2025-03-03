@@ -163,7 +163,7 @@ function MainComponent() {
               elevation={1}
               sx={{
                 p: { xs: 1.5, sm: 2 },
-                mb: 3,
+                mb: 5,
                 borderRadius: 2,
                 overflow: "hidden",
               }}

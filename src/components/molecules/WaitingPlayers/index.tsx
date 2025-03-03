@@ -2,17 +2,7 @@ import { useMatchContext } from "../../../contexts/MatchContext";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 import { selectedPlayer } from "../../../hooks/useSwapPlayer";
 import { Player } from "../../../types";
-import {
-  Box,
-  Typography,
-  Grid,
-  Card,
-  CardContent,
-  Badge,
-  Chip,
-  useTheme,
-} from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
+import { Box, Typography, Grid, Card, CardContent } from "@mui/material";
 import SportsIcon from "@mui/icons-material/Sports";
 
 type Props = {
@@ -26,7 +16,6 @@ const WaitingPlayers: React.FC<Props> = ({
 }) => {
   const { players } = usePlayerContext();
   const { matches, setMatches, isPlayerInMatch } = useMatchContext();
-  const theme = useTheme();
 
   const handlePlayerClick = (player: Player) => {
     if (!selectedPlayer) return;

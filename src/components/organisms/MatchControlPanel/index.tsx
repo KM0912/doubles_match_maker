@@ -4,7 +4,7 @@ import CompleteMatchesButton from "../../atoms/CompleteMatchesButton";
 import GenerateMatchesButton from "../../atoms/GenerateMatchesButton";
 import CurrentMatch from "../../molecules/CurrentMatch";
 import WaitingPlayers from "../../molecules/WaitingPlayers";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 
 type Props = {
   courts: number;
@@ -26,7 +26,7 @@ const MatchControlPanel: React.FC<Props> = ({ courts }) => {
       </Box>
 
       {matches.length > 0 && (
-        <Stack spacing={3} sx={{ width: "100%", pb: { xs: 8, sm: 10 } }}>
+        <Stack spacing={3} sx={{ width: "100%" }}>
           <CurrentMatch
             selectedPlayer={selectedPlayer}
             updateSelectedPlayer={updateSelectedPlayer}
