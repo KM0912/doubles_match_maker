@@ -1,6 +1,7 @@
 import { useMatchContext } from "../../../contexts/MatchContext";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 import ActionButton from "../ActionButton";
+import ShuffleIcon from "@mui/icons-material/Shuffle";
 
 type Props = {
   courts: number;
@@ -13,7 +14,13 @@ const GenerateMatchesButton: React.FC<Props> = ({ courts }) => {
     <ActionButton
       onClick={() => generateMatches(courts)}
       disabled={matches.length > 0 || players.length < 4}
-      className="bg-green-500 text-white hover:bg-green-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+      color="success"
+      startIcon={<ShuffleIcon />}
+      size="large"
+      sx={{
+        py: { xs: 1, sm: 1.5 },
+        fontSize: { xs: "0.9rem", sm: "1rem" },
+      }}
     >
       試合組み合わせ生成
     </ActionButton>

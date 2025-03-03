@@ -1,6 +1,22 @@
 import { useMatchContext } from "../../../contexts/MatchContext";
 import useMatchWinner from "../../../hooks/useMatchWinner";
 import { selectedPlayer } from "../../../hooks/useSwapPlayer";
+import {
+  Box,
+  Typography,
+  Grid,
+  Paper,
+  Button,
+  Stack,
+  Divider,
+  Card,
+  CardContent,
+  CardActions,
+  useTheme,
+} from "@mui/material";
+import SportsTennisIcon from "@mui/icons-material/SportsTennis";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import UndoIcon from "@mui/icons-material/Undo";
 
 type Props = {
   selectedPlayer: selectedPlayer;
@@ -25,6 +41,7 @@ const CurrentMatch: React.FC<Props> = ({
 }) => {
   const { matches } = useMatchContext();
   const { updateMatchWinner, resetMatchWinner } = useMatchWinner();
+  const theme = useTheme();
 
   const handleClickPlayer = (
     matchIndex: number,
@@ -40,102 +57,273 @@ const CurrentMatch: React.FC<Props> = ({
   };
 
   return (
-    <>
-      <h2 className="text-xl font-bold mb-4">現在の試合</h2>
-      <div className="flex flex-col md:flex-row flex-wrap gap-2 md:gap-4">
+    <Box>
+      <Typography variant="h6" fontWeight="bold" sx={{ mb: 1.5 }}>
+        現在の試合
+      </Typography>
+      <Grid container spacing={1.5}>
         {matches.map((match, index) => (
-          <div
-            key={match.id}
-            className="bg-white p-4 rounded shadow w-full md:flex-1 min-w-[250px]"
-          >
-            <div className="text-lg font-bold mb-2">コート {index + 1}</div>
-            <div className="flex justify-center items-center gap-4 md:gap-8">
-              <div className="flex flex-col items-center space-y-2">
-                <div
-                  className={`w-full text-center cursor-pointer hover:bg-gray-100 p-2 rounded ${
-                    isPlayerSelected(index, 1, 0)
-                      ? "bg-blue-100 ring-2 ring-blue-500"
-                      : ""
-                  }`}
-                  onClick={() => handleClickPlayer(index, 1, 0)}
+          <Grid item xs={12} sm={6} md={4} key={match.id}>
+            <Card
+              elevation={2}
+              sx={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <CardContent
+                sx={{
+                  flexGrow: 1,
+                  p: { xs: 1, sm: 1.5 },
+                  pb: { xs: 0.5, sm: 1 },
+                }}
+              >
+                <Typography
+                  variant="subtitle2"
+                  fontWeight="bold"
+                  sx={{
+                    mb: 1,
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: { xs: "0.8rem", sm: "0.9rem" },
+                  }}
                 >
-                  選手{match.team1[0].id}
-                </div>
-                <div
-                  className={`w-full text-center cursor-pointer hover:bg-gray-100 p-2 rounded ${
-                    isPlayerSelected(index, 1, 1)
-                      ? "bg-blue-100 ring-2 ring-blue-500"
-                      : ""
-                  }`}
-                  onClick={() => handleClickPlayer(index, 1, 1)}
-                >
-                  選手{match.team1[1].id}
-                </div>
-              </div>
+                  <SportsTennisIcon sx={{ mr: 0.5, fontSize: "0.8rem" }} />
+                  コート {index + 1}
+                </Typography>
 
-              <div className="text-center font-bold">vs</div>
+                {/* 試合の組み合わせを1行で表示 */}
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={0.5}
+                  sx={{ width: "100%" }}
+                >
+                  {/* チーム1 */}
+                  <Stack direction="row" spacing={0.5} sx={{ width: "42.5%" }}>
+                    <Box
+                      sx={{
+                        p: 0.5,
+                        textAlign: "center",
+                        borderRadius: 1,
+                        cursor: "pointer",
+                        bgcolor: isPlayerSelected(index, 1, 0)
+                          ? "primary.light"
+                          : "background.paper",
+                        border: isPlayerSelected(index, 1, 0)
+                          ? `2px solid ${theme.palette.primary.main}`
+                          : "1px solid #e0e0e0",
+                        "&:hover": {
+                          bgcolor: "action.hover",
+                        },
+                        width: "50%",
+                        minWidth: 0,
+                      }}
+                      onClick={() => handleClickPlayer(index, 1, 0)}
+                    >
+                      <Typography
+                        variant="body2"
+                        noWrap
+                        sx={{ fontSize: { xs: "0.7rem", sm: "0.75rem" } }}
+                      >
+                        #{match.team1[0].id}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        p: 0.5,
+                        textAlign: "center",
+                        borderRadius: 1,
+                        cursor: "pointer",
+                        bgcolor: isPlayerSelected(index, 1, 1)
+                          ? "primary.light"
+                          : "background.paper",
+                        border: isPlayerSelected(index, 1, 1)
+                          ? `2px solid ${theme.palette.primary.main}`
+                          : "1px solid #e0e0e0",
+                        "&:hover": {
+                          bgcolor: "action.hover",
+                        },
+                        width: "50%",
+                        minWidth: 0,
+                      }}
+                      onClick={() => handleClickPlayer(index, 1, 1)}
+                    >
+                      <Typography
+                        variant="body2"
+                        noWrap
+                        sx={{ fontSize: { xs: "0.7rem", sm: "0.75rem" } }}
+                      >
+                        #{match.team1[1].id}
+                      </Typography>
+                    </Box>
+                  </Stack>
 
-              <div className="flex flex-col items-center space-y-2">
-                <div
-                  className={`w-full text-center cursor-pointer hover:bg-gray-100 p-2 rounded ${
-                    isPlayerSelected(index, 2, 0)
-                      ? "bg-blue-100 ring-2 ring-blue-500"
-                      : ""
-                  }`}
-                  onClick={() => handleClickPlayer(index, 2, 0)}
-                >
-                  選手{match.team2[0].id}
-                </div>
-                <div
-                  className={`w-full text-center cursor-pointer hover:bg-gray-100 p-2 rounded ${
-                    isPlayerSelected(index, 2, 1)
-                      ? "bg-blue-100 ring-2 ring-blue-500"
-                      : ""
-                  }`}
-                  onClick={() => handleClickPlayer(index, 2, 1)}
-                >
-                  選手{match.team2[1].id}
-                </div>
-              </div>
-            </div>
+                  {/* VS表示 */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      width: "15%",
+                    }}
+                  >
+                    <Typography
+                      variant="caption"
+                      fontWeight="bold"
+                      sx={{
+                        fontSize: { xs: "0.6rem", sm: "0.65rem" },
+                        color: "text.secondary",
+                        px: 0.5,
+                        py: 0.1,
+                        borderRadius: 5,
+                        bgcolor: "action.hover",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      VS
+                    </Typography>
+                  </Box>
 
-            {!match.winner && (
-              <div className="flex justify-center gap-4 mt-4">
-                <button
-                  onClick={() => updateMatchWinner(index, 1)}
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                >
-                  チーム1勝利
-                </button>
-                <button
-                  onClick={() => updateMatchWinner(index, 2)}
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                >
-                  チーム2勝利
-                </button>
-              </div>
-            )}
+                  {/* チーム2 */}
+                  <Stack direction="row" spacing={0.5} sx={{ width: "42.5%" }}>
+                    <Box
+                      sx={{
+                        p: 0.5,
+                        textAlign: "center",
+                        borderRadius: 1,
+                        cursor: "pointer",
+                        bgcolor: isPlayerSelected(index, 2, 0)
+                          ? "primary.light"
+                          : "background.paper",
+                        border: isPlayerSelected(index, 2, 0)
+                          ? `2px solid ${theme.palette.primary.main}`
+                          : "1px solid #e0e0e0",
+                        "&:hover": {
+                          bgcolor: "action.hover",
+                        },
+                        width: "50%",
+                        minWidth: 0,
+                      }}
+                      onClick={() => handleClickPlayer(index, 2, 0)}
+                    >
+                      <Typography
+                        variant="body2"
+                        noWrap
+                        sx={{ fontSize: { xs: "0.7rem", sm: "0.75rem" } }}
+                      >
+                        #{match.team2[0].id}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        p: 0.5,
+                        textAlign: "center",
+                        borderRadius: 1,
+                        cursor: "pointer",
+                        bgcolor: isPlayerSelected(index, 2, 1)
+                          ? "primary.light"
+                          : "background.paper",
+                        border: isPlayerSelected(index, 2, 1)
+                          ? `2px solid ${theme.palette.primary.main}`
+                          : "1px solid #e0e0e0",
+                        "&:hover": {
+                          bgcolor: "action.hover",
+                        },
+                        width: "50%",
+                        minWidth: 0,
+                      }}
+                      onClick={() => handleClickPlayer(index, 2, 1)}
+                    >
+                      <Typography
+                        variant="body2"
+                        noWrap
+                        sx={{ fontSize: { xs: "0.7rem", sm: "0.75rem" } }}
+                      >
+                        #{match.team2[1].id}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </Stack>
+              </CardContent>
 
-            {match.winner && (
-              <div className="text-center mt-4 font-bold text-green-500">
-                チーム{match.winner}の勝利！
-              </div>
-            )}
-
-            {match.winner && (
-              <div className="flex justify-center mt-4">
-                <button
-                  onClick={() => resetMatchWinner(index)}
-                  className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
-                >
-                  勝敗を修正
-                </button>
-              </div>
-            )}
-          </div>
+              <CardActions
+                sx={{
+                  p: { xs: 0.5, sm: 1 },
+                  flexDirection: "column",
+                  width: "100%",
+                }}
+              >
+                {!match.winner ? (
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    sx={{ width: "100%", justifyContent: "space-between" }}
+                  >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      fullWidth
+                      onClick={() => updateMatchWinner(index, 1)}
+                      sx={{
+                        fontSize: { xs: "0.65rem", sm: "0.7rem" },
+                        py: 0.5,
+                      }}
+                    >
+                      チーム1勝利
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      size="small"
+                      fullWidth
+                      onClick={() => updateMatchWinner(index, 2)}
+                      sx={{
+                        fontSize: { xs: "0.65rem", sm: "0.7rem" },
+                        py: 0.5,
+                      }}
+                    >
+                      チーム2勝利
+                    </Button>
+                  </Stack>
+                ) : (
+                  <Stack spacing={0.5} sx={{ width: "100%" }}>
+                    <Typography
+                      variant="body2"
+                      fontWeight="bold"
+                      color="success.main"
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: { xs: "0.7rem", sm: "0.75rem" },
+                      }}
+                    >
+                      <EmojiEventsIcon sx={{ mr: 0.5, fontSize: "0.8rem" }} />
+                      チーム{match.winner}の勝利！
+                    </Typography>
+                    <Button
+                      variant="outlined"
+                      color="warning"
+                      size="small"
+                      startIcon={<UndoIcon sx={{ fontSize: "0.8rem" }} />}
+                      onClick={() => resetMatchWinner(index)}
+                      sx={{
+                        fontSize: { xs: "0.65rem", sm: "0.7rem" },
+                        py: 0.3,
+                      }}
+                    >
+                      勝敗を修正
+                    </Button>
+                  </Stack>
+                )}
+              </CardActions>
+            </Card>
+          </Grid>
         ))}
-      </div>
-    </>
+      </Grid>
+    </Box>
   );
 };
 

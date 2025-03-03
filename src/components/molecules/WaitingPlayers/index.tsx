@@ -2,6 +2,18 @@ import { useMatchContext } from "../../../contexts/MatchContext";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 import { selectedPlayer } from "../../../hooks/useSwapPlayer";
 import { Player } from "../../../types";
+import {
+  Box,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  Badge,
+  Chip,
+  useTheme,
+} from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
+import SportsIcon from "@mui/icons-material/Sports";
 
 type Props = {
   selectedPlayer: selectedPlayer;
@@ -14,6 +26,7 @@ const WaitingPlayers: React.FC<Props> = ({
 }) => {
   const { players } = usePlayerContext();
   const { matches, setMatches, isPlayerInMatch } = useMatchContext();
+  const theme = useTheme();
 
   const handlePlayerClick = (player: Player) => {
     if (!selectedPlayer) return;
@@ -35,26 +48,80 @@ const WaitingPlayers: React.FC<Props> = ({
     }
   };
 
+  const waitingPlayers = players.filter(
+    (player) => !isPlayerInMatch(player.id) && !player.onBreak
+  );
+
   return (
-    <div className="mt-8">
-      <h2 className="text-xl font-bold mb-4">待機中の選手</h2>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
-        {players
-          .filter((player) => !isPlayerInMatch(player.id) && !player.onBreak)
-          .map((player) => (
-            <div
-              key={player.id}
-              className="bg-white p-4 rounded shadow cursor-pointer hover:bg-gray-100"
-              onClick={() => handlePlayerClick(player)}
-            >
-              <div className="text-center">選手{player.id}</div>
-              <div className="text-center text-gray-500">
-                試合数: {player.gamesPlayed || 0}
-              </div>
-            </div>
+    <Box sx={{ mt: 3 }}>
+      <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
+        待機中の選手
+      </Typography>
+
+      {waitingPlayers.length === 0 ? (
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ textAlign: "center", py: 2 }}
+        >
+          待機中の選手はいません
+        </Typography>
+      ) : (
+        <Grid container spacing={1.5}>
+          {waitingPlayers.map((player) => (
+            <Grid item xs={4} sm={3} md={2} key={player.id}>
+              <Card
+                elevation={1}
+                onClick={() => handlePlayerClick(player)}
+                sx={{
+                  cursor: selectedPlayer ? "pointer" : "default",
+                  transition: "all 0.2s",
+                  "&:hover": {
+                    bgcolor: selectedPlayer
+                      ? "action.hover"
+                      : "background.paper",
+                    transform: selectedPlayer ? "translateY(-2px)" : "none",
+                  },
+                  height: "100%",
+                }}
+              >
+                <CardContent
+                  sx={{
+                    p: { xs: 1, sm: 1.5 },
+                    "&:last-child": { pb: { xs: 1, sm: 1.5 } },
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    variant="body1"
+                    fontWeight="medium"
+                    sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }}
+                  >
+                    #{player.id}
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      mt: 0.5,
+                      fontSize: "0.7rem",
+                    }}
+                  >
+                    <SportsIcon sx={{ mr: 0.3, fontSize: "0.7rem" }} />
+                    試合:{player.gamesPlayed || 0}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
           ))}
-      </div>
-    </div>
+        </Grid>
+      )}
+    </Box>
   );
 };
 

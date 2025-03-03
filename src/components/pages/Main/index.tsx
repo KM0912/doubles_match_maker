@@ -159,14 +159,23 @@ function MainComponent() {
 
         <Fade in={activeMenu === "match"} unmountOnExit>
           <Box sx={{ display: activeMenu === "match" ? "block" : "none" }}>
-            <Paper elevation={1} sx={{ p: 2, mb: 3, borderRadius: 2 }}>
+            <Paper
+              elevation={1}
+              sx={{
+                p: { xs: 1.5, sm: 2 },
+                mb: 3,
+                borderRadius: 2,
+                overflow: "hidden",
+              }}
+            >
               <Typography
                 variant="h6"
                 sx={{
-                  mb: 2,
+                  mb: { xs: 1.5, sm: 2 },
                   fontWeight: "bold",
                   display: "flex",
                   alignItems: "center",
+                  fontSize: { xs: "1rem", sm: "1.25rem" },
                 }}
               >
                 <span style={{ fontSize: "1.2em", marginRight: "0.4em" }}>
@@ -198,9 +207,13 @@ function MainComponent() {
             setActiveMenu(newValue);
           }}
           sx={{
-            height: 65,
+            height: { xs: 60, sm: 65 },
             "& .MuiBottomNavigationAction-root": {
               py: 1,
+              minWidth: 0,
+            },
+            "& .MuiBottomNavigationAction-label": {
+              fontSize: { xs: "0.7rem", sm: "0.75rem" },
             },
           }}
         >
