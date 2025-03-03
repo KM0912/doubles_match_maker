@@ -31,6 +31,7 @@ function MainComponent() {
 
   return (
     <Box
+      component="main"
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -41,11 +42,12 @@ function MainComponent() {
       <AppBar
         position="static"
         elevation={0}
+        component="header"
         sx={{ bgcolor: theme.palette.primary.main }}
       >
         <Toolbar sx={{ display: "flex", justifyContent: "center" }}>
           <Typography
-            variant="h6"
+            variant="h1"
             align="center"
             noWrap
             sx={{
@@ -71,6 +73,7 @@ function MainComponent() {
       </AppBar>
 
       <Container
+        component="section"
         maxWidth="md"
         sx={{
           py: 4,
@@ -80,9 +83,17 @@ function MainComponent() {
         }}
       >
         <Fade in={activeMenu === "settings"} unmountOnExit>
-          <Box sx={{ display: activeMenu === "settings" ? "block" : "none" }}>
-            <Paper elevation={1} sx={{ p: 2, mb: 3, borderRadius: 2 }}>
+          <Box
+            component="section"
+            sx={{ display: activeMenu === "settings" ? "block" : "none" }}
+          >
+            <Paper
+              component="article"
+              elevation={1}
+              sx={{ p: 2, mb: 3, borderRadius: 2 }}
+            >
               <Typography
+                component="h2"
                 variant="h6"
                 sx={{
                   mb: 2,
@@ -103,8 +114,13 @@ function MainComponent() {
               />
             </Paper>
 
-            <Paper elevation={1} sx={{ p: 2, mb: 3, borderRadius: 2 }}>
+            <Paper
+              component="article"
+              elevation={1}
+              sx={{ p: 2, mb: 3, borderRadius: 2 }}
+            >
               <Typography
+                component="h2"
                 variant="h6"
                 sx={{
                   mb: 2,
@@ -122,8 +138,13 @@ function MainComponent() {
               <PlayerCards />
             </Paper>
 
-            <Paper elevation={1} sx={{ p: 2, mb: 3, borderRadius: 2 }}>
+            <Paper
+              component="article"
+              elevation={1}
+              sx={{ p: 2, mb: 3, borderRadius: 2 }}
+            >
               <Typography
+                component="h2"
                 variant="h6"
                 sx={{
                   mb: 2,
@@ -138,8 +159,13 @@ function MainComponent() {
               <PairHistoryTable />
             </Paper>
 
-            <Paper elevation={1} sx={{ p: 2, mb: 5, borderRadius: 2 }}>
+            <Paper
+              component="article"
+              elevation={1}
+              sx={{ p: 2, mb: 5, borderRadius: 2 }}
+            >
               <Typography
+                component="h2"
                 variant="h6"
                 sx={{
                   mb: 2,
@@ -158,8 +184,12 @@ function MainComponent() {
         </Fade>
 
         <Fade in={activeMenu === "match"} unmountOnExit>
-          <Box sx={{ display: activeMenu === "match" ? "block" : "none" }}>
+          <Box
+            component="section"
+            sx={{ display: activeMenu === "match" ? "block" : "none" }}
+          >
             <Paper
+              component="article"
               elevation={1}
               sx={{
                 p: { xs: 1.5, sm: 2 },
@@ -169,6 +199,7 @@ function MainComponent() {
               }}
             >
               <Typography
+                component="h2"
                 variant="h6"
                 sx={{
                   mb: { xs: 1.5, sm: 2 },
@@ -190,6 +221,7 @@ function MainComponent() {
       </Container>
 
       <Paper
+        component="nav"
         sx={{
           position: "fixed",
           bottom: 0,
