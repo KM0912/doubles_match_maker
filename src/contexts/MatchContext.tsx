@@ -8,6 +8,7 @@ type MatchContextType = {
   setMatches: React.Dispatch<React.SetStateAction<Match[]>>;
   generateMatches: (courts: number) => void;
   completeMatches: () => void;
+  resetMatch: () => void;
   isPlayerInMatch: (playerId: number) => boolean;
 };
 
@@ -109,6 +110,11 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     updatePairHistoryByMatches(matches);
   };
 
+  // 試合をリセットする
+  const resetMatch = () => {
+    setMatches([]);
+  };
+
   // 指定したプレイヤーが試合中かどうかを返す
   const isPlayerInMatch = (playerId: number) => {
     return matches.some(
@@ -151,6 +157,7 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     setMatches,
     generateMatches,
     completeMatches,
+    resetMatch,
     isPlayerInMatch,
   };
 

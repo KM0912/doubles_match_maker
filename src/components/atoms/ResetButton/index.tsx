@@ -4,9 +4,11 @@ import ConfirmDialog from "../../molecules/ConfirmDialog";
 import { Button, Paper, Typography, Box, Divider } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import { useMatchContext } from "../../../contexts/MatchContext";
 
 const ResetButton: React.FC = () => {
   const { resetPlayers } = usePlayerContext();
+  const { resetMatch } = useMatchContext();
   const [showConfirm, setShowConfirm] = useState(false);
 
   const handleReset = () => {
@@ -14,7 +16,9 @@ const ResetButton: React.FC = () => {
   };
 
   const confirmReset = () => {
+    console.log("confirmReset called");
     resetPlayers();
+    resetMatch();
     setShowConfirm(false);
   };
 
