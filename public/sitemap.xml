@@ -5,9 +5,9 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" 
         xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
-    <loc>https://km0912.github.io/doubles_match_maker/</loc>
-    <lastmod>2023-12-17</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://doubles-match-maker.netlify.app/</loc>
+    <lastmod>2025-03-11</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
 </urlset>
