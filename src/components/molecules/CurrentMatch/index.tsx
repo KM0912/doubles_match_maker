@@ -105,20 +105,27 @@ const CurrentMatch: React.FC<Props> = ({
                         p: 0.5,
                         textAlign: "center",
                         borderRadius: 1,
-                        cursor: "pointer",
-                        bgcolor: isPlayerSelected(index, 1, 0)
+                        cursor: match.winner ? "default" : "pointer",
+                        bgcolor: match.winner
+                          ? "action.disabledBackground"
+                          : isPlayerSelected(index, 1, 0)
                           ? "primary.light"
                           : "background.paper",
                         border: isPlayerSelected(index, 1, 0)
                           ? `2px solid ${theme.palette.primary.main}`
                           : "1px solid #e0e0e0",
                         "&:hover": {
-                          bgcolor: "action.hover",
+                          bgcolor: match.winner
+                            ? "action.disabledBackground"
+                            : "action.hover",
                         },
                         width: "50%",
                         minWidth: 0,
+                        opacity: match.winner ? 0.5 : 1,
                       }}
-                      onClick={() => handleClickPlayer(index, 1, 0)}
+                      onClick={() =>
+                        !match.winner && handleClickPlayer(index, 1, 0)
+                      }
                     >
                       <Typography
                         variant="body2"
@@ -133,20 +140,27 @@ const CurrentMatch: React.FC<Props> = ({
                         p: 0.5,
                         textAlign: "center",
                         borderRadius: 1,
-                        cursor: "pointer",
-                        bgcolor: isPlayerSelected(index, 1, 1)
+                        cursor: match.winner ? "default" : "pointer",
+                        bgcolor: match.winner
+                          ? "action.disabledBackground"
+                          : isPlayerSelected(index, 1, 1)
                           ? "primary.light"
                           : "background.paper",
                         border: isPlayerSelected(index, 1, 1)
                           ? `2px solid ${theme.palette.primary.main}`
                           : "1px solid #e0e0e0",
                         "&:hover": {
-                          bgcolor: "action.hover",
+                          bgcolor: match.winner
+                            ? "action.disabledBackground"
+                            : "action.hover",
                         },
                         width: "50%",
                         minWidth: 0,
+                        opacity: match.winner ? 0.5 : 1,
                       }}
-                      onClick={() => handleClickPlayer(index, 1, 1)}
+                      onClick={() =>
+                        !match.winner && handleClickPlayer(index, 1, 1)
+                      }
                     >
                       <Typography
                         variant="body2"
@@ -190,20 +204,27 @@ const CurrentMatch: React.FC<Props> = ({
                         p: 0.5,
                         textAlign: "center",
                         borderRadius: 1,
-                        cursor: "pointer",
-                        bgcolor: isPlayerSelected(index, 2, 0)
+                        cursor: match.winner ? "default" : "pointer",
+                        bgcolor: match.winner
+                          ? "action.disabledBackground"
+                          : isPlayerSelected(index, 2, 0)
                           ? "primary.light"
                           : "background.paper",
                         border: isPlayerSelected(index, 2, 0)
                           ? `2px solid ${theme.palette.primary.main}`
                           : "1px solid #e0e0e0",
                         "&:hover": {
-                          bgcolor: "action.hover",
+                          bgcolor: match.winner
+                            ? "action.disabledBackground"
+                            : "action.hover",
                         },
                         width: "50%",
                         minWidth: 0,
+                        opacity: match.winner ? 0.5 : 1,
                       }}
-                      onClick={() => handleClickPlayer(index, 2, 0)}
+                      onClick={() =>
+                        !match.winner && handleClickPlayer(index, 2, 0)
+                      }
                     >
                       <Typography
                         variant="body2"
@@ -218,20 +239,27 @@ const CurrentMatch: React.FC<Props> = ({
                         p: 0.5,
                         textAlign: "center",
                         borderRadius: 1,
-                        cursor: "pointer",
-                        bgcolor: isPlayerSelected(index, 2, 1)
+                        cursor: match.winner ? "default" : "pointer",
+                        bgcolor: match.winner
+                          ? "action.disabledBackground"
+                          : isPlayerSelected(index, 2, 1)
                           ? "primary.light"
                           : "background.paper",
                         border: isPlayerSelected(index, 2, 1)
                           ? `2px solid ${theme.palette.primary.main}`
                           : "1px solid #e0e0e0",
                         "&:hover": {
-                          bgcolor: "action.hover",
+                          bgcolor: match.winner
+                            ? "action.disabledBackground"
+                            : "action.hover",
                         },
                         width: "50%",
                         minWidth: 0,
+                        opacity: match.winner ? 0.5 : 1,
                       }}
-                      onClick={() => handleClickPlayer(index, 2, 1)}
+                      onClick={() =>
+                        !match.winner && handleClickPlayer(index, 2, 1)
+                      }
                     >
                       <Typography
                         variant="body2"
