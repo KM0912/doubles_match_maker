@@ -52,8 +52,10 @@ const ResetButton: React.FC = () => {
             }}
           />
           <Box>
-            <Typography variant="h6">データリセット</Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="h6" align="left">
+              データリセット
+            </Typography>
+            <Typography variant="body2" color="text.secondary" align="left">
               すべての参加者情報と試合履歴を削除します
             </Typography>
           </Box>
