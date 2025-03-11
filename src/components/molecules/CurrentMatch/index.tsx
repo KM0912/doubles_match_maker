@@ -10,11 +10,11 @@ import {
   Card,
   CardContent,
   CardActions,
-  useTheme,
 } from "@mui/material";
 import SportsTennisIcon from "@mui/icons-material/SportsTennis";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import UndoIcon from "@mui/icons-material/Undo";
+import PlayerBox from "../../atoms/PlayerBox";
 
 type Props = {
   selectedPlayer: selectedPlayer;
@@ -39,7 +39,6 @@ const CurrentMatch: React.FC<Props> = ({
 }) => {
   const { matches } = useMatchContext();
   const { updateMatchWinner, resetMatchWinner } = useMatchWinner();
-  const theme = useTheme();
 
   const handleClickPlayer = (
     matchIndex: number,
@@ -100,76 +99,22 @@ const CurrentMatch: React.FC<Props> = ({
                 >
                   {/* チーム1 */}
                   <Stack direction="row" spacing={0.5} sx={{ width: "42.5%" }}>
-                    <Box
-                      sx={{
-                        p: 0.5,
-                        textAlign: "center",
-                        borderRadius: 1,
-                        cursor: match.winner ? "default" : "pointer",
-                        bgcolor: match.winner
-                          ? "action.disabledBackground"
-                          : isPlayerSelected(index, 1, 0)
-                          ? "primary.light"
-                          : "background.paper",
-                        border: isPlayerSelected(index, 1, 0)
-                          ? `2px solid ${theme.palette.primary.main}`
-                          : "1px solid #e0e0e0",
-                        "&:hover": {
-                          bgcolor: match.winner
-                            ? "action.disabledBackground"
-                            : "action.hover",
-                        },
-                        width: "50%",
-                        minWidth: 0,
-                        opacity: match.winner ? 0.5 : 1,
-                      }}
-                      onClick={() =>
-                        !match.winner && handleClickPlayer(index, 1, 0)
-                      }
-                    >
-                      <Typography
-                        variant="body2"
-                        noWrap
-                        sx={{ fontSize: { xs: "0.7rem", sm: "0.75rem" } }}
-                      >
-                        #{match.team1[0].id}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        p: 0.5,
-                        textAlign: "center",
-                        borderRadius: 1,
-                        cursor: match.winner ? "default" : "pointer",
-                        bgcolor: match.winner
-                          ? "action.disabledBackground"
-                          : isPlayerSelected(index, 1, 1)
-                          ? "primary.light"
-                          : "background.paper",
-                        border: isPlayerSelected(index, 1, 1)
-                          ? `2px solid ${theme.palette.primary.main}`
-                          : "1px solid #e0e0e0",
-                        "&:hover": {
-                          bgcolor: match.winner
-                            ? "action.disabledBackground"
-                            : "action.hover",
-                        },
-                        width: "50%",
-                        minWidth: 0,
-                        opacity: match.winner ? 0.5 : 1,
-                      }}
-                      onClick={() =>
-                        !match.winner && handleClickPlayer(index, 1, 1)
-                      }
-                    >
-                      <Typography
-                        variant="body2"
-                        noWrap
-                        sx={{ fontSize: { xs: "0.7rem", sm: "0.75rem" } }}
-                      >
-                        #{match.team1[1].id}
-                      </Typography>
-                    </Box>
+                    <PlayerBox
+                      match={match}
+                      index={index}
+                      team={1}
+                      playerIndex={0}
+                      isPlayerSelected={isPlayerSelected}
+                      handleClickPlayer={handleClickPlayer}
+                    />
+                    <PlayerBox
+                      match={match}
+                      index={index}
+                      team={1}
+                      playerIndex={1}
+                      isPlayerSelected={isPlayerSelected}
+                      handleClickPlayer={handleClickPlayer}
+                    />
                   </Stack>
 
                   {/* VS表示 */}
@@ -199,76 +144,22 @@ const CurrentMatch: React.FC<Props> = ({
 
                   {/* チーム2 */}
                   <Stack direction="row" spacing={0.5} sx={{ width: "42.5%" }}>
-                    <Box
-                      sx={{
-                        p: 0.5,
-                        textAlign: "center",
-                        borderRadius: 1,
-                        cursor: match.winner ? "default" : "pointer",
-                        bgcolor: match.winner
-                          ? "action.disabledBackground"
-                          : isPlayerSelected(index, 2, 0)
-                          ? "primary.light"
-                          : "background.paper",
-                        border: isPlayerSelected(index, 2, 0)
-                          ? `2px solid ${theme.palette.primary.main}`
-                          : "1px solid #e0e0e0",
-                        "&:hover": {
-                          bgcolor: match.winner
-                            ? "action.disabledBackground"
-                            : "action.hover",
-                        },
-                        width: "50%",
-                        minWidth: 0,
-                        opacity: match.winner ? 0.5 : 1,
-                      }}
-                      onClick={() =>
-                        !match.winner && handleClickPlayer(index, 2, 0)
-                      }
-                    >
-                      <Typography
-                        variant="body2"
-                        noWrap
-                        sx={{ fontSize: { xs: "0.7rem", sm: "0.75rem" } }}
-                      >
-                        #{match.team2[0].id}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        p: 0.5,
-                        textAlign: "center",
-                        borderRadius: 1,
-                        cursor: match.winner ? "default" : "pointer",
-                        bgcolor: match.winner
-                          ? "action.disabledBackground"
-                          : isPlayerSelected(index, 2, 1)
-                          ? "primary.light"
-                          : "background.paper",
-                        border: isPlayerSelected(index, 2, 1)
-                          ? `2px solid ${theme.palette.primary.main}`
-                          : "1px solid #e0e0e0",
-                        "&:hover": {
-                          bgcolor: match.winner
-                            ? "action.disabledBackground"
-                            : "action.hover",
-                        },
-                        width: "50%",
-                        minWidth: 0,
-                        opacity: match.winner ? 0.5 : 1,
-                      }}
-                      onClick={() =>
-                        !match.winner && handleClickPlayer(index, 2, 1)
-                      }
-                    >
-                      <Typography
-                        variant="body2"
-                        noWrap
-                        sx={{ fontSize: { xs: "0.7rem", sm: "0.75rem" } }}
-                      >
-                        #{match.team2[1].id}
-                      </Typography>
-                    </Box>
+                    <PlayerBox
+                      match={match}
+                      index={index}
+                      team={2}
+                      playerIndex={0}
+                      isPlayerSelected={isPlayerSelected}
+                      handleClickPlayer={handleClickPlayer}
+                    />
+                    <PlayerBox
+                      match={match}
+                      index={index}
+                      team={2}
+                      playerIndex={1}
+                      isPlayerSelected={isPlayerSelected}
+                      handleClickPlayer={handleClickPlayer}
+                    />
                   </Stack>
                 </Stack>
               </CardContent>
