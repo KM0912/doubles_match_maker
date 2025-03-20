@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import CourtCounter from "../../molecules/CourtCounter";
 import useCourtManagement from "../../../hooks/useCourtManagement";
 import PlayerCards from "../../molecules/PlayerCards";
@@ -6,13 +6,12 @@ import AddPlayerButton from "../../atoms/AddPlayerButton";
 import MatchControlPanel from "../../organisms/MatchControlPanel";
 import PairHistoryTable from "../../organisms/PairHistoryTable";
 import ResetButton from "../../atoms/ResetButton";
+import Header from "../../molecules/Header";
 import {
-  AppBar,
   BottomNavigation,
   BottomNavigationAction,
   Container,
   Paper,
-  Toolbar,
   Typography,
   Box,
   Fade,
@@ -39,38 +38,7 @@ function MainComponent() {
         bgcolor: theme.palette.grey[50],
       }}
     >
-      <AppBar
-        position="static"
-        elevation={0}
-        component="header"
-        sx={{ bgcolor: theme.palette.primary.main }}
-      >
-        <Toolbar sx={{ display: "flex", justifyContent: "center" }}>
-          <Typography
-            variant="h1"
-            align="center"
-            noWrap
-            sx={{
-              fontWeight: "bold",
-              letterSpacing: "0.05em",
-              py: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: { xs: "1rem", sm: "1.25rem" },
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              maxWidth: "100%",
-            }}
-          >
-            <SportsTennisIcon
-              sx={{ mr: 1, fontSize: { xs: "1.2rem", sm: "1.5rem" } }}
-            />
-            ダブルス組み合わせメーカー
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <Header />
 
       <Container
         component="section"
