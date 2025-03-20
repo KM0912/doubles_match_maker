@@ -110,27 +110,6 @@ function MainComponent() {
             <Paper
               component="article"
               elevation={1}
-              sx={{ p: 2, mb: 3, borderRadius: 2 }}
-            >
-              <Typography
-                component="h2"
-                variant="h6"
-                sx={{
-                  mb: 2,
-                  fontWeight: "bold",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <HistoryIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
-                ペア履歴
-              </Typography>
-              <PairHistoryTable />
-            </Paper>
-
-            <Paper
-              component="article"
-              elevation={1}
               sx={{ p: 2, mb: 5, borderRadius: 2 }}
             >
               <Typography
@@ -184,6 +163,34 @@ function MainComponent() {
                 試合管理
               </Typography>
               <MatchControlPanel courts={courts} />
+            </Paper>
+          </Box>
+        </Fade>
+
+        <Fade in={activeMenu === "history"} unmountOnExit>
+          <Box
+            component="section"
+            sx={{ display: activeMenu === "history" ? "block" : "none" }}
+          >
+            <Paper
+              component="article"
+              elevation={1}
+              sx={{ p: 2, mb: 3, borderRadius: 2 }}
+            >
+              <Typography
+                component="h2"
+                variant="h6"
+                sx={{
+                  mb: 2,
+                  fontWeight: "bold",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <HistoryIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
+                ペア履歴
+              </Typography>
+              <PairHistoryTable />
             </Paper>
           </Box>
         </Fade>
