@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import CourtCounter from "../../molecules/CourtCounter";
 import useCourtManagement from "../../../hooks/useCourtManagement";
 import PlayerCards from "../../molecules/PlayerCards";
@@ -7,9 +7,8 @@ import MatchControlPanel from "../../organisms/MatchControlPanel";
 import PairHistoryTable from "../../organisms/PairHistoryTable";
 import ResetButton from "../../atoms/ResetButton";
 import Header from "../../molecules/Header";
+import { BottomNav } from "../../molecules/BottomNav";
 import {
-  BottomNavigation,
-  BottomNavigationAction,
   Container,
   Paper,
   Typography,
@@ -17,8 +16,6 @@ import {
   Fade,
   useTheme,
 } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
-import SportsTennisIcon from "@mui/icons-material/SportsTennis";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import HistoryIcon from "@mui/icons-material/History";
@@ -27,6 +24,10 @@ function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
   const [activeMenu, setActiveMenu] = useState("settings");
   const theme = useTheme();
+
+  const handleMenuChange = useCallback((newValue: string) => {
+    setActiveMenu(newValue);
+  }, []);
 
   return (
     <Box
@@ -188,47 +189,7 @@ function MainComponent() {
         </Fade>
       </Container>
 
-      <Paper
-        component="nav"
-        sx={{
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1100,
-          borderTop: `1px solid ${theme.palette.divider}`,
-        }}
-        elevation={3}
-      >
-        <BottomNavigation
-          showLabels
-          value={activeMenu}
-          onChange={(event, newValue) => {
-            setActiveMenu(newValue);
-          }}
-          sx={{
-            height: { xs: 60, sm: 65 },
-            "& .MuiBottomNavigationAction-root": {
-              py: 1,
-              minWidth: 0,
-            },
-            "& .MuiBottomNavigationAction-label": {
-              fontSize: { xs: "0.7rem", sm: "0.75rem" },
-            },
-          }}
-        >
-          <BottomNavigationAction
-            label="設定"
-            icon={<SettingsIcon />}
-            value="settings"
-          />
-          <BottomNavigationAction
-            label="試合"
-            icon={<SportsTennisIcon />}
-            value="match"
-          />
-        </BottomNavigation>
-      </Paper>
+      <BottomNav activeMenu={activeMenu} onMenuChange={handleMenuChange} />
     </Box>
   );
 }
