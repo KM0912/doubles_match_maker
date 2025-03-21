@@ -15,10 +15,14 @@ import {
   Box,
   Fade,
   useTheme,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import HistoryIcon from "@mui/icons-material/History";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
@@ -170,28 +174,44 @@ function MainComponent() {
         <Fade in={activeMenu === "history"} unmountOnExit>
           <Box
             component="section"
-            sx={{ display: activeMenu === "history" ? "block" : "none" }}
+            sx={{
+              mb: 4,
+              display: activeMenu === "history" ? "block" : "none",
+            }}
           >
-            <Paper
-              component="article"
-              elevation={1}
-              sx={{ p: 2, mb: 3, borderRadius: 2 }}
+            <Accordion
+              defaultExpanded
+              sx={{
+                mb: 3,
+                borderRadius: 2,
+                "&:before": {
+                  display: "none",
+                },
+              }}
             >
-              <Typography
-                component="h2"
-                variant="h6"
-                sx={{
-                  mb: 2,
-                  fontWeight: "bold",
-                  display: "flex",
-                  alignItems: "center",
-                }}
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="pair-history-content"
+                id="pair-history-header"
+                sx={{ p: 2 }}
               >
-                <HistoryIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
-                ペア履歴
-              </Typography>
-              <PairHistoryTable />
-            </Paper>
+                <Typography
+                  component="h2"
+                  variant="h6"
+                  sx={{
+                    fontWeight: "bold",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <HistoryIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
+                  ペア履歴
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails sx={{ p: 2 }}>
+                <PairHistoryTable />
+              </AccordionDetails>
+            </Accordion>
           </Box>
         </Fade>
       </Container>
