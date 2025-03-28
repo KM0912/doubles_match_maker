@@ -23,6 +23,10 @@ import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import HistoryIcon from "@mui/icons-material/History";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  commonPaperStyles,
+  commonTypographyStyles,
+} from "../../../styles/common";
 
 function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
@@ -63,17 +67,12 @@ function MainComponent() {
             <Paper
               component="article"
               elevation={1}
-              sx={{ p: 2, mb: 3, borderRadius: 2 }}
+              sx={{ ...commonPaperStyles, mb: 3 }}
             >
               <Typography
                 component="h2"
                 variant="h6"
-                sx={{
-                  mb: 2,
-                  fontWeight: "bold",
-                  display: "flex",
-                  alignItems: "center",
-                }}
+                sx={commonTypographyStyles}
               >
                 <span style={{ fontSize: "1.2em", marginRight: "0.4em" }}>
                   ⚙️
@@ -90,17 +89,12 @@ function MainComponent() {
             <Paper
               component="article"
               elevation={1}
-              sx={{ p: 2, mb: 3, borderRadius: 2 }}
+              sx={{ ...commonPaperStyles, mb: 3 }}
             >
               <Typography
                 component="h2"
                 variant="h6"
-                sx={{
-                  mb: 2,
-                  fontWeight: "bold",
-                  display: "flex",
-                  alignItems: "center",
-                }}
+                sx={commonTypographyStyles}
               >
                 <PersonAddIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
                 参加者一覧
@@ -114,17 +108,14 @@ function MainComponent() {
             <Paper
               component="article"
               elevation={1}
-              sx={{ p: 2, mb: 5, borderRadius: 2 }}
+              sx={{ ...commonPaperStyles, mb: 5 }}
             >
               <Typography
                 component="h2"
                 variant="h6"
                 sx={{
-                  mb: 2,
-                  fontWeight: "bold",
+                  ...commonTypographyStyles,
                   color: theme.palette.error.main,
-                  display: "flex",
-                  alignItems: "center",
                 }}
               >
                 <WarningAmberIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
@@ -140,26 +131,11 @@ function MainComponent() {
             component="section"
             sx={{ display: activeMenu === "match" ? "block" : "none" }}
           >
-            <Paper
-              component="article"
-              elevation={1}
-              sx={{
-                p: { xs: 1.5, sm: 2 },
-                mb: 5,
-                borderRadius: 2,
-                overflow: "hidden",
-              }}
-            >
+            <Paper component="article" elevation={1} sx={commonPaperStyles}>
               <Typography
                 component="h2"
                 variant="h6"
-                sx={{
-                  mb: { xs: 1.5, sm: 2 },
-                  fontWeight: "bold",
-                  display: "flex",
-                  alignItems: "center",
-                  fontSize: { xs: "1rem", sm: "1.25rem" },
-                }}
+                sx={commonTypographyStyles}
               >
                 <span style={{ fontSize: "1.2em", marginRight: "0.4em" }}>
                   🎮
