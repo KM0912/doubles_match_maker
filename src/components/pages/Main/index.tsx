@@ -1,32 +1,11 @@
 import { useCallback, useState } from "react";
-import CourtCounter from "../../molecules/CourtCounter";
 import useCourtManagement from "../../../hooks/useCourtManagement";
-import PlayerCards from "../../molecules/PlayerCards";
-import AddPlayerButton from "../../atoms/AddPlayerButton";
-import MatchControlPanel from "../../organisms/MatchControlPanel";
-import PairHistoryTable from "../../organisms/PairHistoryTable";
-import ResetButton from "../../atoms/ResetButton";
 import Header from "../../molecules/Header";
 import { BottomNav } from "../../molecules/BottomNav";
-import {
-  Container,
-  Paper,
-  Typography,
-  Box,
-  Fade,
-  useTheme,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-} from "@mui/material";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import HistoryIcon from "@mui/icons-material/History";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-  commonPaperStyles,
-  commonTypographyStyles,
-} from "../../../styles/common";
+import SettingsMenu from "../../organisms/SettingsMenu";
+import MatchMenu from "../../organisms/MatchMenu";
+import HistoryMenu from "../../organisms/HistoryMenu";
+import { Container, Box, Fade, useTheme } from "@mui/material";
 
 function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
@@ -64,65 +43,11 @@ function MainComponent() {
             component="section"
             sx={{ display: activeMenu === "settings" ? "block" : "none" }}
           >
-            <Paper
-              component="article"
-              elevation={1}
-              sx={{ ...commonPaperStyles, mb: 3 }}
-            >
-              <Typography
-                component="h2"
-                variant="h6"
-                sx={commonTypographyStyles}
-              >
-                <span style={{ fontSize: "1.2em", marginRight: "0.4em" }}>
-                  ⚙️
-                </span>
-                基本設定
-              </Typography>
-              <CourtCounter
-                courts={courts}
-                onIncrement={incrementCourts}
-                onDecrement={decrementCourts}
-              />
-            </Paper>
-
-            <Paper
-              component="article"
-              elevation={1}
-              sx={{ ...commonPaperStyles, mb: 3 }}
-            >
-              <Typography
-                component="h2"
-                variant="h6"
-                sx={commonTypographyStyles}
-              >
-                <PersonAddIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
-                参加者一覧
-              </Typography>
-              <Box sx={{ mb: 3 }}>
-                <AddPlayerButton />
-              </Box>
-              <PlayerCards />
-            </Paper>
-
-            <Paper
-              component="article"
-              elevation={1}
-              sx={{ ...commonPaperStyles, mb: 5 }}
-            >
-              <Typography
-                component="h2"
-                variant="h6"
-                sx={{
-                  ...commonTypographyStyles,
-                  color: theme.palette.error.main,
-                }}
-              >
-                <WarningAmberIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
-                データ管理
-              </Typography>
-              <ResetButton />
-            </Paper>
+            <SettingsMenu
+              courts={courts}
+              onIncrementCourts={incrementCourts}
+              onDecrementCourts={decrementCourts}
+            />
           </Box>
         </Fade>
 
@@ -131,63 +56,16 @@ function MainComponent() {
             component="section"
             sx={{ display: activeMenu === "match" ? "block" : "none" }}
           >
-            <Paper component="article" elevation={1} sx={commonPaperStyles}>
-              <Typography
-                component="h2"
-                variant="h6"
-                sx={commonTypographyStyles}
-              >
-                <span style={{ fontSize: "1.2em", marginRight: "0.4em" }}>
-                  🎮
-                </span>
-                試合管理
-              </Typography>
-              <MatchControlPanel courts={courts} />
-            </Paper>
+            <MatchMenu courts={courts} />
           </Box>
         </Fade>
 
         <Fade in={activeMenu === "history"} unmountOnExit>
           <Box
             component="section"
-            sx={{
-              mb: 4,
-              display: activeMenu === "history" ? "block" : "none",
-            }}
+            sx={{ display: activeMenu === "history" ? "block" : "none" }}
           >
-            <Accordion
-              defaultExpanded
-              sx={{
-                mb: 3,
-                borderRadius: 2,
-                "&:before": {
-                  display: "none",
-                },
-              }}
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="pair-history-content"
-                id="pair-history-header"
-                sx={{ p: 2 }}
-              >
-                <Typography
-                  component="h2"
-                  variant="h6"
-                  sx={{
-                    fontWeight: "bold",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <HistoryIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
-                  ペア履歴
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails sx={{ p: 2 }}>
-                <PairHistoryTable />
-              </AccordionDetails>
-            </Accordion>
+            <HistoryMenu />
           </Box>
         </Fade>
       </Container>
