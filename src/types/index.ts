@@ -21,6 +21,12 @@ export type PairHistory = {
   };
 };
 
+export type OpponentHistory = {
+  [playerId: number]: {
+    [opponentId: number]: number;
+  };
+};
+
 export type OnBreakState = {
   [key: number]: boolean;
 };

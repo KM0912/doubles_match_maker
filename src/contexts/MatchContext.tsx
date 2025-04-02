@@ -26,6 +26,8 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     availablePlayers,
     pairHistory,
     updatePairHistoryByMatches,
+    opponentHistory,
+    updateOpponentHistoryByMatches,
   } = usePlayerContext();
 
   // 新しい試合を生成する
@@ -94,6 +96,7 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     setMatches(newMatches);
   };
 
+  // 試合終了時の処理
   const completeMatches = () => {
     const playersInMatches = matches.reduce(
       (acc, match) => [...acc, ...match.team1, ...match.team2],
@@ -108,6 +111,7 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     updatePlayers(updatedPlayers);
     setMatches([]);
     updatePairHistoryByMatches(matches);
+    updateOpponentHistoryByMatches(matches);
   };
 
   // 試合をリセットする

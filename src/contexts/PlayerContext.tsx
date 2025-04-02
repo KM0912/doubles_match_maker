@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useEffect,
 } from "react";
-import { Match, PairHistory, Player } from "../types";
+import { Match, OpponentHistory, PairHistory, Player } from "../types";
 
 type PlayerContextType = {
   players: Player[];
@@ -19,6 +19,8 @@ type PlayerContextType = {
   availablePlayers: Player[];
   pairHistory: PairHistory;
   updatePairHistoryByMatches: (matches: Match[]) => void;
+  opponentHistory: OpponentHistory;
+  updateOpponentHistoryByMatches: (matches: Match[]) => void;
 };
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
@@ -37,6 +39,7 @@ type Props = {
 export const PlayerProvider: React.FC<Props> = ({ children }) => {
   const [players, setPlayers] = useState<Player[]>(defaultPlayers);
   const [pairHistory, setPairHistory] = useState<PairHistory>({});
+  const [opponentHistory, setOpponentHistory] = useState<OpponentHistory>({});
   const [initialized, setInitialized] = useState(false);
   useEffect(() => {
     loadPlayersFromLocalStorage();
@@ -87,6 +90,7 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
   const resetPlayers = () => {
     setPlayers(defaultPlayers);
     setPairHistory({});
+    setOpponentHistory({});
   };
 
   const setOnBreak = (playerId: number, isOnBreak: boolean) => {
@@ -129,6 +133,39 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     setPairHistory(updatedPairHistory);
   };
 
+  const updateOpponentHistoryByMatches = (matches: Match[]) => {
+    const updatedOpponentHistory = { ...opponentHistory };
+
+    matches.forEach((match) => {
+      const [p1, p2] = match.team1;
+      const [p3, p4] = match.team2;
+
+      updatedOpponentHistory[p1.id] = updatedOpponentHistory[p1.id] || {};
+      updatedOpponentHistory[p2.id] = updatedOpponentHistory[p2.id] || {};
+      updatedOpponentHistory[p1.id][p3.id] =
+        (updatedOpponentHistory[p1.id][p3.id] || 0) + 1;
+      updatedOpponentHistory[p1.id][p4.id] =
+        (updatedOpponentHistory[p1.id][p4.id] || 0) + 1;
+      updatedOpponentHistory[p2.id][p3.id] =
+        (updatedOpponentHistory[p2.id][p3.id] || 0) + 1;
+      updatedOpponentHistory[p2.id][p4.id] =
+        (updatedOpponentHistory[p2.id][p4.id] || 0) + 1;
+
+      updatedOpponentHistory[p3.id] = updatedOpponentHistory[p3.id] || {};
+      updatedOpponentHistory[p4.id] = updatedOpponentHistory[p4.id] || {};
+      updatedOpponentHistory[p3.id][p1.id] =
+        (updatedOpponentHistory[p3.id][p1.id] || 0) + 1;
+      updatedOpponentHistory[p3.id][p2.id] =
+        (updatedOpponentHistory[p3.id][p2.id] || 0) + 1;
+      updatedOpponentHistory[p4.id][p1.id] =
+        (updatedOpponentHistory[p4.id][p1.id] || 0) + 1;
+      updatedOpponentHistory[p4.id][p2.id] =
+        (updatedOpponentHistory[p4.id][p2.id] || 0) + 1;
+    });
+
+    setOpponentHistory(updatedOpponentHistory);
+  };
+
   const savePlayersToLocalStorage = (players: Player[]) => {
     localStorage.setItem("players", JSON.stringify(players));
   };
@@ -166,6 +203,8 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     availablePlayers,
     pairHistory,
     updatePairHistoryByMatches,
+    opponentHistory,
+    updateOpponentHistoryByMatches,
   };
 
   return (
