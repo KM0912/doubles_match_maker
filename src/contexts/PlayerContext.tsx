@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useEffect,
 } from "react";
-import { Match, OpponentHistory, PairHistory, Player } from "../types";
+import { Match, History, Player } from "../types";
 
 type PlayerContextType = {
   players: Player[];
@@ -17,9 +17,9 @@ type PlayerContextType = {
   setOnBreak: (playerId: number, isOnBreak: boolean) => void;
   playerCount: number;
   availablePlayers: Player[];
-  pairHistory: PairHistory;
+  pairHistory: History;
   updatePairHistoryByMatches: (matches: Match[]) => void;
-  opponentHistory: OpponentHistory;
+  opponentHistory: History;
   updateOpponentHistoryByMatches: (matches: Match[]) => void;
 };
 
@@ -38,8 +38,8 @@ type Props = {
 
 export const PlayerProvider: React.FC<Props> = ({ children }) => {
   const [players, setPlayers] = useState<Player[]>(defaultPlayers);
-  const [pairHistory, setPairHistory] = useState<PairHistory>({});
-  const [opponentHistory, setOpponentHistory] = useState<OpponentHistory>({});
+  const [pairHistory, setPairHistory] = useState<History>({});
+  const [opponentHistory, setOpponentHistory] = useState<History>({});
   const [initialized, setInitialized] = useState(false);
   useEffect(() => {
     loadPlayersFromLocalStorage();
@@ -77,7 +77,7 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     );
 
     setPairHistory((prevPairHistory) => {
-      const newPairHistory: PairHistory = { ...prevPairHistory };
+      const newPairHistory: History = { ...prevPairHistory };
       delete newPairHistory[playerId];
       Object.keys(newPairHistory).forEach((key) => {
         const numKey = Number(key);
@@ -179,7 +179,7 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     return false;
   };
 
-  const savePairHistoryToLocalStorage = (pairHistory: PairHistory) => {
+  const savePairHistoryToLocalStorage = (pairHistory: History) => {
     localStorage.setItem("pairHistory", JSON.stringify(pairHistory));
   };
 

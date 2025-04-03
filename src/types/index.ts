@@ -15,15 +15,9 @@ export type Match = {
   winner: WinnerTeam;
 };
 
-export type PairHistory = {
+export type History = {
   [playerId: number]: {
     [partnerId: number]: number;
-  };
-};
-
-export type OpponentHistory = {
-  [playerId: number]: {
-    [opponentId: number]: number;
   };
 };
 
