@@ -44,6 +44,7 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     loadPlayersFromLocalStorage();
     loadPairHistoryFromLocalStorage();
+    loadOpponentHistoryFromLocalStorage();
     setInitialized(true);
   }, []);
 
@@ -51,8 +52,9 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     if (initialized) {
       savePlayersToLocalStorage(players);
       savePairHistoryToLocalStorage(pairHistory);
+      saveOpponentHistoryToLocalStorage(opponentHistory);
     }
-  }, [players, pairHistory, initialized]);
+  }, [players, pairHistory, opponentHistory, initialized]);
 
   const updatePlayers = (players: Player[]) => {
     setPlayers(players);
@@ -187,6 +189,19 @@ export const PlayerProvider: React.FC<Props> = ({ children }) => {
     const pairHistory = localStorage.getItem("pairHistory");
     if (pairHistory) {
       setPairHistory(JSON.parse(pairHistory));
+      return true;
+    }
+    return false;
+  };
+
+  const saveOpponentHistoryToLocalStorage = (opponentHistory: History) => {
+    localStorage.setItem("opponentHistory", JSON.stringify(opponentHistory));
+  };
+
+  const loadOpponentHistoryFromLocalStorage = (): boolean => {
+    const opponentHistory = localStorage.getItem("opponentHistory");
+    if (opponentHistory) {
+      setOpponentHistory(JSON.parse(opponentHistory));
       return true;
     }
     return false;
