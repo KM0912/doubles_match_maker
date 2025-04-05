@@ -16,7 +16,6 @@ const ResetButton: React.FC = () => {
   };
 
   const confirmReset = () => {
-    console.log("confirmReset called");
     resetPlayers();
     resetMatch();
     setShowConfirm(false);
