@@ -1,6 +1,7 @@
 import React from "react";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { Match } from "../../../types";
+import { PlayerAvatar } from "../../molecules/PlayerCard/PlayerAvatar";
 
 type PlayerBoxProps = {
   match: Match;
@@ -43,8 +44,8 @@ const PlayerBox: React.FC<PlayerBoxProps> = ({
           ? "primary.light"
           : "background.paper",
         border: isPlayerSelected(index, team, playerIndex)
-          ? `2px solid ${theme.palette.primary.main}`
-          : "1px solid #e0e0e0",
+          ? `2px none ${theme.palette.primary.main}`
+          : "1px none #e0e0e0",
         "&:hover": {
           bgcolor: match.winner ? "action.disabledBackground" : "action.hover",
         },
@@ -56,13 +57,7 @@ const PlayerBox: React.FC<PlayerBoxProps> = ({
         !match.winner && handleClickPlayer(index, team, playerIndex)
       }
     >
-      <Typography
-        variant="body2"
-        noWrap
-        sx={{ fontSize: { xs: "0.7rem", sm: "0.75rem" } }}
-      >
-        #{teamPlayers[playerIndex].id}
-      </Typography>
+      <PlayerAvatar player={teamPlayers[playerIndex]} />
     </Box>
   );
 };

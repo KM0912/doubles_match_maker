@@ -3,7 +3,7 @@ import { Player } from "../../../types";
 
 type PlayerAvatarProps = {
   player: Player;
-  isPlaying: boolean;
+  isPlaying?: boolean;
 };
 
 export const PlayerAvatar = ({ player, isPlaying }: PlayerAvatarProps) => {
