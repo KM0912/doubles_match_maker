@@ -3,7 +3,7 @@ import { usePlayerContext } from "../../../contexts/PlayerContext";
 import { selectedPlayer } from "../../../hooks/useSwapPlayer";
 import { Player } from "../../../types";
 import { Box, Typography, Grid, Card, CardContent } from "@mui/material";
-import SportsIcon from "@mui/icons-material/Sports";
+import { PlayerAvatar } from "../PlayerCard/PlayerAvatar";
 
 type Props = {
   selectedPlayer: selectedPlayer;
@@ -89,7 +89,7 @@ const WaitingPlayers: React.FC<Props> = ({
                     fontWeight="medium"
                     sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }}
                   >
-                    #{player.id}
+                    <PlayerAvatar player={player} size="small" sx={{ mr: 0 }} />
                   </Typography>
                   <Typography
                     variant="caption"
@@ -101,8 +101,7 @@ const WaitingPlayers: React.FC<Props> = ({
                       fontSize: "0.7rem",
                     }}
                   >
-                    <SportsIcon sx={{ mr: 0.3, fontSize: "0.7rem" }} />
-                    試合:{player.gamesPlayed || 0}
+                    試合数:{player.gamesPlayed || 0}
                   </Typography>
                 </CardContent>
               </Card>
