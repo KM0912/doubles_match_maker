@@ -52,6 +52,8 @@ const PlayerBox: React.FC<PlayerBoxProps> = ({
         width: "50%",
         minWidth: 0,
         opacity: match.winner ? 0.5 : 1,
+        display: "flex",
+        justifyContent: "center",
       }}
       onClick={() =>
         !match.winner && handleClickPlayer(index, team, playerIndex)

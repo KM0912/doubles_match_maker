@@ -52,7 +52,11 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <PlayerAvatar player={player} isPlaying={isPlaying} />
+              <PlayerAvatar
+                player={player}
+                isPlaying={isPlaying}
+                sx={{ mr: 1.5 }}
+              />
               <Box>
                 <PlayerStatus
                   isPlaying={isPlaying}

@@ -20,7 +20,6 @@ export const PlayerAvatar = ({
       sx={{
         width: avatarSize,
         height: avatarSize,
-        mr: 1.5,
         bgcolor: isPlaying ? "#4caf50" : player.onBreak ? "#9e9e9e" : "#1976d2",
         fontSize: "1rem",
         fontWeight: "bold",
