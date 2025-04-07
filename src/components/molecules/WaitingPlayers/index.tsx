@@ -2,7 +2,7 @@ import { useMatchContext } from "../../../contexts/MatchContext";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 import { selectedPlayer } from "../../../hooks/useSwapPlayer";
 import { Player } from "../../../types";
-import { Box, Typography, Grid, Card, CardContent } from "@mui/material";
+import { Box, Typography, Grid2, Card, CardContent } from "@mui/material";
 import { PlayerAvatar } from "../PlayerCard/PlayerAvatar";
 
 type Props = {
@@ -56,9 +56,9 @@ const WaitingPlayers: React.FC<Props> = ({
           待機中の選手はいません
         </Typography>
       ) : (
-        <Grid container spacing={1.5}>
+        <Grid2 container spacing={1.5}>
           {waitingPlayers.map((player) => (
-            <Grid item xs={4} sm={3} md={2} key={player.id}>
+            <Grid2 size={{ xs: 3, sm: 3, md: 2 }} key={player.id}>
               <Card
                 elevation={1}
                 onClick={() => handlePlayerClick(player)}
@@ -105,9 +105,9 @@ const WaitingPlayers: React.FC<Props> = ({
                   </Typography>
                 </CardContent>
               </Card>
-            </Grid>
+            </Grid2>
           ))}
-        </Grid>
+        </Grid2>
       )}
     </Box>
   );
