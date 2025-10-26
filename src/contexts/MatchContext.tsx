@@ -26,7 +26,6 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     availablePlayers,
     pairHistory,
     updatePairHistoryByMatches,
-    opponentHistory,
     updateOpponentHistoryByMatches,
   } = usePlayerContext();
 
