@@ -186,19 +186,27 @@ const CurrentMatch: React.FC<Props> = ({
                       sx={{
                         fontSize: { xs: "0.65rem", sm: "0.7rem" },
                         py: 0.5,
+                        bgcolor: "primary.main",
+                        "&:hover": {
+                          bgcolor: "primary.dark",
+                        }
                       }}
                     >
                       チーム1勝利
                     </Button>
                     <Button
                       variant="contained"
-                      color="error"
+                      color="secondary"
                       size="small"
                       fullWidth
                       onClick={() => updateMatchWinner(index, 2)}
                       sx={{
                         fontSize: { xs: "0.65rem", sm: "0.7rem" },
                         py: 0.5,
+                        bgcolor: "secondary.main",
+                        "&:hover": {
+                          bgcolor: "secondary.dark",
+                        }
                       }}
                     >
                       チーム2勝利
@@ -222,7 +230,7 @@ const CurrentMatch: React.FC<Props> = ({
                     </Typography>
                     <Button
                       variant="outlined"
-                      color="warning"
+                      color="error"
                       size="small"
                       startIcon={<UndoIcon sx={{ fontSize: "0.8rem" }} />}
                       onClick={() => resetMatchWinner(index)}

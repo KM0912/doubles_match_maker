@@ -14,7 +14,7 @@ const GenerateMatchesButton: React.FC<Props> = ({ courts }) => {
     <ActionButton
       onClick={() => generateMatches(courts)}
       disabled={matches.length > 0 || players.length < 4}
-      color="success"
+      color="primary"
       startIcon={<ShuffleIcon />}
       size="large"
       sx={{

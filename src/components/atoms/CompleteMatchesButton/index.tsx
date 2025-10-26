@@ -9,7 +9,8 @@ const CompleteMatchesButton: React.FC = () => {
     <Box sx={{ mt: { xs: 2, sm: 3 } }}>
       <ActionButton
         onClick={() => completeMatches()}
-        color="secondary"
+        color="primary"
+        variant="outlined"
         startIcon={<DoneAllIcon />}
         sx={{
           py: { xs: 1, sm: 1.5 },

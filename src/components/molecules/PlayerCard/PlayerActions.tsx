@@ -19,9 +19,12 @@ export const PlayerActions = ({
       <Tooltip title={isOnBreak ? "復帰" : "休憩"}>
         <IconButton
           size="small"
-          color={isOnBreak ? "secondary" : "primary"}
+          color="default"
           onClick={onBreakToggle}
-          sx={{ p: 0.5 }}
+          sx={{ 
+            p: 0.5,
+            color: isOnBreak ? "success.main" : "warning.main"
+          }}
         >
           {isOnBreak ? (
             <PlayCircleIcon fontSize="small" />
