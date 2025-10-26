@@ -30,19 +30,9 @@ const ResetButton: React.FC = () => {
       <Box sx={{ mt: 2 }}>
         <Box sx={{ display: "flex", alignItems: "flex-start", mb: 1.5 }}>
           <WarningAmberIcon color="error" sx={{ mr: 1.2, mt: 0.4 }} />
-          <Box>
-            <Typography
-              variant="subtitle1"
-              color="error.main"
-              align="left"
-              sx={{ fontWeight: "bold" }}
-            >
-              データリセット
-            </Typography>
-            <Typography variant="body2" color="text.secondary" align="left">
-              すべての参加者情報と試合履歴を削除します
-            </Typography>
-          </Box>
+          <Typography variant="body2" color="text.secondary" align="left">
+            すべての参加者情報と試合履歴を削除します
+          </Typography>
         </Box>
         <Button
           onClick={handleReset}
