@@ -23,7 +23,7 @@ export const PlayerActions = ({
           onClick={onBreakToggle}
           sx={{ 
             p: 0.5,
-            color: isOnBreak ? "success.main" : "warning.main"
+            color: isOnBreak ? "primary.main" : "warning.main"
           }}
         >
           {isOnBreak ? (
