@@ -68,7 +68,7 @@ const SettingsMenu: React.FC<SettingsMenuProps> = ({
           }}
         >
           <WarningAmberIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
-          データ管理
+          データリセット
         </Typography>
         <ResetButton />
       </Paper>
