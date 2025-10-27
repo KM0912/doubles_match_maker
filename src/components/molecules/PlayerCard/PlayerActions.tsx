@@ -18,30 +18,30 @@ export const PlayerActions = ({
     <Box sx={{ display: "flex" }}>
       <Tooltip title={isOnBreak ? "復帰" : "休憩"}>
         <IconButton
-          size="small"
+          size="medium"
           color="default"
           onClick={onBreakToggle}
           sx={{ 
-            p: 0.5,
+            p: 1,
             color: isOnBreak ? "primary.main" : "warning.main"
           }}
         >
           {isOnBreak ? (
-            <PlayCircleIcon fontSize="small" />
+            <PlayCircleIcon fontSize="medium" />
           ) : (
-            <PauseCircleIcon fontSize="small" />
+            <PauseCircleIcon fontSize="medium" />
           )}
         </IconButton>
       </Tooltip>
 
       <Tooltip title="削除">
         <IconButton
-          size="small"
+          size="medium"
           color="error"
           onClick={onRemove}
-          sx={{ p: 0.5 }}
+          sx={{ p: 1 }}
         >
-          <DeleteIcon fontSize="small" />
+          <DeleteIcon fontSize="medium" />
         </IconButton>
       </Tooltip>
     </Box>
