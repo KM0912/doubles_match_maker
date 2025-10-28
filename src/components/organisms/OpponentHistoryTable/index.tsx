@@ -1,10 +1,21 @@
+import { useMemo } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { alpha, useTheme } from "@mui/material/styles";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 
 const OpponentHistoryTable: React.FC = () => {
+  const theme = useTheme();
   const { players, opponentHistory } = usePlayerContext();
 
-  // 最大対戦回数を取得
-  const getMaxOpponentCount = () => {
+  // 最大対戦回数を取得（メモ化）
+  const maxOpponentCount = useMemo(() => {
     let max = 0;
     players.forEach((player) => {
       players.forEach((opponent) => {
@@ -15,62 +26,89 @@ const OpponentHistoryTable: React.FC = () => {
       });
     });
     return max;
-  };
+  }, [players, opponentHistory]);
 
-  // 背景色の濃さを計算
+  // 背景色の濃さを計算（テーマの赤系カラーを使用）
   const getBackgroundColor = (count: number) => {
-    const maxCount = getMaxOpponentCount();
-    if (maxCount === 0) return "rgb(255, 255, 255)";
-    const intensity = count / maxCount;
-    // 赤系の色を使用（対戦履歴は赤系で区別）
-    return `rgba(239, 68, 68, ${intensity * 0.5})`;
+    if (maxOpponentCount === 0) return "transparent";
+    const intensity = count / maxOpponentCount;
+    return alpha(theme.palette.error.main, intensity * 0.5);
   };
 
   return (
-    <>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr>
-              <th className="p-2 border min-w-[60px] bg-gray-100 font-bold">
-                選手
-              </th>
-              {players.map((player) => (
-                <th key={player.id} className="p-2 border bg-gray-100">
-                  #{player.id}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
+    <TableContainer sx={{ maxWidth: "100%" }}>
+      <Table size="small" stickyHeader>
+        <TableHead>
+          <TableRow>
+            <TableCell
+              sx={{
+                fontWeight: "bold",
+                minWidth: 60,
+                bgcolor: "grey.100",
+                border: "1px solid",
+                borderColor: "divider",
+                p: 1,
+              }}
+            >
+              選手
+            </TableCell>
             {players.map((player) => (
-              <tr key={player.id}>
-                <td className="p-2 border font-bold bg-gray-50">
-                  #{player.id}
-                </td>
-                {players.map((opponent) => {
-                  const count =
-                    player.id === opponent.id
-                      ? 0
-                      : opponentHistory[player.id]?.[opponent.id] || 0;
-                  return (
-                    <td
-                      key={opponent.id}
-                      className="p-2 border text-center"
-                      style={{
-                        backgroundColor: getBackgroundColor(count),
-                      }}
-                    >
-                      {player.id === opponent.id ? "-" : count}
-                    </td>
-                  );
-                })}
-              </tr>
+              <TableCell
+                key={player.id}
+                align="center"
+                sx={{
+                  bgcolor: "grey.100",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  p: 1,
+                }}
+              >
+                #{player.id}
+              </TableCell>
             ))}
-          </tbody>
-        </table>
-      </div>
-    </>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {players.map((player) => (
+            <TableRow key={player.id}>
+              <TableCell
+                component="th"
+                scope="row"
+                sx={{
+                  fontWeight: "bold",
+                  bgcolor: "grey.50",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  p: 1,
+                }}
+              >
+                #{player.id}
+              </TableCell>
+              {players.map((opponent) => {
+                const count =
+                  player.id === opponent.id
+                    ? 0
+                    : opponentHistory[player.id]?.[opponent.id] || 0;
+                return (
+                  <TableCell
+                    key={opponent.id}
+                    align="center"
+                    sx={{
+                      border: "1px solid",
+                      borderColor: "divider",
+                      p: 1,
+                      bgcolor: getBackgroundColor(count),
+                    }}
+                  >
+                    {player.id === opponent.id ? "-" : count}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
