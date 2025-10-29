@@ -1,0 +1,12 @@
+node_modules
+build
+dist
+coverage
+.cache
+.husky
+public
+*.min.js
+*.min.css
+yarn.lock
+package-lock.json
+
