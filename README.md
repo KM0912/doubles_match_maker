@@ -1,46 +1,68 @@
-# Getting Started with Create React App
+# Doubles Match Maker — Netlify 運用ガイド
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+本リポジトリは Create React App ベースのフロントエンドです。デプロイ先は Netlify を前提とした運用に切り替えています。
 
-## Available Scripts
+重要な変更点:
+- `gh-pages` 依存関係と `predeploy`/`deploy` スクリプトを削除しました（`package.json`）。
+- デプロイは Netlify で実施します（Git 連携または Netlify CLI）。
 
-In the project directory, you can run:
+## セットアップ
 
-### `npm start`
+- 推奨 Node: 16 以上（LTS 推奨）
+- パッケージインストール:
+  - Yarn: `yarn`
+  - npm: `npm ci` もしくは `npm install`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## ローカル開発
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- 開発サーバー起動: `yarn start`（または `npm start`）
+- ブラウザ: `http://localhost:3000`
 
-### `npm test`
+## ビルド
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 本番ビルド: `yarn build`（または `npm run build`）
+- 出力先: `build/`
 
-### `npm run build`
+## デプロイ（Netlify）
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Netlify での基本設定:
+- Build command: `yarn build`（または `npm run build`）
+- Publish directory: `build`
+- Base directory: ルート（未指定）
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Git 連携での自動デプロイ
+- Netlify ダッシュボードで「New site from Git」から本リポジトリを連携
+- 対象ブランチを選択（例: `main`）
+- 上記の Build/Publish 設定で保存
+- 以降、対象ブランチへ push すると自動でビルド・デプロイされます
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Netlify CLI での手動デプロイ
+- インストール: `npm i -g netlify-cli`
+- 初回設定: `netlify init`（既存サイトにリンクする場合は `netlify link`）
+- 本番デプロイ: `netlify deploy --prod --dir=build`
 
-### `npm run eject`
+## 環境変数
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+CRA の仕様により、フロントエンドで参照する環境変数は `REACT_APP_` プレフィックスが必要です。
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- 利用中の変数例（`.env.sample` 参照）:
+  - `REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+ローカルでは `.env` に設定。Netlify では Site settings → Build & deploy → Environment → Environment variables に登録してください。
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## GitHub Pages 記述の整理について
 
-## Learn More
+Netlify 運用に移行しましたが、以下のファイルに GitHub Pages 用の URL がハードコードされています。Netlify ドメイン（例: `https://<your-site>.netlify.app/`）や独自ドメインへ適宜置き換えてください。
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- `generate-sitemap.js:5`（`baseUrl`）
+- `src/App.tsx:47`（リンク先）
+- `public/index.html:30`（OG:URL など）
+- `public/index.html:76`（リンク先）
+- `public/robots.txt:4`（Sitemap の URL）
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+必要に応じて、サイト URL を環境変数化（例: `REACT_APP_SITE_URL`）し、参照箇所を置き換える運用も検討してください。
+
+## 補足
+
+- 既存の `homepage` は `/` のままで問題ありません（Netlify ではルート配信を想定）。
+- `gh-pages` での公開フローは廃止しています。以降は Netlify のビルド・デプロイに一本化してください。
