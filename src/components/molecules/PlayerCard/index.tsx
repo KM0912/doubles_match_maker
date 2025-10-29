@@ -81,6 +81,7 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
         <ConfirmDialog
           confirmText="本当に削除しますか？"
           okText="削除"
+          okColor="error"
           cancelText="キャンセル"
           onConfirm={() => {
             removePlayer(player.id);

@@ -7,7 +7,9 @@ import {
   DialogActions,
   Button,
   Typography,
+  Box,
 } from "@mui/material";
+import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 
 interface ConfirmDialogProps {
   confirmText: string;
@@ -16,6 +18,14 @@ interface ConfirmDialogProps {
   onConfirm: () => void;
   onCancel: () => void;
   title?: string;
+  okColor?:
+    | "inherit"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "error"
+    | "info"
+    | "warning";
 }
 
 const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
@@ -25,6 +35,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   onConfirm,
   onCancel,
   title = "確認",
+  okColor = "primary",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const titleId = useId();
@@ -53,14 +64,36 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
       role="dialog"
+      PaperProps={{
+        sx: {
+          borderRadius: 2,
+          overflow: "hidden",
+        },
+        elevation: 3,
+      }}
     >
-      <DialogTitle id={titleId}>{title}</DialogTitle>
-      <DialogContent>
+      <DialogTitle
+        id={titleId}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          fontWeight: 700,
+          borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+          py: 1.5,
+        }}
+      >
+        {okColor === "error" && (
+          <WarningAmberRoundedIcon color="error" sx={{ mr: 0.5 }} />
+        )}
+        {title}
+      </DialogTitle>
+      <DialogContent sx={{ pt: 2, pb: 0 }}>
         <DialogContentText id={descriptionId}>
           <Typography variant="body1">{confirmText}</Typography>
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ px: 3, py: 2, gap: 1.5 }}>
         <Button
           variant="outlined"
           onClick={handleCancel}
@@ -72,7 +105,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         <Button
           variant="contained"
           onClick={handleConfirm}
-          color="primary"
+          color={okColor}
         >
           {okText}
         </Button>
