@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import { PlayerProvider, usePlayerContext } from "./PlayerContext";
 import { MatchProvider, useMatchContext } from "./MatchContext";
 import type { Match, Player } from "../types";
-import { act } from "react-dom/test-utils";
+import { act } from "react";
 
 // Make shuffle deterministic in tests
 jest.mock("../utils/matchUtils", () => ({
@@ -21,11 +21,7 @@ type Controller = {
 };
 
 const ControllerComp = forwardRef<Controller>((_props, ref) => {
-  const {
-    players,
-    updatePlayers,
-    resetPlayers,
-  } = usePlayerContext();
+  const { players, updatePlayers, resetPlayers } = usePlayerContext();
   const { matches, generateMatches, completeMatches } = useMatchContext();
 
   useImperativeHandle(ref, () => ({
@@ -152,4 +148,3 @@ describe("Match generation fairness across player counts", () => {
     }
   );
 });
-

@@ -20,6 +20,11 @@ const MatchContext = createContext<MatchContextType | undefined>(undefined);
 
 export const MatchProvider: React.FC<Props> = ({ children }) => {
   const [matches, setMatches] = useState<Match[]>([]);
+  // 直前ラウンドのペア／対戦（連続回避用）
+  const [lastRoundPairs, setLastRoundPairs] = useState<Set<string>>(new Set());
+  const [lastRoundMatchups, setLastRoundMatchups] = useState<Set<string>>(
+    new Set()
+  );
   const {
     players,
     updatePlayers,
@@ -108,6 +113,29 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     );
 
     updatePlayers(updatedPlayers);
+
+    // 直前ラウンドのペアと対戦を保存
+    const newPairs = new Set<string>();
+    const newMatchups = new Set<string>();
+    const pairKey = (a: number, b: number) => {
+      const [x, y] = [a, b].sort((m, n) => m - n);
+      return `${x}-${y}`;
+    };
+    const matchupKey = (team1: number[], team2: number[]) => {
+      const t1 = [...team1].sort((a, b) => a - b).join(",");
+      const t2 = [...team2].sort((a, b) => a - b).join(",");
+      return [t1, t2].sort().join("|");
+    };
+    matches.forEach((m) => {
+      const t1 = m.team1.map((p) => p.id);
+      const t2 = m.team2.map((p) => p.id);
+      newPairs.add(pairKey(t1[0], t1[1]));
+      newPairs.add(pairKey(t2[0], t2[1]));
+      newMatchups.add(matchupKey(t1, t2));
+    });
+    setLastRoundPairs(newPairs);
+    setLastRoundMatchups(newMatchups);
+
     setMatches([]);
     updatePairHistoryByMatches(matches);
     updateOpponentHistoryByMatches(matches);
@@ -139,9 +167,30 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
         for (let k = 0; k < remaining.length - 1; k++) {
           for (let l = k + 1; l < remaining.length; l++) {
             const team2: Team = [remaining[k], remaining[l]];
+            // 直前ラウンドの同一ペア／同一対戦は強いペナルティで回避
+            const pairKey1 = [team1[0].id, team1[1].id]
+              .sort((a, b) => a - b)
+              .join("-");
+            const pairKey2 = [team2[0].id, team2[1].id]
+              .sort((a, b) => a - b)
+              .join("-");
+            const t1 = [team1[0].id, team1[1].id]
+              .sort((a, b) => a - b)
+              .join(",");
+            const t2 = [team2[0].id, team2[1].id]
+              .sort((a, b) => a - b)
+              .join(",");
+            const matchupKey = [t1, t2].sort().join("|");
+
+            const consecutivePenalty =
+              (lastRoundPairs.has(pairKey1) ? 1000 : 0) +
+              (lastRoundPairs.has(pairKey2) ? 1000 : 0) +
+              (lastRoundMatchups.has(matchupKey) ? 1000 : 0);
+
             const pairScore =
               (pairHistory[team1[0].id]?.[team1[1].id] || 0) +
-              (pairHistory[team2[0].id]?.[team2[1].id] || 0);
+              (pairHistory[team2[0].id]?.[team2[1].id] || 0) +
+              consecutivePenalty;
 
             if (pairScore < bestPairScore) {
               bestPairScore = pairScore;
