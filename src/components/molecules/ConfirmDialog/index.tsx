@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useId } from "react";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
+  DialogContentText,
   DialogActions,
   Button,
   Typography,
@@ -26,6 +27,8 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   title = "確認",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const titleId = useId();
+  const descriptionId = useId();
 
   useEffect(() => {
     setIsOpen(true);
@@ -42,16 +45,35 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={handleCancel} fullWidth maxWidth="sm">
-      <DialogTitle>{title}</DialogTitle>
+    <Dialog
+      open={isOpen}
+      onClose={handleCancel}
+      fullWidth
+      maxWidth="sm"
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      role="dialog"
+    >
+      <DialogTitle id={titleId}>{title}</DialogTitle>
       <DialogContent>
-        <Typography variant="body1">{confirmText}</Typography>
+        <DialogContentText id={descriptionId}>
+          <Typography variant="body1">{confirmText}</Typography>
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant="outlined" onClick={handleCancel} color="inherit">
+        <Button
+          variant="outlined"
+          onClick={handleCancel}
+          color="inherit"
+          autoFocus
+        >
           {cancelText}
         </Button>
-        <Button variant="contained" onClick={handleConfirm} color="primary">
+        <Button
+          variant="contained"
+          onClick={handleConfirm}
+          color="primary"
+        >
           {okText}
         </Button>
       </DialogActions>
