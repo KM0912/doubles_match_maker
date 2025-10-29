@@ -1,12 +1,5 @@
 import { useMemo } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 

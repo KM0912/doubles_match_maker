@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
+import { CssBaseline } from "@mui/material";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import "./App.css";
 import MainComponent from "./components/pages/Main";
-import "tailwindcss/tailwind.css";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { MatchProvider } from "./contexts/MatchContext";
 
@@ -29,6 +29,7 @@ function App() {
 
   return (
     <HelmetProvider>
+      <CssBaseline />
       <div className="App">
         <Helmet>
           <title>

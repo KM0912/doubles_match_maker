@@ -4,7 +4,9 @@ export const commonPaperStyles: SxProps<Theme> = {
   p: { xs: 1.5, sm: 2 },
   mb: 5,
   borderRadius: 2,
-  overflow: "hidden",
+  // Avoid clipping child content on narrow screens
+  overflow: "visible",
+  boxSizing: "border-box",
 };
 
 export const commonTypographyStyles: SxProps<Theme> = {

@@ -23,21 +23,13 @@ const SettingsMenu: React.FC<SettingsMenuProps> = ({
 }) => {
   return (
     <Box>
-      <Paper
-        component="article"
-        elevation={1}
-        sx={{ ...commonPaperStyles, mb: 3 }}
-      >
-        <Typography component="h2" variant="h6" sx={commonTypographyStyles}>
-          <span style={{ fontSize: "1.2em", marginRight: "0.4em" }}>⚙️</span>
-          基本設定
-        </Typography>
+      <Box sx={{ mb: 3 }}>
         <CourtCounter
           courts={courts}
           onIncrement={onIncrementCourts}
           onDecrement={onDecrementCourts}
         />
-      </Paper>
+      </Box>
 
       <Paper
         component="article"

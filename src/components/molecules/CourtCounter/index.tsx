@@ -16,58 +16,70 @@ const CourtCounter: React.FC<Props> = ({
   onDecrement,
 }) => {
   return (
-    <Paper elevation={2} sx={{ p: 2, borderRadius: 2, width: "100%" }}>
+    <Paper
+      elevation={2}
+      sx={{ p: 2, borderRadius: 2, width: "100%", overflow: "visible" }}
+    >
+      <Typography
+        variant="h6"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifySelf: "start",
+          mb: 2,
+        }}
+      >
+        <SportsBaseballIcon sx={{ mr: 1 }} />
+        コート数
+      </Typography>
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          width: "100%",
         }}
       >
-        <Typography variant="h6" sx={{ display: "flex", alignItems: "center" }}>
-          <SportsBaseballIcon sx={{ mr: 1 }} />
-          コート数
+        <IconButton
+          onClick={onDecrement}
+          color="primary"
+          size="small"
+          disabled={courts <= 1}
+          sx={{
+            justifySelf: "center",
+            bgcolor: "rgba(25, 118, 210, 0.1)",
+            "&:hover": { bgcolor: "rgba(25, 118, 210, 0.2)" },
+          }}
+        >
+          <RemoveIcon />
+        </IconButton>
+
+        <Typography
+          variant="h6"
+          sx={{
+            justifySelf: "center",
+            // minWidth: { xs: 56, sm: 60 },
+            textAlign: "center",
+            fontWeight: "bold",
+          }}
+        >
+          {courts}
         </Typography>
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <IconButton
-            onClick={onDecrement}
-            color="primary"
-            size="small"
-            disabled={courts <= 1}
-            sx={{
-              bgcolor: "rgba(25, 118, 210, 0.1)",
-              "&:hover": { bgcolor: "rgba(25, 118, 210, 0.2)" },
-            }}
-          >
-            <RemoveIcon />
-          </IconButton>
-
-          <Typography
-            variant="h6"
-            sx={{
-              minWidth: "60px",
-              textAlign: "center",
-              fontWeight: "bold",
-            }}
-          >
-            {courts}
-          </Typography>
-
-          <IconButton
-            onClick={onIncrement}
-            color="primary"
-            size="small"
-            disabled={courts >= 10}
-            sx={{
-              bgcolor: "rgba(25, 118, 210, 0.1)",
-              "&:hover": { bgcolor: "rgba(25, 118, 210, 0.2)" },
-              "&.Mui-disabled": { bgcolor: "rgba(0, 0, 0, 0.05)" },
-            }}
-          >
-            <AddIcon />
-          </IconButton>
-        </Box>
+        <IconButton
+          onClick={onIncrement}
+          color="primary"
+          size="small"
+          disabled={courts >= 10}
+          sx={{
+            justifySelf: "center",
+            bgcolor: "rgba(25, 118, 210, 0.1)",
+            "&:hover": { bgcolor: "rgba(25, 118, 210, 0.2)" },
+            "&.Mui-disabled": { bgcolor: "rgba(0, 0, 0, 0.05)" },
+          }}
+        >
+          <AddIcon />
+        </IconButton>
       </Box>
     </Paper>
   );
