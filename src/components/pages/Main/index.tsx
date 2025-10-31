@@ -9,7 +9,7 @@ import { Container, Box, Fade, useTheme } from "@mui/material";
 
 function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
-  const [activeMenu, setActiveMenu] = useState("settings");
+  const [activeMenu, setActiveMenu] = useState("match");
   const theme = useTheme();
 
   const handleMenuChange = useCallback((newValue: string) => {
@@ -33,6 +33,7 @@ function MainComponent() {
         maxWidth="md"
         sx={{
           py: 4,
+          pb: { xs: 10, sm: 11 },
           flexGrow: 1,
           display: "flex",
           flexDirection: "column",

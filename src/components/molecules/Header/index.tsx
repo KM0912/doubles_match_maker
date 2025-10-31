@@ -7,10 +7,14 @@ const Header: React.FC = () => {
 
   return (
     <AppBar
-      position="static"
-      elevation={0}
+      position="sticky"
+      elevation={1}
       component="header"
-      sx={{ bgcolor: theme.palette.primary.main }}
+      sx={{
+        top: 0,
+        bgcolor: theme.palette.primary.main,
+        borderBottom: `1px solid ${theme.palette.divider}`,
+      }}
     >
       <Toolbar sx={{ display: "flex", justifyContent: "center" }}>
         <Typography

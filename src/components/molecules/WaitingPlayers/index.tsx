@@ -44,7 +44,7 @@ const WaitingPlayers: React.FC<Props> = ({
   return (
     <Box sx={{ mt: 3 }}>
       <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
-        待機中の選手
+        待機中の選手{selectedPlayer ? "（タップで入替）" : ""}
       </Typography>
 
       {waitingPlayers.length === 0 ? (
