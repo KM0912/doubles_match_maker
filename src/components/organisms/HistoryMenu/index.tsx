@@ -4,7 +4,8 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
-import HistoryIcon from "@mui/icons-material/History";
+import Diversity3Icon from "@mui/icons-material/Diversity3";
+import SportsKabaddiIcon from "@mui/icons-material/SportsKabaddi";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PairHistoryTable from "../PairHistoryTable";
 import { commonPaperStyles } from "../../../styles/common";
@@ -18,24 +19,29 @@ const HistoryMenu: React.FC = () => {
         sx={{
           ...commonPaperStyles,
           mb: 3,
+          "&:before": { display: "none" },
         }}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="pair-history-content"
           id="pair-history-header"
-          sx={{ p: 2 }}
+          sx={{
+            p: 2,
+            borderBottom: "1px solid rgba(56, 96, 240, 0.08)",
+          }}
         >
           <Typography
             component="h2"
             variant="h6"
             sx={{
-              fontWeight: "bold",
+              fontWeight: 700,
               display: "flex",
               alignItems: "center",
+              gap: 1,
             }}
           >
-            <HistoryIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
+            <Diversity3Icon color="primary" sx={{ fontSize: "1.35rem" }} />
             ペア履歴
           </Typography>
         </AccordionSummary>
@@ -48,24 +54,29 @@ const HistoryMenu: React.FC = () => {
         sx={{
           ...commonPaperStyles,
           mb: 3,
+          "&:before": { display: "none" },
         }}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="pair-history-content"
           id="pair-history-header"
-          sx={{ p: 2 }}
+          sx={{
+            p: 2,
+            borderBottom: "1px solid rgba(244, 91, 105, 0.12)",
+          }}
         >
           <Typography
             component="h2"
             variant="h6"
             sx={{
-              fontWeight: "bold",
+              fontWeight: 700,
               display: "flex",
               alignItems: "center",
+              gap: 1,
             }}
           >
-            <HistoryIcon sx={{ mr: 1, fontSize: "1.2rem" }} />
+            <SportsKabaddiIcon color="secondary" sx={{ fontSize: "1.35rem" }} />
             対戦履歴
           </Typography>
         </AccordionSummary>

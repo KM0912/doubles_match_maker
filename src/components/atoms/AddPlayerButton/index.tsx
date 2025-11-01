@@ -1,4 +1,4 @@
-import { Button, Typography, Box } from "@mui/material";
+import { Button, Typography, Box, Chip } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 
@@ -11,12 +11,18 @@ const AddPlayerButton: React.FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          mb: 1,
+          mb: 1.5,
         }}
       >
-        <Typography variant="body2" color="text.secondary">
-          現在: {playerCount}人
+        <Typography variant="subtitle2" fontWeight={700} color="text.primary">
+          参加者
         </Typography>
+        <Chip
+          label={`${playerCount}人`}
+          size="small"
+          color="primary"
+          sx={{ fontWeight: 600 }}
+        />
       </Box>
       <Button
         onClick={addPlayer}
@@ -25,14 +31,16 @@ const AddPlayerButton: React.FC = () => {
         fullWidth
         startIcon={<PersonAddIcon />}
         sx={{
-          py: 1,
+          py: 1.2,
+          background: "linear-gradient(135deg, #3860F0, #5f84ff)",
           fontWeight: "bold",
-          boxShadow: 2,
+          boxShadow: "0 16px 30px rgba(56, 96, 240, 0.35)",
+          borderRadius: 2,
+          transition: "transform 0.25s ease, box-shadow 0.25s ease",
           "&:hover": {
-            boxShadow: 4,
+            boxShadow: "0 20px 38px rgba(56, 96, 240, 0.45)",
             transform: "translateY(-2px)",
           },
-          transition: "all 0.3s ease",
         }}
       >
         参加者を追加

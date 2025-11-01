@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 import ConfirmDialog from "../../molecules/ConfirmDialog";
-import { Button, Typography, Box } from "@mui/material";
+import { Button, Box, Alert } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { useMatchContext } from "../../../contexts/MatchContext";
 
@@ -27,14 +27,18 @@ const ResetButton: React.FC = () => {
   return (
     <>
       <Box sx={{ mt: 2 }}>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          align="left"
-          sx={{ mb: 1.5 }}
+        <Alert
+          severity="warning"
+          icon={<RestartAltIcon fontSize="small" />}
+          sx={{
+            borderRadius: 2,
+            bgcolor: "rgba(255, 193, 7, 0.15)",
+            color: "warning.dark",
+            mb: 2,
+          }}
         >
-          すべての参加者情報と試合履歴を削除します
-        </Typography>
+          すべての参加者情報と試合履歴が削除されます。
+        </Alert>
         <Button
           onClick={handleReset}
           variant="outlined"
@@ -42,10 +46,12 @@ const ResetButton: React.FC = () => {
           fullWidth
           startIcon={<RestartAltIcon />}
           sx={{
-            py: 1,
+            py: 1.2,
             fontWeight: "bold",
+            borderRadius: 2,
+            borderWidth: 2,
             "&:hover": {
-              bgcolor: "rgba(211, 47, 47, 0.08)",
+              bgcolor: "rgba(244, 67, 54, 0.1)",
               borderColor: "error.main",
             },
           }}

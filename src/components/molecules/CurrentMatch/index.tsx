@@ -62,11 +62,15 @@ const CurrentMatch: React.FC<Props> = ({
         {matches.map((match, index) => (
           <Grid item xs={12} sm={6} md={4} key={match.id}>
             <Card
-              elevation={2}
+              elevation={3}
               sx={{
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
+                border: "1px solid rgba(56, 96, 240, 0.12)",
+                borderRadius: 3,
+                backgroundColor: "rgba(255,255,255,0.96)",
+                boxShadow: "0 18px 36px rgba(15, 23, 42, 0.12)",
               }}
             >
               <CardContent
@@ -169,6 +173,8 @@ const CurrentMatch: React.FC<Props> = ({
                   p: { xs: 0.5, sm: 1 },
                   flexDirection: "column",
                   width: "100%",
+                  borderTop: "1px solid rgba(15, 23, 42, 0.08)",
+                  backgroundColor: "rgba(248, 250, 255, 0.75)",
                 }}
               >
                 {!match.winner ? (

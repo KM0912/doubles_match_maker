@@ -1,41 +1,66 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, useTheme } from "@mui/material";
+import { AppBar, Toolbar, Typography, useTheme, Container } from "@mui/material";
 import SportsTennisIcon from "@mui/icons-material/SportsTennis";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 const Header: React.FC = () => {
   const theme = useTheme();
 
   return (
     <AppBar
-      position="static"
+      position="sticky"
       elevation={0}
       component="header"
-      sx={{ bgcolor: theme.palette.primary.main }}
+      color="transparent"
+      sx={{
+        top: 0,
+        bgcolor: "rgba(255,255,255,0.85)",
+        borderBottom: `1px solid ${theme.palette.divider}`,
+        boxShadow: "0 10px 30px rgba(15, 23, 42, 0.08)",
+      }}
     >
-      <Toolbar sx={{ display: "flex", justifyContent: "center" }}>
-        <Typography
-          variant="h1"
-          align="center"
-          noWrap
+      <Toolbar disableGutters>
+        <Container
+          maxWidth="lg"
           sx={{
-            fontWeight: "bold",
-            letterSpacing: "0.05em",
-            py: 1,
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
-            fontSize: { xs: "1rem", sm: "1.25rem" },
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            maxWidth: "100%",
+            justifyContent: "space-between",
+            py: { xs: 1, sm: 1.5 },
           }}
         >
-          <SportsTennisIcon
-            sx={{ mr: 1, fontSize: { xs: "1.2rem", sm: "1.5rem" } }}
-          />
-          ダブルス組み合わせメーカー
-        </Typography>
+          <Typography
+            variant="h1"
+            noWrap
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "0.06em",
+              display: "flex",
+              alignItems: "center",
+              fontSize: { xs: "1.05rem", sm: "1.35rem" },
+              color: theme.palette.primary.main,
+            }}
+          >
+            <SportsTennisIcon
+              sx={{ mr: 1, fontSize: { xs: "1.3rem", sm: "1.6rem" } }}
+            />
+            ダブルス組み合わせメーカー
+          </Typography>
+
+          <Typography
+            variant="subtitle2"
+            color="text.secondary"
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              alignItems: "center",
+              fontWeight: 500,
+              gap: 1,
+            }}
+          >
+            <EmojiEventsIcon sx={{ fontSize: "1rem", color: "secondary.main" }} />
+            公平で楽しいマッチメイクをサポート
+          </Typography>
+        </Container>
       </Toolbar>
     </AppBar>
   );

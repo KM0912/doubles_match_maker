@@ -21,9 +21,20 @@ export const PlayerActions = ({
           size="medium"
           color="default"
           onClick={onBreakToggle}
-          sx={{ 
+          sx={{
             p: 1,
-            color: isOnBreak ? "primary.main" : "warning.main"
+            color: isOnBreak ? "primary.main" : "warning.main",
+            bgcolor: isOnBreak
+              ? "rgba(56, 96, 240, 0.12)"
+              : "rgba(244, 160, 0, 0.12)",
+            borderRadius: 2,
+            transition: "all 0.2s ease",
+            boxShadow: "0 6px 12px rgba(15, 23, 42, 0.1)",
+            "&:hover": {
+              bgcolor: isOnBreak
+                ? "rgba(56, 96, 240, 0.2)"
+                : "rgba(244, 160, 0, 0.2)",
+            },
           }}
         >
           {isOnBreak ? (
@@ -39,7 +50,16 @@ export const PlayerActions = ({
           size="medium"
           color="error"
           onClick={onRemove}
-          sx={{ p: 1 }}
+          sx={{
+            p: 1,
+            borderRadius: 2,
+            bgcolor: "rgba(244, 67, 54, 0.12)",
+            transition: "all 0.2s ease",
+            boxShadow: "0 6px 12px rgba(244, 67, 54, 0.2)",
+            "&:hover": {
+              bgcolor: "rgba(244, 67, 54, 0.2)",
+            },
+          }}
         >
           <DeleteIcon fontSize="medium" />
         </IconButton>

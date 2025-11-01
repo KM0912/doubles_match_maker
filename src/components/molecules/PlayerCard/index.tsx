@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Player } from "../../../types";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 import ConfirmDialog from "../ConfirmDialog";
-import { Card, CardContent, Box } from "@mui/material";
+import { Card, CardContent, Box, Typography, useTheme } from "@mui/material";
 import { PlayerAvatar } from "./PlayerAvatar";
 import { PlayerStats } from "./PlayerStats";
 import { PlayerStatus } from "./PlayerStatus";
@@ -23,6 +23,7 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const { removePlayer } = usePlayerContext();
+  const theme = useTheme();
 
   const handleBreakToggle = () => {
     setOnBreak(player.id, !player.onBreak);
@@ -35,15 +36,27 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
   return (
     <>
       <Card
-        elevation={isPlaying ? 2 : 1}
+        elevation={isPlaying ? 3 : 1}
         sx={{
-          mb: 1,
-          border: isPlaying ? "2px solid #4caf50" : "none",
-          transition: "all 0.2s ease",
-          borderRadius: 1.5,
+          mb: 1.5,
+          border: `1px solid ${
+            isPlaying
+              ? theme.palette.success.light
+              : "rgba(15, 23, 42, 0.08)"
+          }`,
+          transition: "all 0.25s ease",
+          borderRadius: 2,
+          background: isPlaying
+            ? "linear-gradient(135deg, rgba(34,197,94,0.12), rgba(255,255,255,0.95))"
+            : "rgba(255,255,255,0.95)",
         }}
       >
-        <CardContent sx={{ p: 1.5, "&:last-child": { pb: 1.5 } }}>
+        <CardContent
+          sx={{
+            p: { xs: 1.5, sm: 2 },
+            "&:last-child": { pb: { xs: 1.5, sm: 2 } },
+          }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -58,6 +71,16 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
                 sx={{ mr: 1.5 }}
               />
               <Box>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    fontWeight: 700,
+                    color: "text.primary",
+                    fontSize: { xs: "0.85rem", sm: "0.9rem" },
+                  }}
+                >
+                  選手 #{player.id}
+                </Typography>
                 <PlayerStatus
                   isPlaying={isPlaying}
                   isOnBreak={player.onBreak}

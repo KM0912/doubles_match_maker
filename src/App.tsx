@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import "./App.css";
 import MainComponent from "./components/pages/Main";
 import "tailwindcss/tailwind.css";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { MatchProvider } from "./contexts/MatchContext";
+import theme from "./styles/theme";
 
 function App() {
   useEffect(() => {
@@ -29,8 +31,10 @@ function App() {
 
   return (
     <HelmetProvider>
-      <div className="App">
-        <Helmet>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="App">
+          <Helmet>
           <title>
             ダブルス組み合わせメーカー | テニス・バドミントンの試合管理アプリ
           </title>
@@ -47,12 +51,13 @@ function App() {
             href="https://km0912.github.io/doubles_match_maker/"
           />
         </Helmet>
-        <PlayerProvider>
-          <MatchProvider>
-            <MainComponent />
-          </MatchProvider>
-        </PlayerProvider>
-      </div>
+          <PlayerProvider>
+            <MatchProvider>
+              <MainComponent />
+            </MatchProvider>
+          </PlayerProvider>
+        </div>
+      </ThemeProvider>
     </HelmetProvider>
   );
 }
