@@ -41,13 +41,19 @@ const PlayerBox: React.FC<PlayerBoxProps> = ({
         bgcolor: match.winner
           ? "action.disabledBackground"
           : isPlayerSelected(index, team, playerIndex)
-          ? "primary.light"
-          : "background.paper",
+          ? "rgba(56, 96, 240, 0.16)"
+          : "rgba(255,255,255,0.95)",
         border: isPlayerSelected(index, team, playerIndex)
-          ? `2px none ${theme.palette.primary.main}`
-          : "1px none #e0e0e0",
+          ? `2px solid ${theme.palette.primary.main}`
+          : "1px solid rgba(15, 23, 42, 0.08)",
+        boxShadow: isPlayerSelected(index, team, playerIndex)
+          ? "0 8px 20px rgba(56, 96, 240, 0.25)"
+          : "0 6px 14px rgba(15, 23, 42, 0.12)",
+        transition: "all 0.2s ease",
         "&:hover": {
-          bgcolor: match.winner ? "action.disabledBackground" : "action.hover",
+          bgcolor: match.winner
+            ? "action.disabledBackground"
+            : "rgba(56, 96, 240, 0.12)",
         },
         width: "50%",
         minWidth: 0,

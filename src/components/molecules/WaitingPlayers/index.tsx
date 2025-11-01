@@ -2,7 +2,7 @@ import { useMatchContext } from "../../../contexts/MatchContext";
 import { usePlayerContext } from "../../../contexts/PlayerContext";
 import { selectedPlayer } from "../../../hooks/useSwapPlayer";
 import { Player } from "../../../types";
-import { Box, Typography, Grid2, Card, CardContent } from "@mui/material";
+import { Box, Typography, Grid2, Card, CardContent, Chip, Stack } from "@mui/material";
 import { PlayerAvatar } from "../PlayerCard/PlayerAvatar";
 
 type Props = {
@@ -60,7 +60,7 @@ const WaitingPlayers: React.FC<Props> = ({
           {waitingPlayers.map((player) => (
             <Grid2 size={{ xs: 3, sm: 3, md: 2 }} key={player.id}>
               <Card
-                elevation={1}
+                elevation={2}
                 onClick={() => handlePlayerClick(player)}
                 sx={{
                   cursor: selectedPlayer ? "pointer" : "default",
@@ -72,6 +72,8 @@ const WaitingPlayers: React.FC<Props> = ({
                     transform: selectedPlayer ? "translateY(-2px)" : "none",
                   },
                   height: "100%",
+                  border: "1px solid rgba(56, 96, 240, 0.12)",
+                  borderRadius: 3,
                 }}
               >
                 <CardContent
@@ -82,27 +84,33 @@ const WaitingPlayers: React.FC<Props> = ({
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
+                    gap: 1,
                   }}
                 >
-                  <Typography
-                    variant="body1"
-                    fontWeight="medium"
-                    sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }}
-                  >
-                    <PlayerAvatar player={player} size="small" sx={{ mr: 0 }} />
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    color="text.secondary"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      mt: 0.5,
-                      fontSize: "0.7rem",
-                    }}
-                  >
-                    試合数:{player.gamesPlayed || 0}
-                  </Typography>
+                  <PlayerAvatar
+                    player={player}
+                    size="medium"
+                    sx={{ mr: 0, width: 48, height: 48 }}
+                  />
+                  <Stack spacing={0.5} alignItems="center">
+                    <Typography
+                      variant="subtitle2"
+                      fontWeight={700}
+                      sx={{ fontSize: "0.85rem" }}
+                    >
+                      選手 #{player.id}
+                    </Typography>
+                    <Chip
+                      size="small"
+                      variant="outlined"
+                      label={`試合数 ${player.gamesPlayed || 0}`}
+                      sx={{
+                        fontSize: "0.65rem",
+                        color: "primary.main",
+                        borderColor: "rgba(56, 96, 240, 0.35)",
+                      }}
+                    />
+                  </Stack>
                 </CardContent>
               </Card>
             </Grid2>

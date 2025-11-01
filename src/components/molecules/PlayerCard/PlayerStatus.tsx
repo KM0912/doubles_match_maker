@@ -7,25 +7,30 @@ type PlayerStatusProps = {
 
 export const PlayerStatus = ({ isPlaying, isOnBreak }: PlayerStatusProps) => {
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
       {isPlaying && (
         <Chip
           label="試合中"
           color="success"
           size="small"
-          sx={{ height: 20, fontSize: "0.625rem", mb: 0.5 }}
+          sx={{
+            height: 22,
+            fontSize: "0.65rem",
+            fontWeight: 600,
+            letterSpacing: "0.04em",
+          }}
         />
       )}
       {isOnBreak && (
         <Chip
           label="休憩中"
-          color="default"
+          color="warning"
           size="small"
           sx={{
-            height: 20,
-            fontSize: "0.625rem",
-            mb: 0.5,
-            ml: isPlaying ? 0.5 : 0,
+            height: 22,
+            fontSize: "0.65rem",
+            fontWeight: 600,
+            letterSpacing: "0.04em",
           }}
         />
       )}

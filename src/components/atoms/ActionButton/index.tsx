@@ -26,6 +26,11 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   sx,
   children,
 }) => {
+  const buttonShadow =
+    variant === "contained"
+      ? "0 12px 28px rgba(56, 96, 240, 0.25)"
+      : "0 8px 20px rgba(15, 23, 42, 0.08)";
+
   return (
     <Button
       onClick={onClick}
@@ -39,6 +44,12 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       sx={{
         borderRadius: 1.5,
         fontWeight: "medium",
+        py: 1.2,
+        boxShadow: buttonShadow,
+        transition: "transform 0.2s ease, box-shadow 0.2s ease",
+        "&:hover": {
+          transform: disabled ? "none" : "translateY(-2px)",
+        },
         ...sx,
       }}
     >

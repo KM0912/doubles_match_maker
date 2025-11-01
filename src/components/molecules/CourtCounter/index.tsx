@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, IconButton, Paper } from "@mui/material";
+import { Box, Typography, IconButton, Paper, Chip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
@@ -16,7 +16,15 @@ const CourtCounter: React.FC<Props> = ({
   onDecrement,
 }) => {
   return (
-    <Paper elevation={2} sx={{ p: 2, borderRadius: 2, width: "100%" }}>
+    <Paper
+      elevation={2}
+      sx={{
+        p: { xs: 2, sm: 2.5 },
+        borderRadius: 3,
+        width: "100%",
+        background: "linear-gradient(135deg, rgba(56,96,240,0.08), rgba(255,255,255,0.95))",
+      }}
+    >
       <Box
         sx={{
           display: "flex",
@@ -24,10 +32,25 @@ const CourtCounter: React.FC<Props> = ({
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="h6" sx={{ display: "flex", alignItems: "center" }}>
-          <SportsBaseballIcon sx={{ mr: 1 }} />
-          コート数
-        </Typography>
+        <Box>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              fontWeight: 700,
+              gap: 1,
+            }}
+          >
+            <SportsBaseballIcon color="primary" sx={{ fontSize: "1.4rem" }} />
+            コート数
+          </Typography>
+          <Chip
+            label="1〜10面まで設定可能"
+            size="small"
+            sx={{ mt: 1, fontWeight: 500, bgcolor: "rgba(56,96,240,0.12)" }}
+          />
+        </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <IconButton
@@ -36,8 +59,13 @@ const CourtCounter: React.FC<Props> = ({
             size="small"
             disabled={courts <= 1}
             sx={{
-              bgcolor: "rgba(25, 118, 210, 0.1)",
-              "&:hover": { bgcolor: "rgba(25, 118, 210, 0.2)" },
+              bgcolor: "rgba(56, 96, 240, 0.12)",
+              boxShadow: "0 6px 16px rgba(56, 96, 240, 0.15)",
+              "&:hover": { bgcolor: "rgba(56, 96, 240, 0.2)" },
+              "&.Mui-disabled": {
+                boxShadow: "none",
+                bgcolor: "rgba(15, 23, 42, 0.05)",
+              },
             }}
           >
             <RemoveIcon />
@@ -49,6 +77,7 @@ const CourtCounter: React.FC<Props> = ({
               minWidth: "60px",
               textAlign: "center",
               fontWeight: "bold",
+              fontSize: { xs: "1.6rem", sm: "1.8rem" },
             }}
           >
             {courts}
@@ -60,9 +89,13 @@ const CourtCounter: React.FC<Props> = ({
             size="small"
             disabled={courts >= 10}
             sx={{
-              bgcolor: "rgba(25, 118, 210, 0.1)",
-              "&:hover": { bgcolor: "rgba(25, 118, 210, 0.2)" },
-              "&.Mui-disabled": { bgcolor: "rgba(0, 0, 0, 0.05)" },
+              bgcolor: "rgba(56, 96, 240, 0.12)",
+              boxShadow: "0 6px 16px rgba(56, 96, 240, 0.15)",
+              "&:hover": { bgcolor: "rgba(56, 96, 240, 0.2)" },
+              "&.Mui-disabled": {
+                boxShadow: "none",
+                bgcolor: "rgba(15, 23, 42, 0.05)",
+              },
             }}
           >
             <AddIcon />
