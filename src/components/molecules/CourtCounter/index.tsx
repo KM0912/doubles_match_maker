@@ -1,8 +1,8 @@
-import React from "react";
-import { Box, Typography, IconButton, Paper } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
+import React from 'react';
+import { Box, Typography, IconButton, Paper } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import SportsBaseballIcon from '@mui/icons-material/SportsBaseball';
 
 type Props = {
   courts: number;
@@ -10,22 +10,15 @@ type Props = {
   onDecrement: () => void;
 };
 
-const CourtCounter: React.FC<Props> = ({
-  courts,
-  onIncrement,
-  onDecrement,
-}) => {
+const CourtCounter: React.FC<Props> = ({ courts, onIncrement, onDecrement }) => {
   return (
-    <Paper
-      elevation={2}
-      sx={{ p: 2, borderRadius: 2, width: "100%", overflow: "visible" }}
-    >
+    <Paper elevation={2} sx={{ p: 2, borderRadius: 2, width: '100%', overflow: 'visible' }}>
       <Typography
-        variant="h6"
+        variant='h6'
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifySelf: "start",
+          display: 'flex',
+          alignItems: 'center',
+          justifySelf: 'start',
           mb: 2,
         }}
       >
@@ -34,33 +27,33 @@ const CourtCounter: React.FC<Props> = ({
       </Typography>
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '100%',
         }}
       >
         <IconButton
           onClick={onDecrement}
-          color="primary"
-          size="small"
+          color='primary'
+          size='small'
           disabled={courts <= 1}
           sx={{
-            justifySelf: "center",
-            bgcolor: "rgba(25, 118, 210, 0.1)",
-            "&:hover": { bgcolor: "rgba(25, 118, 210, 0.2)" },
+            justifySelf: 'center',
+            bgcolor: 'rgba(25, 118, 210, 0.1)',
+            '&:hover': { bgcolor: 'rgba(25, 118, 210, 0.2)' },
           }}
         >
           <RemoveIcon />
         </IconButton>
 
         <Typography
-          variant="h6"
+          variant='h6'
           sx={{
-            justifySelf: "center",
+            justifySelf: 'center',
             // minWidth: { xs: 56, sm: 60 },
-            textAlign: "center",
-            fontWeight: "bold",
+            textAlign: 'center',
+            fontWeight: 'bold',
           }}
         >
           {courts}
@@ -68,14 +61,14 @@ const CourtCounter: React.FC<Props> = ({
 
         <IconButton
           onClick={onIncrement}
-          color="primary"
-          size="small"
+          color='primary'
+          size='small'
           disabled={courts >= 10}
           sx={{
-            justifySelf: "center",
-            bgcolor: "rgba(25, 118, 210, 0.1)",
-            "&:hover": { bgcolor: "rgba(25, 118, 210, 0.2)" },
-            "&.Mui-disabled": { bgcolor: "rgba(0, 0, 0, 0.05)" },
+            justifySelf: 'center',
+            bgcolor: 'rgba(25, 118, 210, 0.1)',
+            '&:hover': { bgcolor: 'rgba(25, 118, 210, 0.2)' },
+            '&.Mui-disabled': { bgcolor: 'rgba(0, 0, 0, 0.05)' },
           }}
         >
           <AddIcon />

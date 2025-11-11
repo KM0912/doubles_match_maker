@@ -1,25 +1,25 @@
-import React from "react";
-import { Button, ButtonProps } from "@mui/material";
+import React from 'react';
+import { Button, ButtonProps } from '@mui/material';
 
 type ActionButtonProps = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
-  variant?: ButtonProps["variant"];
-  color?: ButtonProps["color"];
-  size?: ButtonProps["size"];
+  variant?: ButtonProps['variant'];
+  color?: ButtonProps['color'];
+  size?: ButtonProps['size'];
   fullWidth?: boolean;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
-  sx?: ButtonProps["sx"];
+  sx?: ButtonProps['sx'];
   children: React.ReactNode;
 };
 
 const ActionButton: React.FC<ActionButtonProps> = ({
   onClick,
   disabled = false,
-  variant = "contained",
-  color = "primary",
-  size = "medium",
+  variant = 'contained',
+  color = 'primary',
+  size = 'medium',
   fullWidth = true,
   startIcon,
   endIcon,
@@ -38,7 +38,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       endIcon={endIcon}
       sx={{
         borderRadius: 1.5,
-        fontWeight: "medium",
+        fontWeight: 'medium',
         ...sx,
       }}
     >

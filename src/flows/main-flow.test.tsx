@@ -1,13 +1,13 @@
-import React, { forwardRef, useImperativeHandle } from "react";
-import { render } from "@testing-library/react";
-import { PlayerProvider, usePlayerContext } from "../contexts/PlayerContext";
-import { MatchProvider, useMatchContext } from "../contexts/MatchContext";
-import useMatchWinner from "../hooks/useMatchWinner";
-import type { Match, Player } from "../types";
-import { act } from "react";
+import React, { forwardRef, useImperativeHandle } from 'react';
+import { render } from '@testing-library/react';
+import { PlayerProvider, usePlayerContext } from '../contexts/PlayerContext';
+import { MatchProvider, useMatchContext } from '../contexts/MatchContext';
+import useMatchWinner from '../hooks/useMatchWinner';
+import type { Match, Player } from '../types';
+import { act } from 'react';
 
 // Deterministic shuffle
-jest.mock("../utils/matchUtils", () => ({
+jest.mock('../utils/matchUtils', () => ({
   shufflePlayersArray: (array: Player[]) => array,
 }));
 
@@ -23,8 +23,7 @@ type Controller = {
 };
 
 const ControllerComp = forwardRef<Controller>((_props, ref) => {
-  const { updatePlayers, players, pairHistory, opponentHistory } =
-    usePlayerContext();
+  const { updatePlayers, players, pairHistory, opponentHistory } = usePlayerContext();
   const { matches, generateMatches, completeMatches } = useMatchContext();
   const { updateMatchWinner } = useMatchWinner();
 
@@ -57,7 +56,7 @@ const renderHarness = () => {
       <MatchProvider>
         <ControllerComp ref={ref} />
       </MatchProvider>
-    </PlayerProvider>
+    </PlayerProvider>,
   );
   return ref;
 };
@@ -66,8 +65,8 @@ beforeEach(() => {
   localStorage.clear();
 });
 
-describe("主要フロー: 生成→勝敗→完了→履歴更新", () => {
-  it("勝利数/試合数/履歴が正しく更新される", () => {
+describe('主要フロー: 生成→勝敗→完了→履歴更新', () => {
+  it('勝利数/試合数/履歴が正しく更新される', () => {
     const ref = renderHarness();
     expect(ref.current).toBeTruthy();
 
@@ -84,9 +83,7 @@ describe("主要フロー: 生成→勝敗→完了→履歴更新", () => {
     });
 
     const prePlayers = ref.current!.getPlayers();
-    const winners = new Set<number>(
-      matches.flatMap((m) => m.team2.map((p) => p.id))
-    );
+    const winners = new Set<number>(matches.flatMap((m) => m.team2.map((p) => p.id)));
 
     // 完了
     act(() => ref.current!.complete());
@@ -94,9 +91,7 @@ describe("主要フロー: 生成→勝敗→完了→履歴更新", () => {
     const postPlayers = ref.current!.getPlayers();
     // 勝者はwins+1、参加者はgamesPlayed+1
     postPlayers.forEach((p) => {
-      const wasInMatch = matches.some(
-        (m) => [...m.team1, ...m.team2].some((x) => x.id === p.id)
-      );
+      const wasInMatch = matches.some((m) => [...m.team1, ...m.team2].some((x) => x.id === p.id));
       expect(p.gamesPlayed).toBe(wasInMatch ? 1 : 0);
       const pre = prePlayers.find((pp) => pp.id === p.id)!;
       const diff = p.wins - pre.wins;
@@ -121,4 +116,3 @@ describe("主要フロー: 生成→勝敗→完了→履歴更新", () => {
     expect(ref.current!.getMatches().length).toBe(0);
   });
 });
-

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useMatchContext } from "../contexts/MatchContext";
+import { useState } from 'react';
+import { useMatchContext } from '../contexts/MatchContext';
 
 export type selectedPlayer = {
   matchIndex: number;
@@ -15,11 +15,7 @@ const useSwapPlayer = () => {
     setSelectedPlayer(player);
   };
 
-  const isPlayerSelected = (
-    matchIndex: number,
-    teamNumber: number,
-    playerIndex: number
-  ) => {
+  const isPlayerSelected = (matchIndex: number, teamNumber: number, playerIndex: number) => {
     return (
       !!selectedPlayer &&
       selectedPlayer.matchIndex === matchIndex &&
@@ -29,11 +25,7 @@ const useSwapPlayer = () => {
   };
 
   // TODO: チームNoではなくプレイヤーidを使うように変更
-  const swapPlayers = (
-    matchIndex: number,
-    teamNumber: number,
-    playerIndex: number
-  ) => {
+  const swapPlayers = (matchIndex: number, teamNumber: number, playerIndex: number) => {
     if (!selectedPlayer) {
       setSelectedPlayer({ matchIndex, team: teamNumber, playerIndex });
       return;
@@ -43,8 +35,8 @@ const useSwapPlayer = () => {
     const currentMatch = newMatches[matchIndex];
     const previousMatch = newMatches[selectedPlayer.matchIndex];
 
-    const currentTeam = teamNumber === 1 ? "team1" : "team2";
-    const previousTeam = selectedPlayer.team === 1 ? "team1" : "team2";
+    const currentTeam = teamNumber === 1 ? 'team1' : 'team2';
+    const previousTeam = selectedPlayer.team === 1 ? 'team1' : 'team2';
 
     const temp = currentMatch[currentTeam][playerIndex];
     currentMatch[currentTeam][playerIndex] =

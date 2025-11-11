@@ -1,13 +1,13 @@
-import { useMatchContext } from "../../../contexts/MatchContext";
-import { usePlayerContext } from "../../../contexts/PlayerContext";
-import PlayerCard from "../PlayerCard";
-import { Grid, Box, useMediaQuery, useTheme } from "@mui/material";
+import { useMatchContext } from '../../../contexts/MatchContext';
+import { usePlayerContext } from '../../../contexts/PlayerContext';
+import PlayerCard from '../PlayerCard';
+import { Grid, Box, useMediaQuery, useTheme } from '@mui/material';
 
 const PlayerCards: React.FC = () => {
   const { players, setOnBreak } = usePlayerContext();
   const { isPlayerInMatch } = useMatchContext();
   const theme = useTheme();
-  const isXsScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isXsScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   // プレイヤーをID順にソート
   const sortedPlayers = [...players].sort((a, b) => a.id - b.id);

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { MAX_COURTS } from "../constants";
+import { useState } from 'react';
+import { MAX_COURTS } from '../constants';
 
 const useCourtManagement = () => {
   const [courts, setCourts] = useState<number>(1);

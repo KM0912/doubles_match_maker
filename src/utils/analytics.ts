@@ -13,10 +13,10 @@ declare global {
 
 export const GA_TRACKING_ID = process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID;
 
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV === 'production';
 
 function canUseDOM() {
-  return typeof window !== "undefined" && typeof document !== "undefined";
+  return typeof window !== 'undefined' && typeof document !== 'undefined';
 }
 
 export function initAnalytics(): void {
@@ -26,21 +26,21 @@ export function initAnalytics(): void {
 
   // Avoid double initialization (e.g., React StrictMode re-invoking effects)
   if (window.__GA_INITIALIZED__) return;
-  if (document.getElementById("ga-gtag")) {
+  if (document.getElementById('ga-gtag')) {
     window.__GA_INITIALIZED__ = true;
     return;
   }
 
   // Load gtag.js
-  const script = document.createElement("script");
+  const script = document.createElement('script');
   script.async = true;
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`;
-  script.id = "ga-gtag";
+  script.id = 'ga-gtag';
   document.head.appendChild(script);
 
   // Inline init
-  const inlineScript = document.createElement("script");
-  inlineScript.id = "ga-inline";
+  const inlineScript = document.createElement('script');
+  inlineScript.id = 'ga-inline';
   inlineScript.innerHTML = `
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -60,9 +60,8 @@ export function pageview(path: string): void {
   // Ensure initialized before sending
   if (!window.__GA_INITIALIZED__) initAnalytics();
 
-  if (typeof window.gtag === "function") {
+  if (typeof window.gtag === 'function') {
     // Standard SPA pageview
-    window.gtag("config", GA_TRACKING_ID, { page_path: path });
+    window.gtag('config', GA_TRACKING_ID, { page_path: path });
   }
 }
-

@@ -1,15 +1,15 @@
-import { useCallback, useState } from "react";
-import useCourtManagement from "../../../hooks/useCourtManagement";
-import Header from "../../molecules/Header";
-import { BottomNav } from "../../molecules/BottomNav";
-import SettingsMenu from "../../organisms/SettingsMenu";
-import MatchMenu from "../../organisms/MatchMenu";
-import HistoryMenu from "../../organisms/HistoryMenu";
-import { Container, Box, Fade, useTheme } from "@mui/material";
+import { useCallback, useState } from 'react';
+import useCourtManagement from '../../../hooks/useCourtManagement';
+import Header from '../../molecules/Header';
+import { BottomNav } from '../../molecules/BottomNav';
+import SettingsMenu from '../../organisms/SettingsMenu';
+import MatchMenu from '../../organisms/MatchMenu';
+import HistoryMenu from '../../organisms/HistoryMenu';
+import { Container, Box, Fade, useTheme } from '@mui/material';
 
 function MainComponent() {
   const { courts, incrementCourts, decrementCourts } = useCourtManagement();
-  const [activeMenu, setActiveMenu] = useState("match");
+  const [activeMenu, setActiveMenu] = useState('match');
   const theme = useTheme();
 
   const handleMenuChange = useCallback((newValue: string) => {
@@ -18,32 +18,29 @@ function MainComponent() {
 
   return (
     <Box
-      component="main"
+      component='main'
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
         bgcolor: theme.palette.grey[50],
       }}
     >
       <Header />
 
       <Container
-        component="section"
-        maxWidth="md"
+        component='section'
+        maxWidth='md'
         sx={{
           py: 4,
           pb: { xs: 10, sm: 11 },
           flexGrow: 1,
-          display: "flex",
-          flexDirection: "column",
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
-        <Fade in={activeMenu === "settings"} unmountOnExit>
-          <Box
-            component="section"
-            sx={{ display: activeMenu === "settings" ? "block" : "none" }}
-          >
+        <Fade in={activeMenu === 'settings'} unmountOnExit>
+          <Box component='section' sx={{ display: activeMenu === 'settings' ? 'block' : 'none' }}>
             <SettingsMenu
               courts={courts}
               onIncrementCourts={incrementCourts}
@@ -52,20 +49,14 @@ function MainComponent() {
           </Box>
         </Fade>
 
-        <Fade in={activeMenu === "match"} unmountOnExit>
-          <Box
-            component="section"
-            sx={{ display: activeMenu === "match" ? "block" : "none" }}
-          >
+        <Fade in={activeMenu === 'match'} unmountOnExit>
+          <Box component='section' sx={{ display: activeMenu === 'match' ? 'block' : 'none' }}>
             <MatchMenu courts={courts} />
           </Box>
         </Fade>
 
-        <Fade in={activeMenu === "history"} unmountOnExit>
-          <Box
-            component="section"
-            sx={{ display: activeMenu === "history" ? "block" : "none" }}
-          >
+        <Fade in={activeMenu === 'history'} unmountOnExit>
+          <Box component='section' sx={{ display: activeMenu === 'history' ? 'block' : 'none' }}>
             <HistoryMenu />
           </Box>
         </Fade>

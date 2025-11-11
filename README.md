@@ -3,6 +3,7 @@
 本リポジトリは Create React App ベースのフロントエンドです。デプロイ先は Netlify を前提とした運用に切り替えています。
 
 重要な変更点:
+
 - `gh-pages` 依存関係と `predeploy`/`deploy` スクリプトを削除しました（`package.json`）。
 - デプロイは Netlify で実施します（Git 連携または Netlify CLI）。
 
@@ -26,17 +27,20 @@
 ## デプロイ（Netlify）
 
 Netlify での基本設定:
+
 - Build command: `yarn build`（または `npm run build`）
 - Publish directory: `build`
 - Base directory: ルート（未指定）
 
 ### Git 連携での自動デプロイ
+
 - Netlify ダッシュボードで「New site from Git」から本リポジトリを連携
 - 対象ブランチを選択（例: `main`）
 - 上記の Build/Publish 設定で保存
 - 以降、対象ブランチへ push すると自動でビルド・デプロイされます
 
 ### Netlify CLI での手動デプロイ
+
 - インストール: `npm i -g netlify-cli`
 - 初回設定: `netlify init`（既存サイトにリンクする場合は `netlify link`）
 - 本番デプロイ: `netlify deploy --prod --dir=build`

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useId } from "react";
+import React, { useEffect, useState, useId } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -8,8 +8,8 @@ import {
   Button,
   Typography,
   Box,
-} from "@mui/material";
-import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
+} from '@mui/material';
+import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 
 interface ConfirmDialogProps {
   confirmText: string;
@@ -18,24 +18,17 @@ interface ConfirmDialogProps {
   onConfirm: () => void;
   onCancel: () => void;
   title?: string;
-  okColor?:
-    | "inherit"
-    | "primary"
-    | "secondary"
-    | "success"
-    | "error"
-    | "info"
-    | "warning";
+  okColor?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
 }
 
 const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   confirmText,
-  okText = "OK",
-  cancelText = "キャンセル",
+  okText = 'OK',
+  cancelText = 'キャンセル',
   onConfirm,
   onCancel,
-  title = "確認",
-  okColor = "primary",
+  title = '確認',
+  okColor = 'primary',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const titleId = useId();
@@ -60,14 +53,14 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       open={isOpen}
       onClose={handleCancel}
       fullWidth
-      maxWidth="sm"
+      maxWidth='sm'
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
-      role="dialog"
+      role='dialog'
       PaperProps={{
         sx: {
           borderRadius: 2,
-          overflow: "hidden",
+          overflow: 'hidden',
         },
         elevation: 3,
       }}
@@ -75,38 +68,27 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       <DialogTitle
         id={titleId}
         sx={{
-          display: "flex",
-          alignItems: "center",
+          display: 'flex',
+          alignItems: 'center',
           gap: 1,
           fontWeight: 700,
           borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
           py: 1.5,
         }}
       >
-        {okColor === "error" && (
-          <WarningAmberRoundedIcon color="error" sx={{ mr: 0.5 }} />
-        )}
+        {okColor === 'error' && <WarningAmberRoundedIcon color='error' sx={{ mr: 0.5 }} />}
         {title}
       </DialogTitle>
       <DialogContent sx={{ pt: 2, pb: 0 }}>
         <DialogContentText id={descriptionId}>
-          <Typography variant="body1">{confirmText}</Typography>
+          <Typography variant='body1'>{confirmText}</Typography>
         </DialogContentText>
       </DialogContent>
       <DialogActions sx={{ px: 3, py: 2, gap: 1.5 }}>
-        <Button
-          variant="outlined"
-          onClick={handleCancel}
-          color="inherit"
-          autoFocus
-        >
+        <Button variant='outlined' onClick={handleCancel} color='inherit' autoFocus>
           {cancelText}
         </Button>
-        <Button
-          variant="contained"
-          onClick={handleConfirm}
-          color={okColor}
-        >
+        <Button variant='contained' onClick={handleConfirm} color={okColor}>
           {okText}
         </Button>
       </DialogActions>

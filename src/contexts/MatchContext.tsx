@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
-import { Match, Player, Team } from "../types";
-import { usePlayerContext } from "./PlayerContext";
-import { shufflePlayersArray } from "../utils/matchUtils";
+import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { Match, Player, Team } from '../types';
+import { usePlayerContext } from './PlayerContext';
+import { shufflePlayersArray } from '../utils/matchUtils';
 
 type MatchContextType = {
   matches: Match[];
@@ -22,9 +22,7 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
   const [matches, setMatches] = useState<Match[]>([]);
   // 直前ラウンドのペア／対戦（連続回避用）
   const [lastRoundPairs, setLastRoundPairs] = useState<Set<string>>(new Set());
-  const [lastRoundMatchups, setLastRoundMatchups] = useState<Set<string>>(
-    new Set()
-  );
+  const [lastRoundMatchups, setLastRoundMatchups] = useState<Set<string>>(new Set());
   const {
     players,
     updatePlayers,
@@ -44,17 +42,11 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     let currentPlayers: Player[] = [];
     while (waitingPlayers.length > 0) {
       // 試合に入れるプレイヤーの中で最小の試合数を取得
-      const minGamePlayed = Math.min(
-        ...waitingPlayers.map((p) => p.gamesPlayed)
-      );
+      const minGamePlayed = Math.min(...waitingPlayers.map((p) => p.gamesPlayed));
 
       // 試合数が最小のプレイヤーをwaitingAvailablePlayersから取り出して配列から削除する
-      const newGamePlayers = waitingPlayers.filter(
-        (p) => p.gamesPlayed === minGamePlayed
-      );
-      waitingPlayers = waitingPlayers.filter(
-        (p) => p.gamesPlayed !== minGamePlayed
-      );
+      const newGamePlayers = waitingPlayers.filter((p) => p.gamesPlayed === minGamePlayed);
+      waitingPlayers = waitingPlayers.filter((p) => p.gamesPlayed !== minGamePlayed);
 
       if (currentPlayers.length + newGamePlayers.length >= maxGames * 4) {
         // 試合に必要な人数に達している場合
@@ -62,10 +54,7 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
         const playerCount = maxGames * 4 - currentPlayers.length;
 
         // newGamePlayersからランダムにplayerCount人取り出す
-        const randomPlayers = shufflePlayersArray(newGamePlayers).slice(
-          0,
-          playerCount
-        );
+        const randomPlayers = shufflePlayersArray(newGamePlayers).slice(0, playerCount);
 
         currentPlayers.push(...randomPlayers);
         break;
@@ -89,10 +78,10 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
         // 試合に参加したプレイヤーをcurrentPlayersから削除
         const bestMatchPlayers = [...bestMatch.team1, ...bestMatch.team2];
         currentPlayers = currentPlayers.filter(
-          (p) => !bestMatchPlayers.some((bp) => bp.id === p.id)
+          (p) => !bestMatchPlayers.some((bp) => bp.id === p.id),
         );
       } else {
-        console.error("ペアの生成に失敗しました");
+        console.error('ペアの生成に失敗しました');
         break;
       }
     }
@@ -104,12 +93,12 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
   const completeMatches = () => {
     const playersInMatches = matches.reduce(
       (acc, match) => [...acc, ...match.team1, ...match.team2],
-      [] as Player[]
+      [] as Player[],
     );
     const updatedPlayers = players.map((player) =>
       playersInMatches.some((p) => p.id === player.id)
         ? { ...player, gamesPlayed: player.gamesPlayed + 1 }
-        : player
+        : player,
     );
 
     updatePlayers(updatedPlayers);
@@ -122,9 +111,9 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
       return `${x}-${y}`;
     };
     const matchupKey = (team1: number[], team2: number[]) => {
-      const t1 = [...team1].sort((a, b) => a - b).join(",");
-      const t2 = [...team2].sort((a, b) => a - b).join(",");
-      return [t1, t2].sort().join("|");
+      const t1 = [...team1].sort((a, b) => a - b).join(',');
+      const t2 = [...team2].sort((a, b) => a - b).join(',');
+      return [t1, t2].sort().join('|');
     };
     matches.forEach((m) => {
       const t1 = m.team1.map((p) => p.id);
@@ -150,8 +139,7 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
   const isPlayerInMatch = (playerId: number) => {
     return matches.some(
       (match) =>
-        match.team1.some((p) => p.id === playerId) ||
-        match.team2.some((p) => p.id === playerId)
+        match.team1.some((p) => p.id === playerId) || match.team2.some((p) => p.id === playerId),
     );
   };
 
@@ -168,19 +156,11 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
           for (let l = k + 1; l < remaining.length; l++) {
             const team2: Team = [remaining[k], remaining[l]];
             // 直前ラウンドの同一ペア／同一対戦は強いペナルティで回避
-            const pairKey1 = [team1[0].id, team1[1].id]
-              .sort((a, b) => a - b)
-              .join("-");
-            const pairKey2 = [team2[0].id, team2[1].id]
-              .sort((a, b) => a - b)
-              .join("-");
-            const t1 = [team1[0].id, team1[1].id]
-              .sort((a, b) => a - b)
-              .join(",");
-            const t2 = [team2[0].id, team2[1].id]
-              .sort((a, b) => a - b)
-              .join(",");
-            const matchupKey = [t1, t2].sort().join("|");
+            const pairKey1 = [team1[0].id, team1[1].id].sort((a, b) => a - b).join('-');
+            const pairKey2 = [team2[0].id, team2[1].id].sort((a, b) => a - b).join('-');
+            const t1 = [team1[0].id, team1[1].id].sort((a, b) => a - b).join(',');
+            const t2 = [team2[0].id, team2[1].id].sort((a, b) => a - b).join(',');
+            const matchupKey = [t1, t2].sort().join('|');
 
             const consecutivePenalty =
               (lastRoundPairs.has(pairKey1) ? 1000 : 0) +
@@ -213,15 +193,13 @@ export const MatchProvider: React.FC<Props> = ({ children }) => {
     isPlayerInMatch,
   };
 
-  return (
-    <MatchContext.Provider value={value}>{children}</MatchContext.Provider>
-  );
+  return <MatchContext.Provider value={value}>{children}</MatchContext.Provider>;
 };
 
 export const useMatchContext = (): MatchContextType => {
   const context = useContext(MatchContext);
   if (!context) {
-    throw new Error("useMatchContext must be used within a PlayerProvider");
+    throw new Error('useMatchContext must be used within a PlayerProvider');
   }
   return context;
 };

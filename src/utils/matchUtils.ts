@@ -5,7 +5,7 @@
  * @returns シャッフルされた配列
  */
 
-import { Player } from "../types";
+import { Player } from '../types';
 
 export const shufflePlayersArray = (array: Player[]) => {
   for (let i = array.length - 1; i > 0; i--) {
