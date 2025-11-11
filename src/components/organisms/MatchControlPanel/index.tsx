@@ -1,10 +1,10 @@
-import { useMatchContext } from "../../../contexts/MatchContext";
-import useSwapPlayer from "../../../hooks/useSwapPlayer";
-import CompleteMatchesButton from "../../atoms/CompleteMatchesButton";
-import GenerateMatchesButton from "../../atoms/GenerateMatchesButton";
-import CurrentMatch from "../../molecules/CurrentMatch";
-import WaitingPlayers from "../../molecules/WaitingPlayers";
-import { Box, Stack } from "@mui/material";
+import { useMatchContext } from '../../../contexts/MatchContext';
+import useSwapPlayer from '../../../hooks/useSwapPlayer';
+import CompleteMatchesButton from '../../atoms/CompleteMatchesButton';
+import GenerateMatchesButton from '../../atoms/GenerateMatchesButton';
+import CurrentMatch from '../../molecules/CurrentMatch';
+import WaitingPlayers from '../../molecules/WaitingPlayers';
+import { Box, Stack } from '@mui/material';
 
 type Props = {
   courts: number;
@@ -12,21 +12,16 @@ type Props = {
 
 const MatchControlPanel: React.FC<Props> = ({ courts }) => {
   const { matches } = useMatchContext();
-  const {
-    selectedPlayer,
-    updateSelectedPlayer,
-    isPlayerSelected,
-    swapPlayers,
-  } = useSwapPlayer();
+  const { selectedPlayer, updateSelectedPlayer, isPlayerSelected, swapPlayers } = useSwapPlayer();
 
   return (
     <Stack spacing={2}>
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{ width: '100%' }}>
         <GenerateMatchesButton courts={courts} />
       </Box>
 
       {matches.length > 0 && (
-        <Stack spacing={3} sx={{ width: "100%" }}>
+        <Stack spacing={3} sx={{ width: '100%' }}>
           <CurrentMatch
             selectedPlayer={selectedPlayer}
             updateSelectedPlayer={updateSelectedPlayer}

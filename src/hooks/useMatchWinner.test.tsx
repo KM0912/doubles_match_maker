@@ -1,13 +1,13 @@
-import React, { forwardRef, useImperativeHandle } from "react";
-import { render } from "@testing-library/react";
-import { PlayerProvider, usePlayerContext } from "../contexts/PlayerContext";
-import { MatchProvider, useMatchContext } from "../contexts/MatchContext";
-import useMatchWinner from "./useMatchWinner";
-import type { Match, Player, WinnerTeam } from "../types";
-import { act } from "react";
+import React, { forwardRef, useImperativeHandle } from 'react';
+import { render } from '@testing-library/react';
+import { PlayerProvider, usePlayerContext } from '../contexts/PlayerContext';
+import { MatchProvider, useMatchContext } from '../contexts/MatchContext';
+import useMatchWinner from './useMatchWinner';
+import type { Match, Player, WinnerTeam } from '../types';
+import { act } from 'react';
 
 // Make shuffle deterministic in tests
-jest.mock("../utils/matchUtils", () => ({
+jest.mock('../utils/matchUtils', () => ({
   shufflePlayersArray: (array: Player[]) => array,
 }));
 
@@ -28,8 +28,7 @@ const ControllerComp = forwardRef<Controller>((_props, ref) => {
   useImperativeHandle(ref, () => ({
     generate: (courts: number) => generateMatches(courts),
     complete: () => completeMatches(),
-    setWinner: (index: number, team: WinnerTeam) =>
-      updateMatchWinner(index, team),
+    setWinner: (index: number, team: WinnerTeam) => updateMatchWinner(index, team),
     resetWinner: (index: number) => resetMatchWinner(index),
     getMatches: () => matches,
     getPlayers: () => players,
@@ -45,7 +44,7 @@ const renderHarness = () => {
       <MatchProvider>
         <ControllerComp ref={ref} />
       </MatchProvider>
-    </PlayerProvider>
+    </PlayerProvider>,
   );
   return ref;
 };
@@ -54,8 +53,8 @@ beforeEach(() => {
   localStorage.clear();
 });
 
-describe("useMatchWinner の動作", () => {
-  it("勝敗更新とリセットで勝利数を増減できる", () => {
+describe('useMatchWinner の動作', () => {
+  it('勝敗更新とリセットで勝利数を増減できる', () => {
     const ref = renderHarness();
     expect(ref.current).toBeTruthy();
 
@@ -75,12 +74,8 @@ describe("useMatchWinner の動作", () => {
     });
 
     let players = ref.current!.getPlayers();
-    players
-      .filter((p) => t1.includes(p.id))
-      .forEach((p) => expect(p.wins).toBe(1));
-    players
-      .filter((p) => t2.includes(p.id))
-      .forEach((p) => expect(p.wins).toBe(0));
+    players.filter((p) => t1.includes(p.id)).forEach((p) => expect(p.wins).toBe(1));
+    players.filter((p) => t2.includes(p.id)).forEach((p) => expect(p.wins).toBe(0));
 
     // リセットで元に戻る
     act(() => {
@@ -94,15 +89,11 @@ describe("useMatchWinner の動作", () => {
       ref.current!.setWinner(0, 2);
     });
     players = ref.current!.getPlayers();
-    players
-      .filter((p) => t2.includes(p.id))
-      .forEach((p) => expect(p.wins).toBe(1));
-    players
-      .filter((p) => t1.includes(p.id))
-      .forEach((p) => expect(p.wins).toBe(0));
+    players.filter((p) => t2.includes(p.id)).forEach((p) => expect(p.wins).toBe(1));
+    players.filter((p) => t1.includes(p.id)).forEach((p) => expect(p.wins).toBe(0));
   });
 
-  it("無効なインデックスのリセットでエラーを投げる", () => {
+  it('無効なインデックスのリセットでエラーを投げる', () => {
     const ref = renderHarness();
     expect(ref.current).toBeTruthy();
 
@@ -110,7 +101,6 @@ describe("useMatchWinner の動作", () => {
       ref.current!.generate(1);
     });
 
-    expect(() => ref.current!.resetWinner(999)).toThrow("Invalid match index");
+    expect(() => ref.current!.resetWinner(999)).toThrow('Invalid match index');
   });
 });
-

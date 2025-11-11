@@ -1,12 +1,12 @@
-import React, { forwardRef, useImperativeHandle } from "react";
-import { render } from "@testing-library/react";
-import { PlayerProvider, usePlayerContext } from "./PlayerContext";
-import { MatchProvider, useMatchContext } from "./MatchContext";
-import type { Match, Player } from "../types";
-import { act } from "react";
+import React, { forwardRef, useImperativeHandle } from 'react';
+import { render } from '@testing-library/react';
+import { PlayerProvider, usePlayerContext } from './PlayerContext';
+import { MatchProvider, useMatchContext } from './MatchContext';
+import type { Match, Player } from '../types';
+import { act } from 'react';
 
 // Deterministic shuffle
-jest.mock("../utils/matchUtils", () => ({
+jest.mock('../utils/matchUtils', () => ({
   shufflePlayersArray: (array: Player[]) => array,
 }));
 
@@ -23,15 +23,9 @@ type Controller = {
 };
 
 const ControllerComp = forwardRef<Controller>((_props, ref) => {
-  const { updatePlayers, players, pairHistory, opponentHistory } =
-    usePlayerContext();
-  const {
-    matches,
-    generateMatches,
-    completeMatches,
-    resetMatch,
-    isPlayerInMatch,
-  } = useMatchContext();
+  const { updatePlayers, players, pairHistory, opponentHistory } = usePlayerContext();
+  const { matches, generateMatches, completeMatches, resetMatch, isPlayerInMatch } =
+    useMatchContext();
 
   useImperativeHandle(ref, () => ({
     setPlayers: (n: number) => {
@@ -63,7 +57,7 @@ const renderHarness = () => {
       <MatchProvider>
         <ControllerComp ref={ref} />
       </MatchProvider>
-    </PlayerProvider>
+    </PlayerProvider>,
   );
   return ref;
 };
@@ -72,8 +66,8 @@ beforeEach(() => {
   localStorage.clear();
 });
 
-describe("MatchContext の基本動作", () => {
-  it("生成/完了/リセット/在試合判定/履歴更新ができる", () => {
+describe('MatchContext の基本動作', () => {
+  it('生成/完了/リセット/在試合判定/履歴更新ができる', () => {
     const ref = renderHarness();
     expect(ref.current).toBeTruthy();
 
@@ -96,9 +90,7 @@ describe("MatchContext の基本動作", () => {
     expect(matches.length).toBe(0);
 
     const players = ref.current!.getPlayers();
-    players
-      .filter((p) => inMatchIds.has(p.id))
-      .forEach((p) => expect(p.gamesPlayed).toBe(1));
+    players.filter((p) => inMatchIds.has(p.id)).forEach((p) => expect(p.gamesPlayed).toBe(1));
 
     const pair = ref.current!.getPairHistory();
     const opp = ref.current!.getOpponentHistory();

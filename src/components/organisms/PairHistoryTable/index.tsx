@@ -1,7 +1,7 @@
-import { useMemo } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { alpha, useTheme } from "@mui/material/styles";
-import { usePlayerContext } from "../../../contexts/PlayerContext";
+import { useMemo } from 'react';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { alpha, useTheme } from '@mui/material/styles';
+import { usePlayerContext } from '../../../contexts/PlayerContext';
 
 const PairHistoryTable: React.FC = () => {
   const theme = useTheme();
@@ -23,23 +23,23 @@ const PairHistoryTable: React.FC = () => {
 
   // 背景色の濃さを計算（テーマカラーを使用）
   const getBackgroundColor = (count: number) => {
-    if (maxPairCount === 0) return "transparent";
+    if (maxPairCount === 0) return 'transparent';
     const intensity = count / maxPairCount;
     return alpha(theme.palette.primary.main, intensity * 0.5);
   };
 
   return (
-    <TableContainer sx={{ maxWidth: "100%" }}>
-      <Table size="small" stickyHeader>
+    <TableContainer sx={{ maxWidth: '100%' }}>
+      <Table size='small' stickyHeader>
         <TableHead>
           <TableRow>
             <TableCell
               sx={{
-                fontWeight: "bold",
+                fontWeight: 'bold',
                 minWidth: 60,
-                bgcolor: "grey.100",
-                border: "1px solid",
-                borderColor: "divider",
+                bgcolor: 'grey.100',
+                border: '1px solid',
+                borderColor: 'divider',
                 p: 1,
               }}
             >
@@ -48,11 +48,11 @@ const PairHistoryTable: React.FC = () => {
             {players.map((player) => (
               <TableCell
                 key={player.id}
-                align="center"
+                align='center'
                 sx={{
-                  bgcolor: "grey.100",
-                  border: "1px solid",
-                  borderColor: "divider",
+                  bgcolor: 'grey.100',
+                  border: '1px solid',
+                  borderColor: 'divider',
                   p: 1,
                 }}
               >
@@ -65,13 +65,13 @@ const PairHistoryTable: React.FC = () => {
           {players.map((player) => (
             <TableRow key={player.id}>
               <TableCell
-                component="th"
-                scope="row"
+                component='th'
+                scope='row'
                 sx={{
-                  fontWeight: "bold",
-                  bgcolor: "grey.50",
-                  border: "1px solid",
-                  borderColor: "divider",
+                  fontWeight: 'bold',
+                  bgcolor: 'grey.50',
+                  border: '1px solid',
+                  borderColor: 'divider',
                   p: 1,
                 }}
               >
@@ -79,21 +79,19 @@ const PairHistoryTable: React.FC = () => {
               </TableCell>
               {players.map((partner) => {
                 const count =
-                  player.id === partner.id
-                    ? 0
-                    : pairHistory[player.id]?.[partner.id] || 0;
+                  player.id === partner.id ? 0 : pairHistory[player.id]?.[partner.id] || 0;
                 return (
                   <TableCell
                     key={partner.id}
-                    align="center"
+                    align='center'
                     sx={{
-                      border: "1px solid",
-                      borderColor: "divider",
+                      border: '1px solid',
+                      borderColor: 'divider',
                       p: 1,
                       bgcolor: getBackgroundColor(count),
                     }}
                   >
-                    {player.id === partner.id ? "-" : count}
+                    {player.id === partner.id ? '-' : count}
                   </TableCell>
                 );
               })}

@@ -1,8 +1,8 @@
-import React, { forwardRef, useImperativeHandle } from "react";
-import { render } from "@testing-library/react";
-import { PlayerProvider, usePlayerContext } from "./PlayerContext";
-import type { Match, Player } from "../types";
-import { act } from "react";
+import React, { forwardRef, useImperativeHandle } from 'react';
+import { render } from '@testing-library/react';
+import { PlayerProvider, usePlayerContext } from './PlayerContext';
+import type { Match, Player } from '../types';
+import { act } from 'react';
 
 type Controller = {
   add: () => void;
@@ -35,8 +35,7 @@ const ControllerComp = forwardRef<Controller>((_props, ref) => {
     reset: () => resetPlayers(),
     setBreak: (id: number, on: boolean) => setOnBreak(id, on),
     updatePairHistory: (matches: Match[]) => updatePairHistoryByMatches(matches),
-    updateOpponentHistory: (matches: Match[]) =>
-      updateOpponentHistoryByMatches(matches),
+    updateOpponentHistory: (matches: Match[]) => updateOpponentHistoryByMatches(matches),
     getPlayers: () => players,
     getPairHistory: () => pairHistory,
     getOpponentHistory: () => opponentHistory,
@@ -50,7 +49,7 @@ const renderHarness = () => {
   render(
     <PlayerProvider>
       <ControllerComp ref={ref} />
-    </PlayerProvider>
+    </PlayerProvider>,
   );
   return ref;
 };
@@ -59,8 +58,8 @@ beforeEach(() => {
   localStorage.clear();
 });
 
-describe("PlayerContext の基本操作", () => {
-  it("追加/削除/リセット/休憩切替ができる", () => {
+describe('PlayerContext の基本操作', () => {
+  it('追加/削除/リセット/休憩切替ができる', () => {
     const ref = renderHarness();
     expect(ref.current).toBeTruthy();
 
@@ -88,14 +87,12 @@ describe("PlayerContext の基本操作", () => {
     act(() => ref.current!.reset());
     players = ref.current!.getPlayers();
     expect(players.length).toBe(4);
-    expect(players.every((p) => p.wins === 0 && p.gamesPlayed === 0)).toBe(
-      true
-    );
+    expect(players.every((p) => p.wins === 0 && p.gamesPlayed === 0)).toBe(true);
   });
 });
 
-describe("PlayerContext の履歴更新", () => {
-  it("ペア履歴と対戦履歴を更新できる", () => {
+describe('PlayerContext の履歴更新', () => {
+  it('ペア履歴と対戦履歴を更新できる', () => {
     const ref = renderHarness();
     expect(ref.current).toBeTruthy();
 
@@ -137,4 +134,3 @@ describe("PlayerContext の履歴更新", () => {
     expect(pairHistory[p3.id][p4.id]).toBe(2);
   });
 });
-

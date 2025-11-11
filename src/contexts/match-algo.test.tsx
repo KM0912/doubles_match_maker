@@ -1,12 +1,12 @@
-import React, { forwardRef, useImperativeHandle } from "react";
-import { render } from "@testing-library/react";
-import { PlayerProvider, usePlayerContext } from "./PlayerContext";
-import { MatchProvider, useMatchContext } from "./MatchContext";
-import type { Match, Player } from "../types";
-import { act } from "react";
+import React, { forwardRef, useImperativeHandle } from 'react';
+import { render } from '@testing-library/react';
+import { PlayerProvider, usePlayerContext } from './PlayerContext';
+import { MatchProvider, useMatchContext } from './MatchContext';
+import type { Match, Player } from '../types';
+import { act } from 'react';
 
 // Make shuffle deterministic in tests
-jest.mock("../utils/matchUtils", () => ({
+jest.mock('../utils/matchUtils', () => ({
   shufflePlayersArray: (array: Player[]) => array,
 }));
 
@@ -57,7 +57,7 @@ const renderHarness = () => {
       <MatchProvider>
         <ControllerComp ref={ref} />
       </MatchProvider>
-    </PlayerProvider>
+    </PlayerProvider>,
   );
   return ref;
 };
@@ -68,10 +68,10 @@ const pairKey = (a: number, b: number) => {
 };
 
 const matchupKey = (team1: number[], team2: number[]) => {
-  const t1 = [...team1].sort((a, b) => a - b).join(",");
-  const t2 = [...team2].sort((a, b) => a - b).join(",");
+  const t1 = [...team1].sort((a, b) => a - b).join(',');
+  const t2 = [...team2].sort((a, b) => a - b).join(',');
   // Order-independent key for team vs team
-  return [t1, t2].sort().join("|");
+  return [t1, t2].sort().join('|');
 };
 
 beforeEach(() => {
@@ -88,9 +88,9 @@ const cases: Case[] = [
   { n: 12, courts: 3, rounds: 6 },
 ];
 
-describe("Match generation fairness across player counts", () => {
+describe('Match generation fairness across player counts', () => {
   it.each(cases)(
-    "n=%i players, courts=%i maintains balance and avoids consecutive repeats",
+    'n=%i players, courts=%i maintains balance and avoids consecutive repeats',
     ({ n, courts, rounds }) => {
       const ref = renderHarness();
       expect(ref.current).toBeTruthy();
@@ -145,6 +145,6 @@ describe("Match generation fairness across player counts", () => {
       const max = Math.max(...counts);
       const min = Math.min(...counts);
       expect(max - min).toBeLessThanOrEqual(1);
-    }
+    },
   );
 });

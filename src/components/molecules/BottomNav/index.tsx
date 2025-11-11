@@ -1,8 +1,8 @@
-import { Paper, BottomNavigation, BottomNavigationAction } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
-import SportsTennisIcon from "@mui/icons-material/SportsTennis";
-import HistoryIcon from "@mui/icons-material/History";
-import { useTheme } from "@mui/material/styles";
+import { Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
+import SportsTennisIcon from '@mui/icons-material/SportsTennis';
+import HistoryIcon from '@mui/icons-material/History';
+import { useTheme } from '@mui/material/styles';
 
 interface BottomNavProps {
   activeMenu: string;
@@ -14,9 +14,9 @@ export const BottomNav = ({ activeMenu, onMenuChange }: BottomNavProps) => {
 
   return (
     <Paper
-      component="nav"
+      component='nav'
       sx={{
-        position: "fixed",
+        position: 'fixed',
         bottom: 0,
         left: 0,
         right: 0,
@@ -33,30 +33,18 @@ export const BottomNav = ({ activeMenu, onMenuChange }: BottomNavProps) => {
         }}
         sx={{
           height: { xs: 60, sm: 65 },
-          "& .MuiBottomNavigationAction-root": {
+          '& .MuiBottomNavigationAction-root': {
             py: 1,
             minWidth: 0,
           },
-          "& .MuiBottomNavigationAction-label": {
-            fontSize: { xs: "0.7rem", sm: "0.75rem" },
+          '& .MuiBottomNavigationAction-label': {
+            fontSize: { xs: '0.7rem', sm: '0.75rem' },
           },
         }}
       >
-        <BottomNavigationAction
-          label="設定"
-          icon={<SettingsIcon />}
-          value="settings"
-        />
-        <BottomNavigationAction
-          label="試合"
-          icon={<SportsTennisIcon />}
-          value="match"
-        />
-        <BottomNavigationAction
-          label="履歴"
-          icon={<HistoryIcon />}
-          value="history"
-        />
+        <BottomNavigationAction label='設定' icon={<SettingsIcon />} value='settings' />
+        <BottomNavigationAction label='試合' icon={<SportsTennisIcon />} value='match' />
+        <BottomNavigationAction label='履歴' icon={<HistoryIcon />} value='history' />
       </BottomNavigation>
     </Paper>
   );
