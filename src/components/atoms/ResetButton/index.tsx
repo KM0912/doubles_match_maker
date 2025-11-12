@@ -55,6 +55,7 @@ const ResetButton: React.FC = () => {
           cancelText='キャンセル'
           onConfirm={confirmReset}
           onCancel={cancelReset}
+          okColor='error'
         />
       )}
     </>
