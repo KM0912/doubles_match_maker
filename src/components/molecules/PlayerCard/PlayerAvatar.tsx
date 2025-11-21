@@ -15,9 +15,15 @@ export const PlayerAvatar = ({ player, isPlaying, size, sx }: PlayerAvatarProps)
       sx={{
         width: avatarSize,
         height: avatarSize,
-        bgcolor: isPlaying ? '#4caf50' : player.onBreak ? '#9e9e9e' : '#1976d2',
+        bgcolor: isPlaying
+          ? 'success.main'
+          : player.onBreak
+            ? 'grey.400'
+            : 'primary.main',
         fontSize: '1rem',
-        fontWeight: 'bold',
+        fontWeight: 700,
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+        transition: 'all 0.2s ease-in-out',
         ...sx,
       }}
     >

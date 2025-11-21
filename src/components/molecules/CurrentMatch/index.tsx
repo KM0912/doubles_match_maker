@@ -43,7 +43,19 @@ const CurrentMatch: React.FC<Props> = ({
 
   return (
     <Box>
-      <Typography variant='h6' fontWeight='bold' sx={{ mb: 1.5 }}>
+      <Typography
+        variant='h6'
+        fontWeight='bold'
+        sx={{
+          mb: 2.5,
+          fontSize: { xs: '1.1rem', sm: '1.25rem' },
+          color: 'text.primary',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+        }}
+      >
+        <SportsTennisIcon sx={{ fontSize: '1.5rem', color: 'primary.main' }} />
         現在の試合
       </Typography>
       <Grid container spacing={1.5}>
@@ -55,6 +67,11 @@ const CurrentMatch: React.FC<Props> = ({
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)',
+                },
               }}
             >
               <CardContent
@@ -167,11 +184,14 @@ const CurrentMatch: React.FC<Props> = ({
                       fullWidth
                       onClick={() => updateMatchWinner(index, 1)}
                       sx={{
-                        fontSize: { xs: '0.65rem', sm: '0.7rem' },
-                        py: 0.5,
-                        bgcolor: 'primary.main',
+                        fontSize: { xs: '0.7rem', sm: '0.75rem' },
+                        py: 1,
+                        fontWeight: 600,
+                        borderRadius: 2,
+                        transition: 'all 0.2s ease-in-out',
                         '&:hover': {
-                          bgcolor: 'primary.dark',
+                          transform: 'translateY(-1px)',
+                          boxShadow: '0px 4px 8px rgba(25, 118, 210, 0.3)',
                         },
                       }}
                     >
@@ -184,11 +204,14 @@ const CurrentMatch: React.FC<Props> = ({
                       fullWidth
                       onClick={() => updateMatchWinner(index, 2)}
                       sx={{
-                        fontSize: { xs: '0.65rem', sm: '0.7rem' },
-                        py: 0.5,
-                        bgcolor: 'secondary.main',
+                        fontSize: { xs: '0.7rem', sm: '0.75rem' },
+                        py: 1,
+                        fontWeight: 600,
+                        borderRadius: 2,
+                        transition: 'all 0.2s ease-in-out',
                         '&:hover': {
-                          bgcolor: 'secondary.dark',
+                          transform: 'translateY(-1px)',
+                          boxShadow: '0px 4px 8px rgba(156, 39, 176, 0.3)',
                         },
                       }}
                     >

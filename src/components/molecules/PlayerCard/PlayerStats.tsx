@@ -9,17 +9,18 @@ type PlayerStatsProps = {
 
 export const PlayerStats = ({ player }: PlayerStatsProps) => {
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
       <Tooltip title='試合数'>
         <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
-            mr: 1.5,
-            fontSize: '0.75rem',
+            fontSize: '0.8rem',
+            color: 'text.secondary',
+            fontWeight: 500,
           }}
         >
-          <SportsIcon fontSize='small' sx={{ mr: 0.5, fontSize: '0.875rem' }} />
+          <SportsIcon fontSize='small' sx={{ mr: 0.5, fontSize: '1rem' }} />
           {player.gamesPlayed}
         </Box>
       </Tooltip>
@@ -29,13 +30,12 @@ export const PlayerStats = ({ player }: PlayerStatsProps) => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            fontSize: '0.75rem',
+            fontSize: '0.8rem',
+            color: 'warning.main',
+            fontWeight: 600,
           }}
         >
-          <EmojiEventsIcon
-            fontSize='small'
-            sx={{ mr: 0.5, fontSize: '0.875rem', color: '#f57c00' }}
-          />
+          <EmojiEventsIcon fontSize='small' sx={{ mr: 0.5, fontSize: '1rem' }} />
           {player.wins}
         </Box>
       </Tooltip>

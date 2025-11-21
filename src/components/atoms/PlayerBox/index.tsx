@@ -26,26 +26,36 @@ const PlayerBox: React.FC<PlayerBoxProps> = ({
   return (
     <Box
       sx={{
-        p: 0.5,
+        p: 0.75,
         textAlign: 'center',
-        borderRadius: 1,
+        borderRadius: 2,
         cursor: match.winner ? 'default' : 'pointer',
         bgcolor: match.winner
           ? 'action.disabledBackground'
           : isPlayerSelected(index, team, playerIndex)
-            ? 'primary.light'
+            ? 'rgba(25, 118, 210, 0.12)'
             : 'background.paper',
         border: isPlayerSelected(index, team, playerIndex)
-          ? `2px none ${theme.palette.primary.main}`
-          : '1px none #e0e0e0',
+          ? `2px solid ${theme.palette.primary.main}`
+          : `1px solid ${theme.palette.divider}`,
+        transition: 'all 0.2s ease-in-out',
         '&:hover': {
-          bgcolor: match.winner ? 'action.disabledBackground' : 'action.hover',
+          bgcolor: match.winner
+            ? 'action.disabledBackground'
+            : isPlayerSelected(index, team, playerIndex)
+              ? 'rgba(25, 118, 210, 0.16)'
+              : 'action.hover',
+          transform: match.winner ? 'none' : 'scale(1.05)',
+          borderColor: match.winner
+            ? theme.palette.divider
+            : theme.palette.primary.main,
         },
         width: '50%',
         minWidth: 0,
-        opacity: match.winner ? 0.5 : 1,
+        opacity: match.winner ? 0.6 : 1,
         display: 'flex',
         justifyContent: 'center',
+        alignItems: 'center',
       }}
       onClick={() => !match.winner && handleClickPlayer(index, team, playerIndex)}
     >

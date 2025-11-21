@@ -37,11 +37,18 @@ const ResetButton: React.FC = () => {
           fullWidth
           startIcon={<RestartAltIcon />}
           sx={{
-            py: 1,
-            fontWeight: 'bold',
+            py: 1.5,
+            fontWeight: 600,
+            borderRadius: 2.5,
+            fontSize: { xs: '0.95rem', sm: '1rem' },
+            textTransform: 'none',
+            borderWidth: 2,
+            transition: 'all 0.2s ease-in-out',
             '&:hover': {
               bgcolor: 'rgba(211, 47, 47, 0.08)',
               borderColor: 'error.main',
+              borderWidth: 2,
+              transform: 'translateY(-1px)',
             },
           }}
         >

@@ -32,7 +32,7 @@ function MainComponent() {
         component='section'
         maxWidth='md'
         sx={{
-          py: 4,
+          py: { xs: 3, sm: 4 },
           pb: { xs: 10, sm: 11 },
           flexGrow: 1,
           display: 'flex',

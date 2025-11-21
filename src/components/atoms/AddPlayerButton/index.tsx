@@ -25,14 +25,17 @@ const AddPlayerButton: React.FC = () => {
         fullWidth
         startIcon={<PersonAddIcon />}
         sx={{
-          py: 1,
-          fontWeight: 'bold',
-          boxShadow: 2,
+          py: 1.5,
+          fontWeight: 600,
+          borderRadius: 2.5,
+          fontSize: { xs: '0.95rem', sm: '1rem' },
+          textTransform: 'none',
+          boxShadow: '0px 2px 4px rgba(25, 118, 210, 0.2)',
+          transition: 'all 0.2s ease-in-out',
           '&:hover': {
-            boxShadow: 4,
+            boxShadow: '0px 4px 12px rgba(25, 118, 210, 0.3)',
             transform: 'translateY(-2px)',
           },
-          transition: 'all 0.3s ease',
         }}
       >
         参加者を追加

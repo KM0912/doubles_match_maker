@@ -37,8 +37,13 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       startIcon={startIcon}
       endIcon={endIcon}
       sx={{
-        borderRadius: 1.5,
-        fontWeight: 'medium',
+        borderRadius: 2.5,
+        fontWeight: 600,
+        textTransform: 'none',
+        transition: 'all 0.2s ease-in-out',
+        '&:hover': {
+          transform: 'translateY(-1px)',
+        },
         ...sx,
       }}
     >

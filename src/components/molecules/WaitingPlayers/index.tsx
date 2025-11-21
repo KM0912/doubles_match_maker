@@ -55,10 +55,16 @@ const WaitingPlayers: React.FC<Props> = ({ selectedPlayer, updateSelectedPlayer 
                 onClick={() => handlePlayerClick(player)}
                 sx={{
                   cursor: selectedPlayer ? 'pointer' : 'default',
-                  transition: 'all 0.2s',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  borderRadius: 2,
+                  border: selectedPlayer ? '2px solid' : '1px solid',
+                  borderColor: selectedPlayer ? 'primary.main' : 'divider',
                   '&:hover': {
-                    bgcolor: selectedPlayer ? 'action.hover' : 'background.paper',
-                    transform: selectedPlayer ? 'translateY(-2px)' : 'none',
+                    bgcolor: selectedPlayer ? 'rgba(25, 118, 210, 0.08)' : 'action.hover',
+                    transform: selectedPlayer ? 'translateY(-4px) scale(1.02)' : 'translateY(-2px)',
+                    boxShadow: selectedPlayer
+                      ? '0px 8px 16px rgba(25, 118, 210, 0.2)'
+                      : '0px 4px 8px rgba(0, 0, 0, 0.1)',
                   },
                   height: '100%',
                 }}
