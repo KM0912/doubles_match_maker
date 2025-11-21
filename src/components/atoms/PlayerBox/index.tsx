@@ -51,12 +51,8 @@ const PlayerBox: React.FC<PlayerBoxProps> = ({
               ? `${theme.palette.primary.main}25`
               : `${theme.palette.primary.main}10`,
           transform: match.winner ? 'none' : 'scale(1.05)',
-          borderColor: match.winner
-            ? theme.palette.divider
-            : theme.palette.primary.main,
-          boxShadow: match.winner
-            ? 'none'
-            : `0px 4px 12px ${theme.palette.primary.main}20`,
+          borderColor: match.winner ? theme.palette.divider : theme.palette.primary.main,
+          boxShadow: match.winner ? 'none' : `0px 4px 12px ${theme.palette.primary.main}20`,
         },
         opacity: match.winner ? 0.5 : 1,
         display: 'flex',

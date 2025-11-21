@@ -47,12 +47,20 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
         ...(variant === 'contained' && {
           boxShadow: `0px 4px 12px ${
-            (theme.palette[color as 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'] as any)?.main || theme.palette.primary.main
+            (
+              theme.palette[
+                color as 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'
+              ] as any
+            )?.main || theme.palette.primary.main
           }30`,
           '&:hover': {
             transform: 'translateY(-2px)',
             boxShadow: `0px 6px 16px ${
-              (theme.palette[color as 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'] as any)?.main || theme.palette.primary.main
+              (
+                theme.palette[
+                  color as 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'
+                ] as any
+              )?.main || theme.palette.primary.main
             }40`,
           },
         }),

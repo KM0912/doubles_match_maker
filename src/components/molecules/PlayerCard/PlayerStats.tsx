@@ -42,9 +42,7 @@ export const PlayerStats = ({ player }: PlayerStatsProps) => {
             fontWeight: 500,
           }}
         >
-          <EmojiEventsIcon
-            sx={{ fontSize: '1.125rem', color: theme.palette.warning.main }}
-          />
+          <EmojiEventsIcon sx={{ fontSize: '1.125rem', color: theme.palette.warning.main }} />
           <Box component='span' sx={{ fontWeight: 700, color: theme.palette.warning.main }}>
             {player.wins}
           </Box>

@@ -48,7 +48,12 @@ const WaitingPlayers: React.FC<Props> = ({ selectedPlayer, updateSelectedPlayer 
           color: 'text.primary',
         }}
       >
-        待機中の選手{selectedPlayer && <Box component='span' sx={{ color: 'primary.main' }}>（タップで入替）</Box>}
+        待機中の選手
+        {selectedPlayer && (
+          <Box component='span' sx={{ color: 'primary.main' }}>
+            （タップで入替）
+          </Box>
+        )}
       </Typography>
 
       {waitingPlayers.length === 0 ? (
@@ -79,9 +84,7 @@ const WaitingPlayers: React.FC<Props> = ({ selectedPlayer, updateSelectedPlayer 
                   border: selectedPlayer
                     ? `2px solid ${theme.palette.primary.main}`
                     : `1px solid ${theme.palette.divider}`,
-                  bgcolor: selectedPlayer
-                    ? `${theme.palette.primary.main}08`
-                    : 'background.paper',
+                  bgcolor: selectedPlayer ? `${theme.palette.primary.main}08` : 'background.paper',
                   height: '100%',
                   '&:hover': {
                     bgcolor: selectedPlayer

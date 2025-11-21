@@ -21,7 +21,11 @@ const AddPlayerButton: React.FC = () => {
           color='text.secondary'
           sx={{ fontWeight: 500, fontSize: '0.875rem' }}
         >
-          現在: <Box component='span' sx={{ fontWeight: 700, color: 'text.primary' }}>{playerCount}</Box>人
+          現在:{' '}
+          <Box component='span' sx={{ fontWeight: 700, color: 'text.primary' }}>
+            {playerCount}
+          </Box>
+          人
         </Typography>
       </Box>
       <Button

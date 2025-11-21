@@ -276,9 +276,7 @@ const CurrentMatch: React.FC<Props> = ({
                         border: `2px solid ${theme.palette.success.main}30`,
                       }}
                     >
-                      <EmojiEventsIcon
-                        sx={{ fontSize: '1.25rem', color: 'success.main' }}
-                      />
+                      <EmojiEventsIcon sx={{ fontSize: '1.25rem', color: 'success.main' }} />
                       <Typography
                         variant='body2'
                         fontWeight={700}

@@ -113,7 +113,9 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           </Typography>
         </DialogContentText>
       </DialogContent>
-      <DialogActions sx={{ px: 3, py: 2.5, gap: 1.5, borderTop: `1px solid ${theme.palette.divider}` }}>
+      <DialogActions
+        sx={{ px: 3, py: 2.5, gap: 1.5, borderTop: `1px solid ${theme.palette.divider}` }}
+      >
         <Button
           variant='outlined'
           onClick={handleCancel}
@@ -144,13 +146,21 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
             py: 1,
             textTransform: 'none',
             boxShadow: `0px 4px 12px ${
-              (theme.palette[okColor as 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'] as any)?.main || theme.palette.primary.main
+              (
+                theme.palette[
+                  okColor as 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'
+                ] as any
+              )?.main || theme.palette.primary.main
             }30`,
             transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
             '&:hover': {
               transform: 'translateY(-1px)',
               boxShadow: `0px 6px 16px ${
-                (theme.palette[okColor as 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'] as any)?.main || theme.palette.primary.main
+                (
+                  theme.palette[
+                    okColor as 'primary' | 'secondary' | 'success' | 'error' | 'warning' | 'info'
+                  ] as any
+                )?.main || theme.palette.primary.main
               }40`,
             },
           }}
