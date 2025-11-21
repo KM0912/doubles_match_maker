@@ -36,34 +36,58 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
   return (
     <>
       <Card
-        elevation={isPlaying ? 4 : 1}
+        elevation={0}
         sx={{
-          mb: 1.5,
+          mb: 2,
           border: isPlaying
             ? `2px solid ${theme.palette.success.main}`
             : `1px solid ${theme.palette.divider}`,
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          borderRadius: 2,
-          bgcolor: isPlaying ? 'rgba(46, 125, 50, 0.04)' : 'background.paper',
+          borderRadius: 3,
+          bgcolor: isPlaying
+            ? `linear-gradient(135deg, ${theme.palette.success.light}08 0%, ${theme.palette.success.main}08 100%)`
+            : 'background.paper',
+          backgroundImage: isPlaying
+            ? `linear-gradient(135deg, ${theme.palette.success.light}08 0%, ${theme.palette.success.main}08 100%)`
+            : 'none',
+          position: 'relative',
+          overflow: 'visible',
+          '&::before': isPlaying
+            ? {
+                content: '""',
+                position: 'absolute',
+                top: -2,
+                left: -2,
+                right: -2,
+                bottom: -2,
+                background: `linear-gradient(135deg, ${theme.palette.success.light}, ${theme.palette.success.main})`,
+                borderRadius: 3,
+                zIndex: -1,
+                opacity: 0.3,
+                filter: 'blur(8px)',
+              }
+            : {},
           '&:hover': {
-            transform: 'translateY(-2px)',
+            transform: 'translateY(-4px)',
             boxShadow: isPlaying
-              ? '0px 8px 16px rgba(46, 125, 50, 0.2)'
-              : '0px 4px 12px rgba(0, 0, 0, 0.1)',
+              ? `0px 12px 32px ${theme.palette.success.main}25`
+              : '0px 8px 24px rgba(0, 0, 0, 0.12)',
+            borderColor: isPlaying ? theme.palette.success.dark : theme.palette.primary.main,
           },
         }}
       >
-        <CardContent sx={{ p: { xs: 1.5, sm: 2 }, '&:last-child': { pb: { xs: 1.5, sm: 2 } } }}>
+        <CardContent sx={{ p: { xs: 2, sm: 2.5 }, '&:last-child': { pb: { xs: 2, sm: 2.5 } } }}>
           <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
+              gap: 2,
             }}
           >
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <PlayerAvatar player={player} isPlaying={isPlaying} sx={{ mr: 1.5 }} />
-              <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
+              <PlayerAvatar player={player} isPlaying={isPlaying} />
+              <Box sx={{ flex: 1, minWidth: 0 }}>
                 <PlayerStatus isPlaying={isPlaying} isOnBreak={player.onBreak} />
                 <PlayerStats player={player} />
               </Box>

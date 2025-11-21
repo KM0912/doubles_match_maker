@@ -1,4 +1,5 @@
 import { Box, Chip } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 type PlayerStatusProps = {
   isPlaying: boolean;
@@ -6,19 +7,25 @@ type PlayerStatusProps = {
 };
 
 export const PlayerStatus = ({ isPlaying, isOnBreak }: PlayerStatusProps) => {
+  const theme = useTheme();
+
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
       {isPlaying && (
         <Chip
           label='試合中'
           color='success'
           size='small'
           sx={{
-            height: 22,
-            fontSize: '0.65rem',
-            fontWeight: 600,
+            height: 24,
+            fontSize: '0.6875rem',
+            fontWeight: 700,
+            borderRadius: 2,
+            bgcolor: theme.palette.success.main,
+            color: 'white',
+            boxShadow: `0px 2px 8px ${theme.palette.success.main}40`,
             '& .MuiChip-label': {
-              px: 1,
+              px: 1.5,
             },
           }}
         />
@@ -26,15 +33,17 @@ export const PlayerStatus = ({ isPlaying, isOnBreak }: PlayerStatusProps) => {
       {isOnBreak && (
         <Chip
           label='休憩中'
-          color='default'
           size='small'
           sx={{
-            height: 22,
-            fontSize: '0.65rem',
-            fontWeight: 600,
-            bgcolor: 'grey.200',
+            height: 24,
+            fontSize: '0.6875rem',
+            fontWeight: 700,
+            borderRadius: 2,
+            bgcolor: theme.palette.warning.main,
+            color: 'white',
+            boxShadow: `0px 2px 8px ${theme.palette.warning.main}40`,
             '& .MuiChip-label': {
-              px: 1,
+              px: 1.5,
             },
           }}
         />

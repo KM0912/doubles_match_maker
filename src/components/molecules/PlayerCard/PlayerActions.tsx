@@ -2,6 +2,7 @@ import { Box, IconButton, Tooltip } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import { useTheme } from '@mui/material/styles';
 
 type PlayerActionsProps = {
   isOnBreak: boolean;
@@ -10,46 +11,55 @@ type PlayerActionsProps = {
 };
 
 export const PlayerActions = ({ isOnBreak, onBreakToggle, onRemove }: PlayerActionsProps) => {
+  const theme = useTheme();
+
   return (
-    <Box sx={{ display: 'flex', gap: 0.5 }}>
-      <Tooltip title={isOnBreak ? '復帰' : '休憩'}>
+    <Box sx={{ display: 'flex', gap: 1 }}>
+      <Tooltip title={isOnBreak ? '復帰' : '休憩'} arrow>
         <IconButton
           size='medium'
-          color='default'
           onClick={onBreakToggle}
           sx={{
-            p: 1,
-            color: isOnBreak ? 'primary.main' : 'warning.main',
-            bgcolor: isOnBreak ? 'rgba(25, 118, 210, 0.08)' : 'rgba(237, 108, 2, 0.08)',
-            borderRadius: 1.5,
-            transition: 'all 0.2s ease-in-out',
+            p: 1.25,
+            color: isOnBreak ? theme.palette.success.main : theme.palette.warning.main,
+            bgcolor: isOnBreak
+              ? `${theme.palette.success.main}15`
+              : `${theme.palette.warning.main}15`,
+            borderRadius: 2,
+            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
             '&:hover': {
-              bgcolor: isOnBreak ? 'rgba(25, 118, 210, 0.16)' : 'rgba(237, 108, 2, 0.16)',
-              transform: 'scale(1.1)',
+              bgcolor: isOnBreak
+                ? `${theme.palette.success.main}25`
+                : `${theme.palette.warning.main}25`,
+              transform: 'scale(1.1) rotate(5deg)',
             },
           }}
         >
-          {isOnBreak ? <PlayCircleIcon fontSize='medium' /> : <PauseCircleIcon fontSize='medium' />}
+          {isOnBreak ? (
+            <PlayCircleIcon sx={{ fontSize: '1.5rem' }} />
+          ) : (
+            <PauseCircleIcon sx={{ fontSize: '1.5rem' }} />
+          )}
         </IconButton>
       </Tooltip>
 
-      <Tooltip title='削除'>
+      <Tooltip title='削除' arrow>
         <IconButton
           size='medium'
           color='error'
           onClick={onRemove}
           sx={{
-            p: 1,
-            bgcolor: 'rgba(211, 47, 47, 0.08)',
-            borderRadius: 1.5,
-            transition: 'all 0.2s ease-in-out',
+            p: 1.25,
+            bgcolor: `${theme.palette.error.main}15`,
+            borderRadius: 2,
+            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
             '&:hover': {
-              bgcolor: 'rgba(211, 47, 47, 0.16)',
-              transform: 'scale(1.1)',
+              bgcolor: `${theme.palette.error.main}25`,
+              transform: 'scale(1.1) rotate(-5deg)',
             },
           }}
         >
-          <DeleteIcon fontSize='medium' />
+          <DeleteIcon sx={{ fontSize: '1.5rem' }} />
         </IconButton>
       </Tooltip>
     </Box>

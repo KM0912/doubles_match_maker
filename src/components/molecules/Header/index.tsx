@@ -13,17 +13,19 @@ const Header: React.FC = () => {
       sx={{
         top: 0,
         background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-        borderBottom: `1px solid ${theme.palette.divider}`,
-        backdropFilter: 'blur(10px)',
+        borderBottom: 'none',
+        backdropFilter: 'blur(20px)',
         zIndex: theme.zIndex.drawer + 1,
+        boxShadow: '0px 4px 20px rgba(99, 102, 241, 0.15)',
       }}
     >
       <Toolbar
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          minHeight: { xs: 56, sm: 64 },
-          px: { xs: 2, sm: 3 },
+          minHeight: { xs: 64, sm: 72 },
+          px: { xs: 3, sm: 4 },
+          py: 1,
         }}
       >
         <Box
@@ -31,8 +33,8 @@ const Header: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 1.5,
-            py: 0.5,
+            gap: 2,
+            position: 'relative',
           }}
         >
           <Box
@@ -40,16 +42,23 @@ const Header: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              bgcolor: 'rgba(255, 255, 255, 0.2)',
-              borderRadius: 2,
-              p: 0.75,
-              backdropFilter: 'blur(10px)',
+              bgcolor: 'rgba(255, 255, 255, 0.25)',
+              borderRadius: 3,
+              p: 1.25,
+              backdropFilter: 'blur(20px)',
+              boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                bgcolor: 'rgba(255, 255, 255, 0.35)',
+                transform: 'scale(1.05) rotate(5deg)',
+              },
             }}
           >
             <SportsTennisIcon
               sx={{
-                fontSize: { xs: '1.5rem', sm: '1.75rem' },
+                fontSize: { xs: '1.75rem', sm: '2rem' },
                 color: 'white',
+                filter: 'drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.2))',
               }}
             />
           </Box>
@@ -58,18 +67,15 @@ const Header: React.FC = () => {
             align='center'
             noWrap
             sx={{
-              fontWeight: 700,
-              letterSpacing: { xs: '0.02em', sm: '0.05em' },
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: { xs: '1.1rem', sm: '1.4rem' },
+              fontWeight: 800,
+              letterSpacing: '-0.02em',
+              fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' },
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               maxWidth: '100%',
               color: 'white',
-              textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+              textShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
             }}
           >
             ダブルス組み合わせメーカー

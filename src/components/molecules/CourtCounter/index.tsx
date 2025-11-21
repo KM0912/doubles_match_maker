@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, IconButton, Paper } from '@mui/material';
+import { Box, Typography, IconButton, Paper, useTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import SportsBaseballIcon from '@mui/icons-material/SportsBaseball';
@@ -11,18 +11,22 @@ type Props = {
 };
 
 const CourtCounter: React.FC<Props> = ({ courts, onIncrement, onDecrement }) => {
+  const theme = useTheme();
+
   return (
     <Paper
-      elevation={2}
+      elevation={0}
       sx={{
-        p: { xs: 2, sm: 2.5 },
+        p: { xs: 3, sm: 3.5 },
         borderRadius: 3,
         width: '100%',
         overflow: 'visible',
         bgcolor: 'background.paper',
-        transition: 'all 0.3s ease',
+        border: `1px solid ${theme.palette.divider}`,
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         '&:hover': {
-          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.08)',
+          borderColor: theme.palette.primary.main,
         },
       }}
     >
@@ -31,12 +35,25 @@ const CourtCounter: React.FC<Props> = ({ courts, onIncrement, onDecrement }) => 
         sx={{
           display: 'flex',
           alignItems: 'center',
-          mb: 2.5,
-          fontWeight: 600,
+          mb: 3,
+          fontWeight: 700,
+          fontSize: { xs: '1.125rem', sm: '1.25rem' },
           color: 'text.primary',
         }}
       >
-        <SportsBaseballIcon sx={{ mr: 1.5, fontSize: '1.5rem', color: 'primary.main' }} />
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            bgcolor: `${theme.palette.primary.main}15`,
+            borderRadius: 2,
+            p: 1,
+            mr: 1.5,
+          }}
+        >
+          <SportsBaseballIcon sx={{ fontSize: '1.5rem', color: 'primary.main' }} />
+        </Box>
         コート数
       </Typography>
       <Box
@@ -45,31 +62,34 @@ const CourtCounter: React.FC<Props> = ({ courts, onIncrement, onDecrement }) => 
           alignItems: 'center',
           justifyContent: 'space-between',
           width: '100%',
-          gap: 2,
+          gap: 2.5,
         }}
       >
         <IconButton
           onClick={onDecrement}
           color='primary'
-          size='medium'
+          size='large'
           disabled={courts <= 1}
           sx={{
-            bgcolor: 'rgba(25, 118, 210, 0.08)',
-            borderRadius: 2,
-            width: { xs: 44, sm: 48 },
-            height: { xs: 44, sm: 48 },
-            transition: 'all 0.2s ease-in-out',
+            bgcolor: `${theme.palette.primary.main}10`,
+            borderRadius: 2.5,
+            width: { xs: 52, sm: 56 },
+            height: { xs: 52, sm: 56 },
+            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+            border: `2px solid ${theme.palette.primary.main}20`,
             '&:hover': {
-              bgcolor: 'rgba(25, 118, 210, 0.16)',
-              transform: 'scale(1.05)',
+              bgcolor: `${theme.palette.primary.main}20`,
+              transform: 'scale(1.1)',
+              borderColor: theme.palette.primary.main,
             },
             '&.Mui-disabled': {
-              bgcolor: 'rgba(0, 0, 0, 0.04)',
+              bgcolor: `${theme.palette.grey[200]}40`,
+              borderColor: theme.palette.divider,
               color: 'text.disabled',
             },
           }}
         >
-          <RemoveIcon />
+          <RemoveIcon sx={{ fontSize: '1.5rem' }} />
         </IconButton>
 
         <Box
@@ -78,21 +98,23 @@ const CourtCounter: React.FC<Props> = ({ courts, onIncrement, onDecrement }) => 
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            bgcolor: 'primary.main',
+            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
             color: 'white',
-            borderRadius: 2,
-            py: 1.5,
-            px: 2,
-            minWidth: { xs: 80, sm: 100 },
+            borderRadius: 3,
+            py: 2,
+            px: 3,
+            minWidth: { xs: 100, sm: 120 },
+            boxShadow: `0px 4px 16px ${theme.palette.primary.main}30`,
           }}
         >
           <Typography
-            variant='h4'
+            variant='h3'
             sx={{
               textAlign: 'center',
-              fontWeight: 700,
-              fontSize: { xs: '2rem', sm: '2.5rem' },
+              fontWeight: 800,
+              fontSize: { xs: '2.5rem', sm: '3rem' },
               lineHeight: 1,
+              textShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
             }}
           >
             {courts}
@@ -102,25 +124,28 @@ const CourtCounter: React.FC<Props> = ({ courts, onIncrement, onDecrement }) => 
         <IconButton
           onClick={onIncrement}
           color='primary'
-          size='medium'
+          size='large'
           disabled={courts >= 10}
           sx={{
-            bgcolor: 'rgba(25, 118, 210, 0.08)',
-            borderRadius: 2,
-            width: { xs: 44, sm: 48 },
-            height: { xs: 44, sm: 48 },
-            transition: 'all 0.2s ease-in-out',
+            bgcolor: `${theme.palette.primary.main}10`,
+            borderRadius: 2.5,
+            width: { xs: 52, sm: 56 },
+            height: { xs: 52, sm: 56 },
+            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+            border: `2px solid ${theme.palette.primary.main}20`,
             '&:hover': {
-              bgcolor: 'rgba(25, 118, 210, 0.16)',
-              transform: 'scale(1.05)',
+              bgcolor: `${theme.palette.primary.main}20`,
+              transform: 'scale(1.1)',
+              borderColor: theme.palette.primary.main,
             },
             '&.Mui-disabled': {
-              bgcolor: 'rgba(0, 0, 0, 0.04)',
+              bgcolor: `${theme.palette.grey[200]}40`,
+              borderColor: theme.palette.divider,
               color: 'text.disabled',
             },
           }}
         >
-          <AddIcon />
+          <AddIcon sx={{ fontSize: '1.5rem' }} />
         </IconButton>
       </Box>
     </Paper>

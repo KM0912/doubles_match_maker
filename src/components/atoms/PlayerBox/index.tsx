@@ -22,42 +22,50 @@ const PlayerBox: React.FC<PlayerBoxProps> = ({
 }) => {
   const theme = useTheme();
   const teamPlayers = team === 1 ? match.team1 : match.team2;
+  const selected = isPlayerSelected(index, team, playerIndex);
 
   return (
     <Box
       sx={{
-        p: 0.75,
+        flex: 1,
+        p: 1,
         textAlign: 'center',
         borderRadius: 2,
         cursor: match.winner ? 'default' : 'pointer',
         bgcolor: match.winner
-          ? 'action.disabledBackground'
-          : isPlayerSelected(index, team, playerIndex)
-            ? 'rgba(25, 118, 210, 0.12)'
-            : 'background.paper',
-        border: isPlayerSelected(index, team, playerIndex)
-          ? `2px solid ${theme.palette.primary.main}`
-          : `1px solid ${theme.palette.divider}`,
-        transition: 'all 0.2s ease-in-out',
+          ? `${theme.palette.grey[200]}40`
+          : selected
+            ? `${theme.palette.primary.main}20`
+            : `${theme.palette.grey[100]}80`,
+        border: match.winner
+          ? `2px solid ${theme.palette.divider}`
+          : selected
+            ? `2px solid ${theme.palette.primary.main}`
+            : `2px solid ${theme.palette.divider}`,
+        transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+        position: 'relative',
         '&:hover': {
           bgcolor: match.winner
-            ? 'action.disabledBackground'
-            : isPlayerSelected(index, team, playerIndex)
-              ? 'rgba(25, 118, 210, 0.16)'
-              : 'action.hover',
+            ? `${theme.palette.grey[200]}40`
+            : selected
+              ? `${theme.palette.primary.main}25`
+              : `${theme.palette.primary.main}10`,
           transform: match.winner ? 'none' : 'scale(1.05)',
-          borderColor: match.winner ? theme.palette.divider : theme.palette.primary.main,
+          borderColor: match.winner
+            ? theme.palette.divider
+            : theme.palette.primary.main,
+          boxShadow: match.winner
+            ? 'none'
+            : `0px 4px 12px ${theme.palette.primary.main}20`,
         },
-        width: '50%',
-        minWidth: 0,
-        opacity: match.winner ? 0.6 : 1,
+        opacity: match.winner ? 0.5 : 1,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
       }}
       onClick={() => !match.winner && handleClickPlayer(index, team, playerIndex)}
     >
-      <PlayerAvatar player={teamPlayers[playerIndex]} />
+      <PlayerAvatar player={teamPlayers[playerIndex]} size='small' />
     </Box>
   );
 };

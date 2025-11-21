@@ -1,9 +1,11 @@
-import { Button, Typography, Box } from '@mui/material';
+import { Button, Typography, Box, useTheme } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { usePlayerContext } from '../../../contexts/PlayerContext';
 
 const AddPlayerButton: React.FC = () => {
   const { addPlayer, playerCount } = usePlayerContext();
+  const theme = useTheme();
+
   return (
     <>
       <Box
@@ -11,11 +13,15 @@ const AddPlayerButton: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          mb: 1,
+          mb: 2,
         }}
       >
-        <Typography variant='body2' color='text.secondary'>
-          現在: {playerCount}人
+        <Typography
+          variant='body2'
+          color='text.secondary'
+          sx={{ fontWeight: 500, fontSize: '0.875rem' }}
+        >
+          現在: <Box component='span' sx={{ fontWeight: 700, color: 'text.primary' }}>{playerCount}</Box>人
         </Typography>
       </Box>
       <Button
@@ -25,15 +31,15 @@ const AddPlayerButton: React.FC = () => {
         fullWidth
         startIcon={<PersonAddIcon />}
         sx={{
-          py: 1.5,
-          fontWeight: 600,
-          borderRadius: 2.5,
-          fontSize: { xs: '0.95rem', sm: '1rem' },
+          py: 1.75,
+          fontWeight: 700,
+          borderRadius: 3,
+          fontSize: { xs: '0.9375rem', sm: '1rem' },
           textTransform: 'none',
-          boxShadow: '0px 2px 4px rgba(25, 118, 210, 0.2)',
-          transition: 'all 0.2s ease-in-out',
+          boxShadow: `0px 4px 12px ${theme.palette.primary.main}30`,
+          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
-            boxShadow: '0px 4px 12px rgba(25, 118, 210, 0.3)',
+            boxShadow: `0px 6px 16px ${theme.palette.primary.main}40`,
             transform: 'translateY(-2px)',
           },
         }}
