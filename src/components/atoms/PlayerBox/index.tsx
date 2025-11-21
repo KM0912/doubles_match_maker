@@ -46,9 +46,7 @@ const PlayerBox: React.FC<PlayerBoxProps> = ({
               ? 'rgba(25, 118, 210, 0.16)'
               : 'action.hover',
           transform: match.winner ? 'none' : 'scale(1.05)',
-          borderColor: match.winner
-            ? theme.palette.divider
-            : theme.palette.primary.main,
+          borderColor: match.winner ? theme.palette.divider : theme.palette.primary.main,
         },
         width: '50%',
         minWidth: 0,
