@@ -10,6 +10,7 @@ import {
   Card,
   CardContent,
   CardActions,
+  useTheme,
 } from '@mui/material';
 import SportsTennisIcon from '@mui/icons-material/SportsTennis';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
@@ -31,6 +32,7 @@ const CurrentMatch: React.FC<Props> = ({
 }) => {
   const { matches } = useMatchContext();
   const { updateMatchWinner, resetMatchWinner } = useMatchWinner();
+  const theme = useTheme();
 
   const handleClickPlayer = (matchIndex: number, team: number, playerIndex: number) => {
     if (!selectedPlayer) {
@@ -43,18 +45,36 @@ const CurrentMatch: React.FC<Props> = ({
 
   return (
     <Box>
-      <Typography variant='h6' fontWeight='bold' sx={{ mb: 1.5 }}>
-        現在の試合
+      <Typography
+        variant='h6'
+        fontWeight='bold'
+        sx={{
+          mb: 2,
+          display: 'flex',
+          alignItems: 'center',
+          fontSize: { xs: '1.1rem', sm: '1.25rem' },
+        }}
+      >
+        <SportsTennisIcon sx={{ mr: 1, fontSize: '1.2rem' }} />
+        現在の試合 ({matches.length}コート)
       </Typography>
-      <Grid container spacing={1.5}>
+      <Grid container spacing={2}>
         {matches.map((match, index) => (
           <Grid item xs={12} sm={6} md={4} key={match.id}>
             <Card
-              elevation={2}
+              elevation={match.winner ? 4 : 2}
               sx={{
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
+                border: match.winner
+                  ? `2px solid ${theme.palette.success.main}`
+                  : `1px solid ${theme.palette.divider}`,
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  transform: 'translateY(-2px)',
+                  boxShadow: 4,
+                },
               }}
             >
               <CardContent
@@ -64,19 +84,45 @@ const CurrentMatch: React.FC<Props> = ({
                   pb: { xs: 0.5, sm: 1 },
                 }}
               >
-                <Typography
-                  variant='subtitle2'
-                  fontWeight='bold'
+                <Box
                   sx={{
-                    mb: 1,
                     display: 'flex',
                     alignItems: 'center',
-                    fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                    justifyContent: 'space-between',
+                    mb: 1.5,
                   }}
                 >
-                  <SportsTennisIcon sx={{ mr: 0.5, fontSize: '0.8rem' }} />
-                  コート {index + 1}
-                </Typography>
+                  <Typography
+                    variant='subtitle2'
+                    fontWeight='bold'
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      fontSize: { xs: '0.85rem', sm: '0.95rem' },
+                      color: 'text.primary',
+                    }}
+                  >
+                    <SportsTennisIcon sx={{ mr: 0.5, fontSize: '1rem' }} />
+                    コート {index + 1}
+                  </Typography>
+                  {match.winner && (
+                    <Box
+                      sx={{
+                        px: 1,
+                        py: 0.25,
+                        borderRadius: 1,
+                        bgcolor: 'success.light',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <EmojiEventsIcon sx={{ fontSize: '0.75rem', mr: 0.25 }} />
+                      <Typography variant='caption' sx={{ fontSize: '0.65rem', fontWeight: 600 }}>
+                        完了
+                      </Typography>
+                    </Box>
+                  )}
+                </Box>
 
                 {/* 試合の組み合わせを1行で表示 */}
                 <Stack direction='row' alignItems='center' spacing={0.5} sx={{ width: '100%' }}>
@@ -163,16 +209,15 @@ const CurrentMatch: React.FC<Props> = ({
                     <Button
                       variant='contained'
                       color='primary'
-                      size='small'
+                      size='medium'
                       fullWidth
                       onClick={() => updateMatchWinner(index, 1)}
                       sx={{
-                        fontSize: { xs: '0.65rem', sm: '0.7rem' },
-                        py: 0.5,
-                        bgcolor: 'primary.main',
-                        '&:hover': {
-                          bgcolor: 'primary.dark',
-                        },
+                        fontSize: { xs: '0.75rem', sm: '0.85rem' },
+                        py: 1,
+                        fontWeight: 600,
+                        textTransform: 'none',
+                        borderRadius: 1.5,
                       }}
                     >
                       チーム1勝利
@@ -180,16 +225,15 @@ const CurrentMatch: React.FC<Props> = ({
                     <Button
                       variant='contained'
                       color='secondary'
-                      size='small'
+                      size='medium'
                       fullWidth
                       onClick={() => updateMatchWinner(index, 2)}
                       sx={{
-                        fontSize: { xs: '0.65rem', sm: '0.7rem' },
-                        py: 0.5,
-                        bgcolor: 'secondary.main',
-                        '&:hover': {
-                          bgcolor: 'secondary.dark',
-                        },
+                        fontSize: { xs: '0.75rem', sm: '0.85rem' },
+                        py: 1,
+                        fontWeight: 600,
+                        textTransform: 'none',
+                        borderRadius: 1.5,
                       }}
                     >
                       チーム2勝利
@@ -197,29 +241,42 @@ const CurrentMatch: React.FC<Props> = ({
                   </Stack>
                 ) : (
                   <Stack spacing={0.5} sx={{ width: '100%' }}>
-                    <Typography
-                      variant='body2'
-                      fontWeight='bold'
-                      color='success.main'
+                    <Box
                       sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: { xs: '0.7rem', sm: '0.75rem' },
+                        p: 1.5,
+                        borderRadius: 1.5,
+                        bgcolor: 'success.light',
+                        textAlign: 'center',
+                        mb: 1,
                       }}
                     >
-                      <EmojiEventsIcon sx={{ mr: 0.5, fontSize: '0.8rem' }} />
-                      チーム{match.winner}の勝利！
-                    </Typography>
+                      <Typography
+                        variant='body2'
+                        fontWeight='bold'
+                        color='success.dark'
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: { xs: '0.85rem', sm: '0.95rem' },
+                        }}
+                      >
+                        <EmojiEventsIcon sx={{ mr: 0.5, fontSize: '1rem' }} />
+                        チーム{match.winner}の勝利！
+                      </Typography>
+                    </Box>
                     <Button
                       variant='outlined'
                       color='error'
                       size='small'
-                      startIcon={<UndoIcon sx={{ fontSize: '0.8rem' }} />}
+                      startIcon={<UndoIcon />}
                       onClick={() => resetMatchWinner(index)}
+                      fullWidth
                       sx={{
-                        fontSize: { xs: '0.65rem', sm: '0.7rem' },
-                        py: 0.3,
+                        fontSize: { xs: '0.7rem', sm: '0.8rem' },
+                        py: 0.75,
+                        textTransform: 'none',
+                        borderRadius: 1.5,
                       }}
                     >
                       勝敗を修正

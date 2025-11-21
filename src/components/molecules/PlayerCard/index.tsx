@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Player } from '../../../types';
 import { usePlayerContext } from '../../../contexts/PlayerContext';
 import ConfirmDialog from '../ConfirmDialog';
-import { Card, CardContent, Box } from '@mui/material';
+import { Card, CardContent, Box, useTheme } from '@mui/material';
 import { PlayerAvatar } from './PlayerAvatar';
 import { PlayerStats } from './PlayerStats';
 import { PlayerStatus } from './PlayerStatus';
@@ -23,6 +23,7 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const { removePlayer } = usePlayerContext();
+  const theme = useTheme();
 
   const handleBreakToggle = () => {
     setOnBreak(player.id, !player.onBreak);
@@ -35,12 +36,21 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
   return (
     <>
       <Card
-        elevation={isPlaying ? 2 : 1}
+        elevation={isPlaying ? 3 : 1}
         sx={{
-          mb: 1,
-          border: isPlaying ? '2px solid #4caf50' : 'none',
-          transition: 'all 0.2s ease',
-          borderRadius: 1.5,
+          mb: 1.5,
+          border: isPlaying
+            ? `2px solid ${theme.palette.success.main}`
+            : player.onBreak
+              ? `1px solid ${theme.palette.grey[400]}`
+              : `1px solid ${theme.palette.divider}`,
+          transition: 'all 0.3s ease',
+          borderRadius: 2,
+          bgcolor: player.onBreak ? 'action.disabledBackground' : 'background.paper',
+          '&:hover': {
+            transform: 'translateY(-2px)',
+            boxShadow: 2,
+          },
         }}
       >
         <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>

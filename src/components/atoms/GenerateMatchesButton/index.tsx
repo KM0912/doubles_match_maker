@@ -18,11 +18,25 @@ const GenerateMatchesButton: React.FC<Props> = ({ courts }) => {
       startIcon={<ShuffleIcon />}
       size='large'
       sx={{
-        py: { xs: 1, sm: 1.5 },
-        fontSize: { xs: '0.9rem', sm: '1rem' },
+        py: { xs: 1.5, sm: 2 },
+        px: { xs: 3, sm: 4 },
+        fontSize: { xs: '1rem', sm: '1.1rem' },
+        fontWeight: 700,
+        borderRadius: 2,
+        textTransform: 'none',
+        boxShadow: 3,
+        '&:hover': {
+          boxShadow: 6,
+          transform: 'translateY(-2px)',
+        },
+        transition: 'all 0.3s ease',
       }}
     >
-      試合組み合わせ生成
+      {matches.length > 0
+        ? '試合進行中'
+        : players.length < 4
+          ? 'プレイヤーが不足しています（4人以上必要）'
+          : '試合組み合わせを生成'}
     </ActionButton>
   );
 };

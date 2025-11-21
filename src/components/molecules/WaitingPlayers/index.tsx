@@ -2,7 +2,7 @@ import { useMatchContext } from '../../../contexts/MatchContext';
 import { usePlayerContext } from '../../../contexts/PlayerContext';
 import { selectedPlayer } from '../../../hooks/useSwapPlayer';
 import { Player } from '../../../types';
-import { Box, Typography, Grid2, Card, CardContent } from '@mui/material';
+import { Box, Typography, Grid2, Card, CardContent, useTheme } from '@mui/material';
 import { PlayerAvatar } from '../PlayerCard/PlayerAvatar';
 
 type Props = {
@@ -13,6 +13,7 @@ type Props = {
 const WaitingPlayers: React.FC<Props> = ({ selectedPlayer, updateSelectedPlayer }) => {
   const { players } = usePlayerContext();
   const { matches, setMatches, isPlayerInMatch } = useMatchContext();
+  const theme = useTheme();
 
   const handlePlayerClick = (player: Player) => {
     if (!selectedPlayer) return;
@@ -37,28 +38,61 @@ const WaitingPlayers: React.FC<Props> = ({ selectedPlayer, updateSelectedPlayer 
   const waitingPlayers = players.filter((player) => !isPlayerInMatch(player.id) && !player.onBreak);
 
   return (
-    <Box sx={{ mt: 3 }}>
-      <Typography variant='h6' fontWeight='bold' sx={{ mb: 2 }}>
-        待機中の選手{selectedPlayer ? '（タップで入替）' : ''}
+    <Box>
+      <Typography
+        variant='h6'
+        fontWeight='bold'
+        sx={{
+          mb: 2,
+          display: 'flex',
+          alignItems: 'center',
+          fontSize: { xs: '1.1rem', sm: '1.25rem' },
+        }}
+      >
+        {selectedPlayer ? (
+          <>
+            <span style={{ marginRight: '0.5rem' }}>🔄</span>
+            入れ替え先を選択してください
+          </>
+        ) : (
+          <>
+            <span style={{ marginRight: '0.5rem' }}>⏸️</span>
+            待機中の選手 ({waitingPlayers.length}人)
+          </>
+        )}
       </Typography>
 
       {waitingPlayers.length === 0 ? (
-        <Typography variant='body2' color='text.secondary' sx={{ textAlign: 'center', py: 2 }}>
-          待機中の選手はいません
-        </Typography>
+        <Box
+          sx={{
+            textAlign: 'center',
+            py: 4,
+            px: 2,
+            borderRadius: 2,
+            bgcolor: 'action.hover',
+          }}
+        >
+          <Typography variant='body2' color='text.secondary'>
+            {selectedPlayer ? '入れ替え可能な選手がいません' : '待機中の選手はいません'}
+          </Typography>
+        </Box>
       ) : (
         <Grid2 container spacing={1.5}>
           {waitingPlayers.map((player) => (
             <Grid2 size={{ xs: 3, sm: 3, md: 2 }} key={player.id}>
               <Card
-                elevation={1}
+                elevation={selectedPlayer ? 3 : 1}
                 onClick={() => handlePlayerClick(player)}
                 sx={{
                   cursor: selectedPlayer ? 'pointer' : 'default',
-                  transition: 'all 0.2s',
+                  transition: 'all 0.3s ease',
+                  border: selectedPlayer
+                    ? `2px solid ${theme.palette.primary.main}`
+                    : `1px solid ${theme.palette.divider}`,
                   '&:hover': {
-                    bgcolor: selectedPlayer ? 'action.hover' : 'background.paper',
-                    transform: selectedPlayer ? 'translateY(-2px)' : 'none',
+                    bgcolor: selectedPlayer ? 'primary.light' : 'action.hover',
+                    transform: selectedPlayer ? 'translateY(-4px) scale(1.02)' : 'translateY(-2px)',
+                    boxShadow: selectedPlayer ? 6 : 2,
                   },
                   height: '100%',
                 }}
