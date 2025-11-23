@@ -33,7 +33,7 @@ function MainComponent() {
         maxWidth='md'
         sx={{
           py: { xs: 4, sm: 5 },
-          pb: { xs: 14, sm: 15 },
+          pb: { xs: 11, sm: 12 },
           flexGrow: 1,
           display: 'flex',
           flexDirection: 'column',

@@ -16,17 +16,14 @@ export const BottomNav = ({ activeMenu, onMenuChange }: BottomNavProps) => {
       component='nav'
       sx={{
         position: 'fixed',
-        bottom: 24,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: 'calc(100% - 48px)',
-        maxWidth: 'md',
+        bottom: 0,
+        left: 0,
+        right: 0,
         zIndex: theme.zIndex.drawer + 1,
-        border: `1px solid ${theme.palette.divider}`,
-        borderRadius: 24,
+        borderTop: `1px solid ${theme.palette.divider}`,
         backdropFilter: 'blur(20px)',
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
-        boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.12)',
+        boxShadow: '0px -4px 20px rgba(0, 0, 0, 0.05)',
       }}
       elevation={0}
     >

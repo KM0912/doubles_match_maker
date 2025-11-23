@@ -11,7 +11,8 @@ export const commonPaperStyles: SxProps<Theme> = {
   boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.06)',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   '&:hover': {
-    boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.08)',
+    boxShadow: '0px 8px 24px rgba(0, 82, 204, 0.12)',
+    borderColor: 'primary.main',
   },
 };
 
