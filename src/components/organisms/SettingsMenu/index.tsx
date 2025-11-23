@@ -1,4 +1,4 @@
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography, useTheme } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import CourtCounter from '../../molecules/CourtCounter';
@@ -18,6 +18,8 @@ const SettingsMenu: React.FC<SettingsMenuProps> = ({
   onIncrementCourts,
   onDecrementCourts,
 }) => {
+  const theme = useTheme();
+
   return (
     <Box>
       <Box sx={{ mb: 3 }}>
@@ -29,8 +31,31 @@ const SettingsMenu: React.FC<SettingsMenuProps> = ({
       </Box>
 
       <Paper component='article' elevation={1} sx={{ ...commonPaperStyles, mb: 3 }}>
-        <Typography component='h2' variant='h6' sx={commonTypographyStyles}>
-          <PersonAddIcon sx={{ mr: 1, fontSize: '1.2rem' }} />
+        <Typography
+          component='h2'
+          variant='h6'
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            mb: 3.5,
+            fontWeight: 700,
+            fontSize: { xs: '1.125rem', sm: '1.25rem' },
+            color: 'text.primary',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              bgcolor: `${theme.palette.primary.main}15`,
+              borderRadius: 2,
+              p: 1,
+              mr: 1.5,
+            }}
+          >
+            <PersonAddIcon sx={{ fontSize: '1.5rem', color: 'primary.main' }} />
+          </Box>
           参加者一覧
         </Typography>
         <Box sx={{ mb: 3 }}>

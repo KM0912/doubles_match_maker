@@ -1,8 +1,7 @@
-import { Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
+import { Paper, BottomNavigation, BottomNavigationAction, useTheme } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SportsTennisIcon from '@mui/icons-material/SportsTennis';
 import HistoryIcon from '@mui/icons-material/History';
-import { useTheme } from '@mui/material/styles';
 
 interface BottomNavProps {
   activeMenu: string;
@@ -20,10 +19,13 @@ export const BottomNav = ({ activeMenu, onMenuChange }: BottomNavProps) => {
         bottom: 0,
         left: 0,
         right: 0,
-        zIndex: 1100,
+        zIndex: theme.zIndex.drawer + 1,
         borderTop: `1px solid ${theme.palette.divider}`,
+        backdropFilter: 'blur(20px)',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        boxShadow: '0px -4px 20px rgba(0, 0, 0, 0.05)',
       }}
-      elevation={3}
+      elevation={0}
     >
       <BottomNavigation
         showLabels
@@ -32,13 +34,36 @@ export const BottomNav = ({ activeMenu, onMenuChange }: BottomNavProps) => {
           onMenuChange(newValue);
         }}
         sx={{
-          height: { xs: 60, sm: 65 },
+          height: { xs: 72, sm: 80 },
+          bgcolor: 'transparent',
           '& .MuiBottomNavigationAction-root': {
-            py: 1,
+            py: 1.5,
             minWidth: 0,
+            color: theme.palette.text.secondary,
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            borderRadius: 2,
+            mx: 0.5,
+            '&.Mui-selected': {
+              color: theme.palette.primary.main,
+              bgcolor: `${theme.palette.primary.main}15`,
+              '& .MuiSvgIcon-root': {
+                transform: 'scale(1.15)',
+              },
+            },
+            '&:hover': {
+              color: theme.palette.primary.main,
+              bgcolor: `${theme.palette.primary.main}08`,
+            },
           },
           '& .MuiBottomNavigationAction-label': {
-            fontSize: { xs: '0.7rem', sm: '0.75rem' },
+            fontSize: { xs: '0.75rem', sm: '0.8125rem' },
+            fontWeight: 500,
+            mt: 0.75,
+            transition: 'all 0.2s ease',
+            '&.Mui-selected': {
+              fontSize: { xs: '0.8125rem', sm: '0.875rem' },
+              fontWeight: 700,
+            },
           },
         }}
       >
