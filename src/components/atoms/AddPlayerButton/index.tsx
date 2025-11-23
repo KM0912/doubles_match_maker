@@ -37,7 +37,7 @@ const AddPlayerButton: React.FC = () => {
         sx={{
           py: 1.75,
           fontWeight: 700,
-          borderRadius: 3,
+          borderRadius: 4,
           fontSize: { xs: '0.9375rem', sm: '1rem' },
           textTransform: 'none',
           boxShadow: `0px 4px 12px ${theme.palette.primary.main}30`,

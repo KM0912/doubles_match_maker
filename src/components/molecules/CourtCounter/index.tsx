@@ -18,7 +18,7 @@ const CourtCounter: React.FC<Props> = ({ courts, onIncrement, onDecrement }) => 
       elevation={0}
       sx={{
         p: { xs: 3, sm: 3.5 },
-        borderRadius: 3,
+        borderRadius: 4,
         width: '100%',
         overflow: 'visible',
         bgcolor: 'background.paper',
@@ -100,7 +100,7 @@ const CourtCounter: React.FC<Props> = ({ courts, onIncrement, onDecrement }) => 
             alignItems: 'center',
             background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
             color: 'white',
-            borderRadius: 3,
+            borderRadius: 4,
             py: 2,
             px: 3,
             minWidth: { xs: 100, sm: 120 },

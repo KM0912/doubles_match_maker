@@ -3,7 +3,7 @@ import { SxProps, Theme } from '@mui/material';
 export const commonPaperStyles: SxProps<Theme> = {
   p: { xs: 2.5, sm: 3.5 },
   mb: 4,
-  borderRadius: 3,
+  borderRadius: 4,
   overflow: 'visible',
   boxSizing: 'border-box',
   bgcolor: 'background.paper',

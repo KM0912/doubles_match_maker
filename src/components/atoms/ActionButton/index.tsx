@@ -39,7 +39,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       startIcon={startIcon}
       endIcon={endIcon}
       sx={{
-        borderRadius: 3,
+        borderRadius: 4,
         fontWeight: 700,
         textTransform: 'none',
         fontSize: '0.9375rem',

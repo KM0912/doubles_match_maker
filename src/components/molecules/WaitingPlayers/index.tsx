@@ -3,6 +3,7 @@ import { usePlayerContext } from '../../../contexts/PlayerContext';
 import { selectedPlayer } from '../../../hooks/useSwapPlayer';
 import { Player } from '../../../types';
 import { Box, Typography, Grid2, Card, CardContent, useTheme } from '@mui/material';
+import SportsIcon from '@mui/icons-material/SportsTennis';
 import { PlayerAvatar } from '../PlayerCard/PlayerAvatar';
 
 type Props = {
@@ -61,7 +62,7 @@ const WaitingPlayers: React.FC<Props> = ({ selectedPlayer, updateSelectedPlayer 
           sx={{
             textAlign: 'center',
             py: 4,
-            borderRadius: 3,
+            borderRadius: 4,
             bgcolor: `${theme.palette.grey[100]}80`,
             border: `1px dashed ${theme.palette.divider}`,
           }}
@@ -80,7 +81,7 @@ const WaitingPlayers: React.FC<Props> = ({ selectedPlayer, updateSelectedPlayer 
                 sx={{
                   cursor: selectedPlayer ? 'pointer' : 'default',
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  borderRadius: 3,
+                  borderRadius: 4,
                   border: selectedPlayer
                     ? `2px solid ${theme.palette.primary.main}`
                     : `1px solid ${theme.palette.divider}`,
@@ -110,17 +111,23 @@ const WaitingPlayers: React.FC<Props> = ({ selectedPlayer, updateSelectedPlayer 
                   }}
                 >
                   <PlayerAvatar player={player} size='small' />
-                  <Typography
-                    variant='caption'
-                    color='text.secondary'
+                  <Box
                     sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 0.5,
                       fontSize: '0.75rem',
-                      fontWeight: 600,
+                      color: 'text.secondary',
+                      fontWeight: 500,
                       mt: 0.5,
+                      whiteSpace: 'nowrap',
                     }}
                   >
-                    試合数: {player.gamesPlayed || 0}
-                  </Typography>
+                    <SportsIcon sx={{ fontSize: '0.875rem', color: theme.palette.primary.main }} />
+                    <Box component='span' sx={{ fontWeight: 600, color: 'text.primary' }}>
+                      {player.gamesPlayed || 0}
+                    </Box>
+                  </Box>
                 </CardContent>
               </Card>
             </Grid2>

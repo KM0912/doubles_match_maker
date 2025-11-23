@@ -43,7 +43,7 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
             ? `2px solid ${theme.palette.success.main}`
             : `1px solid ${theme.palette.divider}`,
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          borderRadius: 3,
+          borderRadius: 4,
           bgcolor: isPlaying
             ? `linear-gradient(135deg, ${theme.palette.success.light}08 0%, ${theme.palette.success.main}08 100%)`
             : 'background.paper',
@@ -61,7 +61,7 @@ const PlayerCard: React.FC<PlayerStatusCardProps> = ({
                 right: -2,
                 bottom: -2,
                 background: `linear-gradient(135deg, ${theme.palette.success.light}, ${theme.palette.success.main})`,
-                borderRadius: 3,
+                borderRadius: 4,
                 zIndex: -1,
                 opacity: 0.3,
                 filter: 'blur(8px)',

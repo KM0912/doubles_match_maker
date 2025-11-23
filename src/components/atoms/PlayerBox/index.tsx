@@ -28,7 +28,7 @@ const PlayerBox: React.FC<PlayerBoxProps> = ({
     <Box
       sx={{
         flex: 1,
-        p: 1,
+        p: { xs: 0.5, sm: 1 },
         textAlign: 'center',
         borderRadius: 2,
         cursor: match.winner ? 'default' : 'pointer',
@@ -44,6 +44,8 @@ const PlayerBox: React.FC<PlayerBoxProps> = ({
             : `2px solid ${theme.palette.divider}`,
         transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
         position: 'relative',
+        minWidth: 0,
+        overflow: 'hidden',
         '&:hover': {
           bgcolor: match.winner
             ? `${theme.palette.grey[200]}40`

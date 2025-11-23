@@ -81,7 +81,7 @@ const CurrentMatch: React.FC<Props> = ({
                 display: 'flex',
                 flexDirection: 'column',
                 border: `1px solid ${theme.palette.divider}`,
-                borderRadius: 3,
+                borderRadius: 4,
                 overflow: 'hidden',
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 position: 'relative',
@@ -95,9 +95,10 @@ const CurrentMatch: React.FC<Props> = ({
               <CardContent
                 sx={{
                   flexGrow: 1,
-                  p: { xs: 2, sm: 2.5 },
+                  p: { xs: 1.5, sm: 2.5 },
                   pb: { xs: 1.5, sm: 2 },
                   bgcolor: 'background.paper',
+                  overflow: 'hidden',
                 }}
               >
                 <Box
@@ -139,8 +140,8 @@ const CurrentMatch: React.FC<Props> = ({
                   </Typography>
                 </Box>
 
-                <Stack direction='row' alignItems='center' spacing={1} sx={{ width: '100%' }}>
-                  <Stack direction='row' spacing={0.75} sx={{ flex: 1 }}>
+                <Stack direction='row' alignItems='center' spacing={{ xs: 0.5, sm: 1 }} sx={{ width: '100%', minWidth: 0 }}>
+                  <Stack direction='row' spacing={{ xs: 0.5, sm: 0.75 }} sx={{ flex: 1, minWidth: 0 }}>
                     <PlayerBox
                       match={match}
                       index={index}
@@ -164,7 +165,8 @@ const CurrentMatch: React.FC<Props> = ({
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'center',
-                      minWidth: 48,
+                      minWidth: { xs: 36, sm: 48 },
+                      flexShrink: 0,
                     }}
                   >
                     <Typography
@@ -173,7 +175,7 @@ const CurrentMatch: React.FC<Props> = ({
                       sx={{
                         fontSize: { xs: '0.625rem', sm: '0.6875rem' },
                         color: 'text.secondary',
-                        px: 1.5,
+                        px: { xs: 1, sm: 1.5 },
                         py: 0.5,
                         borderRadius: 2,
                         bgcolor: `${theme.palette.primary.main}10`,
@@ -185,7 +187,7 @@ const CurrentMatch: React.FC<Props> = ({
                     </Typography>
                   </Box>
 
-                  <Stack direction='row' spacing={0.75} sx={{ flex: 1 }}>
+                  <Stack direction='row' spacing={{ xs: 0.5, sm: 0.75 }} sx={{ flex: 1, minWidth: 0 }}>
                     <PlayerBox
                       match={match}
                       index={index}
