@@ -32,8 +32,8 @@ function MainComponent() {
         component='section'
         maxWidth='md'
         sx={{
-          py: 4,
-          pb: { xs: 10, sm: 11 },
+          py: { xs: 4, sm: 5 },
+          pb: { xs: 11, sm: 12 },
           flexGrow: 1,
           display: 'flex',
           flexDirection: 'column',

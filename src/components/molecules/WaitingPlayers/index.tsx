@@ -2,7 +2,8 @@ import { useMatchContext } from '../../../contexts/MatchContext';
 import { usePlayerContext } from '../../../contexts/PlayerContext';
 import { selectedPlayer } from '../../../hooks/useSwapPlayer';
 import { Player } from '../../../types';
-import { Box, Typography, Grid2, Card, CardContent } from '@mui/material';
+import { Box, Typography, Grid2, Card, CardContent, useTheme } from '@mui/material';
+import SportsIcon from '@mui/icons-material/SportsTennis';
 import { PlayerAvatar } from '../PlayerCard/PlayerAvatar';
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 const WaitingPlayers: React.FC<Props> = ({ selectedPlayer, updateSelectedPlayer }) => {
   const { players } = usePlayerContext();
   const { matches, setMatches, isPlayerInMatch } = useMatchContext();
+  const theme = useTheme();
 
   const handlePlayerClick = (player: Player) => {
     if (!selectedPlayer) return;
@@ -37,61 +39,95 @@ const WaitingPlayers: React.FC<Props> = ({ selectedPlayer, updateSelectedPlayer 
   const waitingPlayers = players.filter((player) => !isPlayerInMatch(player.id) && !player.onBreak);
 
   return (
-    <Box sx={{ mt: 3 }}>
-      <Typography variant='h6' fontWeight='bold' sx={{ mb: 2 }}>
-        待機中の選手{selectedPlayer ? '（タップで入替）' : ''}
+    <Box sx={{ mt: 4 }}>
+      <Typography
+        variant='h6'
+        fontWeight={700}
+        sx={{
+          mb: 2.5,
+          fontSize: { xs: '1.125rem', sm: '1.25rem' },
+          color: 'text.primary',
+        }}
+      >
+        待機中の選手
+        {selectedPlayer && (
+          <Box component='span' sx={{ color: 'primary.main' }}>
+            （タップで入替）
+          </Box>
+        )}
       </Typography>
 
       {waitingPlayers.length === 0 ? (
-        <Typography variant='body2' color='text.secondary' sx={{ textAlign: 'center', py: 2 }}>
-          待機中の選手はいません
-        </Typography>
+        <Box
+          sx={{
+            textAlign: 'center',
+            py: 4,
+            borderRadius: 4,
+            bgcolor: `${theme.palette.grey[100]}80`,
+            border: `1px dashed ${theme.palette.divider}`,
+          }}
+        >
+          <Typography variant='body2' color='text.secondary' sx={{ fontWeight: 500 }}>
+            待機中の選手はいません
+          </Typography>
+        </Box>
       ) : (
-        <Grid2 container spacing={1.5}>
+        <Grid2 container spacing={2}>
           {waitingPlayers.map((player) => (
             <Grid2 size={{ xs: 3, sm: 3, md: 2 }} key={player.id}>
               <Card
-                elevation={1}
+                elevation={0}
                 onClick={() => handlePlayerClick(player)}
                 sx={{
                   cursor: selectedPlayer ? 'pointer' : 'default',
-                  transition: 'all 0.2s',
-                  '&:hover': {
-                    bgcolor: selectedPlayer ? 'action.hover' : 'background.paper',
-                    transform: selectedPlayer ? 'translateY(-2px)' : 'none',
-                  },
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  borderRadius: 4,
+                  border: selectedPlayer
+                    ? `2px solid ${theme.palette.primary.main}`
+                    : `1px solid ${theme.palette.divider}`,
+                  bgcolor: selectedPlayer ? `${theme.palette.primary.main}08` : 'background.paper',
                   height: '100%',
+                  '&:hover': {
+                    bgcolor: selectedPlayer
+                      ? `${theme.palette.primary.main}15`
+                      : `${theme.palette.primary.main}08`,
+                    transform: selectedPlayer ? 'translateY(-6px) scale(1.05)' : 'translateY(-4px)',
+                    boxShadow: selectedPlayer
+                      ? `0px 12px 24px ${theme.palette.primary.main}25`
+                      : '0px 8px 16px rgba(0, 0, 0, 0.1)',
+                    borderColor: theme.palette.primary.main,
+                  },
                 }}
               >
                 <CardContent
                   sx={{
-                    p: { xs: 1, sm: 1.5 },
-                    '&:last-child': { pb: { xs: 1, sm: 1.5 } },
+                    p: { xs: 1.5, sm: 2 },
+                    '&:last-child': { pb: { xs: 1.5, sm: 2 } },
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    gap: 1,
                   }}
                 >
-                  <Typography
-                    variant='body1'
-                    fontWeight='medium'
-                    sx={{ fontSize: { xs: '0.9rem', sm: '1rem' } }}
-                  >
-                    <PlayerAvatar player={player} size='small' sx={{ mr: 0 }} />
-                  </Typography>
-                  <Typography
-                    variant='caption'
-                    color='text.secondary'
+                  <PlayerAvatar player={player} size='small' />
+                  <Box
                     sx={{
                       display: 'flex',
                       alignItems: 'center',
+                      gap: 0.5,
+                      fontSize: '0.75rem',
+                      color: 'text.secondary',
+                      fontWeight: 500,
                       mt: 0.5,
-                      fontSize: '0.7rem',
+                      whiteSpace: 'nowrap',
                     }}
                   >
-                    試合数:{player.gamesPlayed || 0}
-                  </Typography>
+                    <SportsIcon sx={{ fontSize: '0.875rem', color: theme.palette.primary.main }} />
+                    <Box component='span' sx={{ fontWeight: 600, color: 'text.primary' }}>
+                      {player.gamesPlayed || 0}
+                    </Box>
+                  </Box>
                 </CardContent>
               </Card>
             </Grid2>
