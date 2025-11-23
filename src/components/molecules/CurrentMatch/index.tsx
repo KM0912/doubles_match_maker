@@ -140,8 +140,17 @@ const CurrentMatch: React.FC<Props> = ({
                   </Typography>
                 </Box>
 
-                <Stack direction='row' alignItems='center' spacing={{ xs: 0.5, sm: 1 }} sx={{ width: '100%', minWidth: 0 }}>
-                  <Stack direction='row' spacing={{ xs: 0.5, sm: 0.75 }} sx={{ flex: 1, minWidth: 0 }}>
+                <Stack
+                  direction='row'
+                  alignItems='center'
+                  spacing={{ xs: 0.5, sm: 1 }}
+                  sx={{ width: '100%', minWidth: 0 }}
+                >
+                  <Stack
+                    direction='row'
+                    spacing={{ xs: 0.5, sm: 0.75 }}
+                    sx={{ flex: 1, minWidth: 0 }}
+                  >
                     <PlayerBox
                       match={match}
                       index={index}
@@ -187,7 +196,11 @@ const CurrentMatch: React.FC<Props> = ({
                     </Typography>
                   </Box>
 
-                  <Stack direction='row' spacing={{ xs: 0.5, sm: 0.75 }} sx={{ flex: 1, minWidth: 0 }}>
+                  <Stack
+                    direction='row'
+                    spacing={{ xs: 0.5, sm: 0.75 }}
+                    sx={{ flex: 1, minWidth: 0 }}
+                  >
                     <PlayerBox
                       match={match}
                       index={index}
