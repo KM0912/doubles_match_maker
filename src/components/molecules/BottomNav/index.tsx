@@ -16,14 +16,17 @@ export const BottomNav = ({ activeMenu, onMenuChange }: BottomNavProps) => {
       component='nav'
       sx={{
         position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
+        bottom: 24,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: 'calc(100% - 48px)',
+        maxWidth: 'md',
         zIndex: theme.zIndex.drawer + 1,
-        borderTop: `1px solid ${theme.palette.divider}`,
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: 24,
         backdropFilter: 'blur(20px)',
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
-        boxShadow: '0px -4px 20px rgba(0, 0, 0, 0.08)',
+        boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.12)',
       }}
       elevation={0}
     >
@@ -45,14 +48,14 @@ export const BottomNav = ({ activeMenu, onMenuChange }: BottomNavProps) => {
             mx: 0.5,
             '&.Mui-selected': {
               color: theme.palette.primary.main,
-              bgcolor: 'rgba(99, 102, 241, 0.1)',
+              bgcolor: `${theme.palette.primary.main}15`,
               '& .MuiSvgIcon-root': {
                 transform: 'scale(1.15)',
               },
             },
             '&:hover': {
               color: theme.palette.primary.main,
-              bgcolor: 'rgba(99, 102, 241, 0.05)',
+              bgcolor: `${theme.palette.primary.main}08`,
             },
           },
           '& .MuiBottomNavigationAction-label': {

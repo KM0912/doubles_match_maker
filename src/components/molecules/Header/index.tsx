@@ -16,7 +16,9 @@ const Header: React.FC = () => {
         borderBottom: 'none',
         backdropFilter: 'blur(20px)',
         zIndex: theme.zIndex.drawer + 1,
-        boxShadow: '0px 4px 20px rgba(99, 102, 241, 0.15)',
+        boxShadow: `0px 4px 20px ${theme.palette.primary.main}40`,
+        borderBottomLeftRadius: 24,
+        borderBottomRightRadius: 24,
       }}
     >
       <Toolbar

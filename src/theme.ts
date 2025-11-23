@@ -4,43 +4,43 @@ const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#6366f1', // インディゴ - モダンで信頼感のある色
-      light: '#818cf8',
-      dark: '#4f46e5',
+      main: '#0052cc', // 鮮やかなスポーツブルー
+      light: '#4c8dff',
+      dark: '#003d99',
       contrastText: '#ffffff',
     },
     secondary: {
-      main: '#ec4899', // ピンク - 活気のある色
-      light: '#f472b6',
-      dark: '#db2777',
+      main: '#ff5722', // エネルギッシュなオレンジ
+      light: '#ff8a50',
+      dark: '#c41c00',
       contrastText: '#ffffff',
     },
     success: {
-      main: '#10b981', // エメラルドグリーン - 成功・試合中を示す
-      light: '#34d399',
-      dark: '#059669',
+      main: '#00c853', // 鮮やかなグリーン
+      light: '#5efc82',
+      dark: '#009624',
       contrastText: '#ffffff',
     },
     error: {
-      main: '#ef4444', // レッド - エラー・削除
-      light: '#f87171',
-      dark: '#dc2626',
+      main: '#ff1744',
+      light: '#ff616f',
+      dark: '#c4001d',
       contrastText: '#ffffff',
     },
     warning: {
-      main: '#f59e0b', // アンバー - 警告・休憩
-      light: '#fbbf24',
-      dark: '#d97706',
-      contrastText: '#ffffff',
+      main: '#ffc400',
+      light: '#fff350',
+      dark: '#c79400',
+      contrastText: '#000000',
     },
     info: {
-      main: '#3b82f6', // ブルー - 情報
-      light: '#60a5fa',
-      dark: '#2563eb',
+      main: '#00b0ff',
+      light: '#69e2ff',
+      dark: '#0081cb',
       contrastText: '#ffffff',
     },
     background: {
-      default: '#f8fafc', // 非常に薄いグレー
+      default: '#f0f4f8', // クールなグレー
       paper: '#ffffff',
     },
     text: {
