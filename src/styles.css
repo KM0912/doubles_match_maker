@@ -367,6 +367,15 @@ dd {
   gap: 8px;
 }
 
+.team-players {
+  text-align: left;
+}
+
+.team-players .player-chip {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
 .player-chip,
 .waiting-chip {
   min-width: 58px;
@@ -564,6 +573,148 @@ dd {
 }
 
 @media (max-width: 679px) {
+  .match-tab {
+    gap: 10px;
+  }
+
+  .match-tab .section-heading {
+    padding: 0 2px;
+  }
+
+  .match-tab .section-kicker {
+    display: none;
+  }
+
+  .match-tab h2 {
+    font-size: 1.35rem;
+  }
+
+  .match-tab h3 {
+    margin-bottom: 2px;
+    font-size: 0.95rem;
+  }
+
+  .match-tab .status-title {
+    font-size: 1.05rem;
+  }
+
+  .match-tab .status-copy,
+  .match-tab .hint-text,
+  .match-tab .empty-text {
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  .match-tab .status-panel {
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .match-tab .inline-stats {
+    gap: 6px;
+  }
+
+  .match-tab .inline-stats div {
+    padding: 7px 8px;
+  }
+
+  .match-tab .inline-stats dt {
+    font-size: 0.66rem;
+  }
+
+  .match-tab .inline-stats dd {
+    margin-top: 0;
+    font-size: 0.98rem;
+  }
+
+  .match-tab .primary-button,
+  .match-tab .secondary-button {
+    min-height: 40px;
+    gap: 6px;
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+
+  .match-tab .match-list {
+    gap: 8px;
+  }
+
+  .match-tab .match-card {
+    gap: 9px;
+    padding: 10px;
+  }
+
+  .match-tab .match-card-header {
+    gap: 8px;
+  }
+
+  .match-tab .court-badge,
+  .match-tab .winner-badge,
+  .match-tab .small-badge {
+    min-height: 24px;
+    padding: 3px 8px;
+    font-size: 0.7rem;
+  }
+
+  .match-tab .matchup {
+    gap: 6px;
+  }
+
+  .match-tab .team {
+    gap: 6px;
+    padding: 7px;
+  }
+
+  .match-tab .team-label {
+    font-size: 0.68rem;
+  }
+
+  .match-tab .team-players,
+  .match-tab .waiting-list {
+    gap: 5px;
+  }
+
+  .match-tab .player-chip,
+  .match-tab .waiting-chip {
+    min-width: 48px;
+    min-height: 38px;
+    padding: 7px 8px;
+    font-size: 0.9rem;
+  }
+
+  .match-tab .versus {
+    font-size: 0.68rem;
+  }
+
+  .match-tab .winner-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .match-tab .winner-actions .secondary-button {
+    width: 100%;
+    white-space: nowrap;
+  }
+
+  .match-tab .waiting-section {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .match-tab .subheading-row {
+    gap: 8px;
+  }
+
+  .match-tab .action-bar {
+    bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + 8px);
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .match-tab .action-bar .primary-button {
+    min-height: 42px;
+  }
+
   .settings-tab {
     gap: 10px;
   }
