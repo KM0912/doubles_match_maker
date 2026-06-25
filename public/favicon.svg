@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="ダブルス組み合わせメーカー">
+  <rect width="512" height="512" rx="96" fill="#0f6b58"/>
+  <path d="M92 122h328v268H92z" fill="#f8fbf7"/>
+  <path d="M116 146h280v220H116z" fill="#136f63"/>
+  <path d="M256 146v220M116 256h280M186 146v220M326 146v220" stroke="#f8fbf7" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="198" cy="214" r="20" fill="#f1c84b"/>
+  <circle cx="314" cy="298" r="20" fill="#d95f43"/>
+</svg>

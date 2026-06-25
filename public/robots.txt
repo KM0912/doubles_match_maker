@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://km0912.github.io/sitemap.xml

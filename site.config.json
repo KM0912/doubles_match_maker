@@ -1,0 +1,11 @@
+{
+  "appName": "ダブルス組み合わせメーカー",
+  "shortName": "ダブルスメーカー",
+  "title": "ダブルス組み合わせメーカー | テニス・バドミントンの試合管理アプリ",
+  "description": "テニスやバドミントンの練習会で、ダブルスの組み合わせ生成、勝敗入力、履歴管理をスマホで行える試合管理アプリです。",
+  "keywords": "ダブルス,組み合わせ,テニス,バドミントン,試合管理,ペア履歴,対戦履歴",
+  "siteUrl": "https://km0912.github.io/doubles_match_maker/",
+  "themeColor": "#0f6b58",
+  "backgroundColor": "#f4f7f4",
+  "ogImage": "/og-image.svg"
+}

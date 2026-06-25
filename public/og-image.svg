@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f4f7f4"/>
+  <rect x="76" y="70" width="1048" height="490" rx="36" fill="#0f6b58"/>
+  <rect x="126" y="120" width="948" height="390" rx="12" fill="#f8fbf7"/>
+  <rect x="164" y="158" width="872" height="314" rx="8" fill="#136f63"/>
+  <path d="M600 158v314M164 315h872M314 158v314M886 158v314" stroke="#f8fbf7" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="403" cy="263" r="30" fill="#f1c84b"/>
+  <circle cx="797" cy="367" r="30" fill="#d95f43"/>
+  <text x="164" y="565" fill="#14221c" font-family="-apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif" font-size="52" font-weight="800">ダブルス組み合わせメーカー</text>
+</svg>
