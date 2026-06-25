@@ -563,6 +563,124 @@ dd {
   }
 }
 
+@media (max-width: 679px) {
+  .settings-tab {
+    gap: 10px;
+  }
+
+  .settings-tab .section-heading {
+    padding: 0 2px;
+  }
+
+  .settings-tab .section-kicker {
+    display: none;
+  }
+
+  .settings-tab h2 {
+    font-size: 1.35rem;
+  }
+
+  .settings-tab h3 {
+    margin-bottom: 2px;
+    font-size: 0.95rem;
+  }
+
+  .settings-tab .hint-text,
+  .settings-tab .player-status {
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  .settings-tab .control-section,
+  .settings-tab .reset-section {
+    gap: 10px;
+    padding: 11px 12px;
+  }
+
+  .settings-tab .control-section.stacked {
+    gap: 10px;
+  }
+
+  .settings-tab .subheading-row {
+    gap: 10px;
+  }
+
+  .settings-tab .secondary-button,
+  .settings-tab .danger-button,
+  .settings-tab .icon-button {
+    min-height: 40px;
+  }
+
+  .settings-tab .secondary-button,
+  .settings-tab .danger-button {
+    gap: 6px;
+    padding: 7px 10px;
+    font-size: 0.9rem;
+  }
+
+  .settings-tab .icon-button {
+    width: 40px;
+  }
+
+  .settings-tab .stepper {
+    grid-template-columns: 40px 50px 40px;
+    gap: 6px;
+  }
+
+  .settings-tab .stepper-value {
+    height: 40px;
+    font-size: 1.08rem;
+  }
+
+  .settings-tab .player-list {
+    gap: 8px;
+  }
+
+  .settings-tab .player-card {
+    gap: 8px;
+    padding: 10px 11px;
+  }
+
+  .settings-tab .player-card-main {
+    gap: 10px;
+  }
+
+  .settings-tab .player-number {
+    margin-bottom: 0;
+    font-size: 1.15rem;
+  }
+
+  .settings-tab .player-stats {
+    grid-template-columns: repeat(2, minmax(54px, 1fr));
+    min-width: 120px;
+    gap: 6px;
+  }
+
+  .settings-tab .player-stats div {
+    padding: 6px 8px;
+  }
+
+  .settings-tab .player-stats dt {
+    font-size: 0.66rem;
+  }
+
+  .settings-tab .player-stats dd {
+    margin-top: 0;
+    font-size: 0.98rem;
+  }
+
+  .settings-tab .player-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .settings-tab .player-actions .secondary-button,
+  .settings-tab .player-actions .danger-button {
+    width: 100%;
+    white-space: nowrap;
+  }
+}
+
 @media (min-width: 680px) {
   .app-main {
     padding: 24px 24px 32px;

@@ -31,7 +31,7 @@ export function SettingsTab({
       <section className="control-section" aria-labelledby="court-heading">
         <div>
           <h3 id="court-heading">コート数</h3>
-          <p className="hint-text">変更は次回の組み合わせ生成から反映されます。</p>
+          <p className="hint-text">次回の生成から反映されます。</p>
         </div>
         <div className="stepper" aria-label="コート数">
           <button
@@ -60,7 +60,7 @@ export function SettingsTab({
         <div className="subheading-row">
           <div>
             <h3 id="players-heading">参加者</h3>
-            <p className="hint-text">番号だけで管理します。</p>
+            <p className="hint-text">番号で管理します。</p>
           </div>
           <button type="button" className="secondary-button" onClick={onAddPlayer}>
             <UserPlus aria-hidden="true" size={18} />
@@ -119,7 +119,7 @@ export function SettingsTab({
       <section className="reset-section" aria-labelledby="reset-heading">
         <div>
           <h3 id="reset-heading">データリセット</h3>
-          <p className="hint-text">現在の試合、履歴、設定、終了取消用データを初期化します。</p>
+          <p className="hint-text">試合、履歴、設定、終了取消データを初期化します。</p>
         </div>
         <button type="button" className="danger-button" onClick={onReset}>
           <RotateCcw aria-hidden="true" size={18} />
