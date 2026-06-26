@@ -36,13 +36,6 @@ function App() {
       return;
     }
 
-    if (
-      state.undoRecord &&
-      !window.confirm('新しい組み合わせを生成すると、直前の終了取消はできなくなります。続行しますか？')
-    ) {
-      return;
-    }
-
     setGenerating(true);
     try {
       const output = createSchedule(createScheduleInput(state));
@@ -85,16 +78,6 @@ function App() {
 
   const handleCompleteRound = () => {
     if (!state.activeRound) {
-      return;
-    }
-
-    const incompleteCount = state.activeRound.matches.filter((match) => match.winner === null).length;
-    const message =
-      incompleteCount > 0
-        ? `${incompleteCount}試合が勝敗未入力です。勝利数を加算せずに試合終了しますか？`
-        : '現在の試合を終了しますか？';
-
-    if (!window.confirm(message)) {
       return;
     }
 
