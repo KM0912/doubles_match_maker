@@ -436,6 +436,68 @@ dd {
   gap: 8px;
 }
 
+.switch-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--ink);
+  font-weight: 800;
+  cursor: pointer;
+  user-select: none;
+}
+
+.switch-control input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.switch-track {
+  position: relative;
+  display: inline-flex;
+  width: 48px;
+  height: 28px;
+  padding: 3px;
+  border: 1px solid rgba(20, 34, 28, 0.14);
+  border-radius: 999px;
+  background: #dfe7e3;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease;
+}
+
+.switch-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(20, 34, 28, 0.2);
+  transition: transform 140ms ease;
+}
+
+.switch-control input:checked + .switch-track {
+  border-color: rgba(15, 107, 88, 0.35);
+  background: var(--court);
+}
+
+.switch-control input:checked + .switch-track .switch-thumb {
+  transform: translateX(20px);
+}
+
+.switch-control input:focus-visible + .switch-track {
+  outline: 3px solid rgba(55, 109, 168, 0.5);
+  outline-offset: 3px;
+}
+
+.switch-label {
+  min-width: 2.2em;
+  text-align: left;
+}
+
 .stepper-value {
   display: grid;
   place-items: center;
@@ -465,6 +527,11 @@ dd {
 .player-stats {
   grid-template-columns: repeat(2, minmax(64px, 1fr));
   min-width: 144px;
+}
+
+.player-stats.single-stat {
+  grid-template-columns: minmax(64px, 1fr);
+  min-width: 72px;
 }
 
 .reset-section {
@@ -784,6 +851,24 @@ dd {
     font-size: 1.08rem;
   }
 
+  .settings-tab .switch-control {
+    min-height: 40px;
+  }
+
+  .settings-tab .switch-track {
+    width: 44px;
+    height: 26px;
+  }
+
+  .settings-tab .switch-thumb {
+    width: 18px;
+    height: 18px;
+  }
+
+  .settings-tab .switch-control input:checked + .switch-track .switch-thumb {
+    transform: translateX(18px);
+  }
+
   .settings-tab .player-list {
     gap: 8px;
   }
@@ -806,6 +891,11 @@ dd {
     grid-template-columns: repeat(2, minmax(54px, 1fr));
     min-width: 120px;
     gap: 6px;
+  }
+
+  .settings-tab .player-stats.single-stat {
+    grid-template-columns: minmax(54px, 1fr);
+    min-width: 62px;
   }
 
   .settings-tab .player-stats div {

@@ -15,6 +15,10 @@ export type LoadedState = {
   restoreError: string | null;
 };
 
+type PersistedAppState = Omit<AppState, 'recordWins'> & {
+  recordWins?: boolean;
+};
+
 const tabs: AppTab[] = ['matches', 'settings', 'history'];
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -156,7 +160,32 @@ function isUndoRecord(value: unknown, existingPlayerIds: Set<PlayerId>): value i
   );
 }
 
-function isAppState(value: unknown): value is AppState {
+function clearRoundWinners(round: ActiveRound | null): ActiveRound | null {
+  if (!round) {
+    return null;
+  }
+
+  return {
+    ...round,
+    matches: round.matches.map((match) => ({ ...match, winner: null })),
+  };
+}
+
+function normalizeAppState(value: PersistedAppState): AppState {
+  const recordWins = value.recordWins ?? false;
+
+  return {
+    ...value,
+    recordWins,
+    activeRound: recordWins ? value.activeRound : clearRoundWinners(value.activeRound),
+    undoRecord:
+      recordWins || !value.undoRecord
+        ? value.undoRecord
+        : { ...value.undoRecord, round: clearRoundWinners(value.undoRecord.round)! },
+  };
+}
+
+function isAppState(value: unknown): value is PersistedAppState {
   if (!isRecord(value)) {
     return false;
   }
@@ -185,6 +214,7 @@ function isAppState(value: unknown): value is AppState {
     !Number.isInteger(value.courtCount) ||
     value.courtCount < 1 ||
     value.courtCount > 10 ||
+    ('recordWins' in value && typeof value.recordWins !== 'boolean') ||
     !tabs.includes(value.selectedTab as AppTab)
   ) {
     return false;
@@ -220,7 +250,7 @@ export function loadStoredState(storage: Storage = window.localStorage): LoadedS
       };
     }
 
-    return { state: parsed, restoreError: null };
+    return { state: normalizeAppState(parsed), restoreError: null };
   } catch {
     return {
       state: createInitialState(),

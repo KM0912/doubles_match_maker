@@ -81,6 +81,15 @@ function App() {
       return;
     }
 
+    const incompleteCount = state.activeRound.matches.filter((match) => match.winner === null).length;
+    if (
+      state.recordWins &&
+      incompleteCount > 0 &&
+      !window.confirm(`${incompleteCount}試合が勝敗未入力です。このまま試合を終了しますか？`)
+    ) {
+      return;
+    }
+
     dispatch({ type: 'complete-round' });
     setSelectedSlot(null);
     setNotice(null);
@@ -150,6 +159,7 @@ function App() {
             onRemovePlayer={handleRemovePlayer}
             onToggleBreak={(playerId: PlayerId) => dispatch({ type: 'toggle-break', playerId })}
             onChangeCourtCount={(delta) => dispatch({ type: 'change-court-count', delta })}
+            onToggleRecordWins={(recordWins) => dispatch({ type: 'toggle-record-wins', recordWins })}
             onReset={handleReset}
           />
         ) : null}

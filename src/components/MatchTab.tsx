@@ -44,18 +44,20 @@ function PlayerButton({
 function TeamView({
   match,
   team,
+  recordWins,
   selectedSlot,
   onSelectSlot,
 }: {
   match: ActiveMatch;
   team: TeamNumber;
+  recordWins: boolean;
   selectedSlot: PlayerSlot | null;
   onSelectSlot: (slot: PlayerSlot) => void;
 }) {
   const players = team === 1 ? match.team1 : match.team2;
-  const disabled = match.winner !== null;
+  const disabled = recordWins && match.winner !== null;
   return (
-    <div className={match.winner === team ? 'team winning-team' : 'team'}>
+    <div className={recordWins && match.winner === team ? 'team winning-team' : 'team'}>
       <p className="team-label">チーム{team}</p>
       <div className="team-players">
         {players.map((playerId, index) => (
@@ -75,12 +77,14 @@ function TeamView({
 
 function MatchCard({
   match,
+  recordWins,
   selectedSlot,
   onSelectSlot,
   onSetWinner,
   onClearWinner,
 }: {
   match: ActiveMatch;
+  recordWins: boolean;
   selectedSlot: PlayerSlot | null;
   onSelectSlot: (slot: PlayerSlot) => void;
   onSetWinner: (matchId: string, winner: TeamNumber) => void;
@@ -90,14 +94,26 @@ function MatchCard({
     <article className="match-card">
       <div className="match-card-header">
         <span className="court-badge">コート {match.courtNumber}</span>
-        {match.winner ? <span className="winner-badge">チーム{match.winner}の勝利</span> : null}
+        {recordWins && match.winner ? <span className="winner-badge">チーム{match.winner}の勝利</span> : null}
       </div>
       <div className="matchup">
-        <TeamView match={match} team={1} selectedSlot={selectedSlot} onSelectSlot={onSelectSlot} />
+        <TeamView
+          match={match}
+          team={1}
+          recordWins={recordWins}
+          selectedSlot={selectedSlot}
+          onSelectSlot={onSelectSlot}
+        />
         <div className="versus">VS</div>
-        <TeamView match={match} team={2} selectedSlot={selectedSlot} onSelectSlot={onSelectSlot} />
+        <TeamView
+          match={match}
+          team={2}
+          recordWins={recordWins}
+          selectedSlot={selectedSlot}
+          onSelectSlot={onSelectSlot}
+        />
       </div>
-      {match.winner === null ? (
+      {recordWins && match.winner === null ? (
         <div className="winner-actions">
           <button type="button" className="secondary-button" onClick={() => onSetWinner(match.id, 1)}>
             <Trophy aria-hidden="true" size={18} />
@@ -108,12 +124,13 @@ function MatchCard({
             チーム2勝利
           </button>
         </div>
-      ) : (
+      ) : null}
+      {recordWins && match.winner !== null ? (
         <button type="button" className="secondary-button full-width" onClick={() => onClearWinner(match.id)}>
           <RotateCcw aria-hidden="true" size={18} />
           勝敗を修正
         </button>
-      )}
+      ) : null}
     </article>
   );
 }
@@ -219,6 +236,7 @@ export function MatchTab({
           <MatchCard
             key={match.id}
             match={match}
+            recordWins={state.recordWins}
             selectedSlot={selectedSlot}
             onSelectSlot={onSelectSlot}
             onSetWinner={onSetWinner}
@@ -252,7 +270,9 @@ export function MatchTab({
       </section>
 
       <div className="action-bar">
-        {incompleteCount > 0 ? <p className="hint-text">{incompleteCount}試合が勝敗未入力です。</p> : null}
+        {state.recordWins && incompleteCount > 0 ? (
+          <p className="hint-text">{incompleteCount}試合が勝敗未入力です。</p>
+        ) : null}
         <button type="button" className="primary-button full-width" onClick={onCompleteRound}>
           試合終了
         </button>

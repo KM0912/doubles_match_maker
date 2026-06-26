@@ -11,6 +11,10 @@ function withRound(state: AppState = createInitialState()) {
   return appReducer(state, { type: 'start-round', output, createdAt: '2026-06-25T00:00:00.000Z' });
 }
 
+function withRecordWins(state: AppState = createInitialState()) {
+  return appReducer(state, { type: 'toggle-record-wins', recordWins: true });
+}
+
 describe('appReducer', () => {
   it('creates the specified initial state', () => {
     const state = createInitialState();
@@ -23,6 +27,7 @@ describe('appReducer', () => {
     ]);
     expect(state.nextPlayerId).toBe(5);
     expect(state.courtCount).toBe(1);
+    expect(state.recordWins).toBe(false);
     expect(state.selectedTab).toBe('matches');
   });
 
@@ -47,7 +52,7 @@ describe('appReducer', () => {
   });
 
   it('does not update wins when a winner is selected or cleared', () => {
-    const active = withRound();
+    const active = withRound(withRecordWins());
     const matchId = active.activeRound!.matches[0].id;
     const withWinner = appReducer(active, { type: 'set-winner', matchId, winner: 1 });
     const cleared = appReducer(withWinner, { type: 'clear-winner', matchId });
@@ -56,8 +61,28 @@ describe('appReducer', () => {
     expect(cleared.players.every((player) => player.wins === 0)).toBe(true);
   });
 
-  it('applies stats and histories when a round is completed', () => {
+  it('keeps winner input disabled while win recording is off', () => {
     const active = withRound();
+    const matchId = active.activeRound!.matches[0].id;
+    const withWinner = appReducer(active, { type: 'set-winner', matchId, winner: 1 });
+    const completed = appReducer(withWinner, {
+      type: 'complete-round',
+      completedAt: '2026-06-25T01:00:00.000Z',
+    });
+
+    expect(withWinner.activeRound!.matches[0].winner).toBeNull();
+    expect(completed.players.map((player) => [player.id, player.gamesPlayed, player.wins])).toEqual([
+      [1, 1, 0],
+      [2, 1, 0],
+      [3, 1, 0],
+      [4, 1, 0],
+    ]);
+    expect(completed.pairHistory[1][2]).toBe(1);
+    expect(completed.opponentHistory[1][3]).toBe(1);
+  });
+
+  it('applies stats and histories when a round is completed', () => {
+    const active = withRound(withRecordWins());
     const matchId = active.activeRound!.matches[0].id;
     const withWinner = appReducer(active, { type: 'set-winner', matchId, winner: 1 });
     const completed = appReducer(withWinner, {
@@ -80,10 +105,20 @@ describe('appReducer', () => {
   });
 
   it('does not add wins for incomplete matches', () => {
-    const completed = appReducer(withRound(), { type: 'complete-round' });
+    const completed = appReducer(withRound(withRecordWins()), { type: 'complete-round' });
 
     expect(completed.players.every((player) => player.gamesPlayed === 1)).toBe(true);
     expect(completed.players.every((player) => player.wins === 0)).toBe(true);
+  });
+
+  it('clears active winners when win recording is turned off', () => {
+    const active = withRound(withRecordWins());
+    const matchId = active.activeRound!.matches[0].id;
+    const withWinner = appReducer(active, { type: 'set-winner', matchId, winner: 1 });
+    const disabled = appReducer(withWinner, { type: 'toggle-record-wins', recordWins: false });
+
+    expect(disabled.recordWins).toBe(false);
+    expect(disabled.activeRound!.matches[0].winner).toBeNull();
   });
 
   it('restores the round and reverses deltas on undo', () => {
@@ -111,7 +146,7 @@ describe('appReducer', () => {
   });
 
   it('swaps active players and waiting players only before winner input', () => {
-    const state = appReducer(createInitialState(), { type: 'add-player' });
+    const state = appReducer(withRecordWins(), { type: 'add-player' });
     const active = withRound(state);
     const match = active.activeRound!.matches[0];
     const replaced = appReducer(active, {

@@ -8,6 +8,7 @@ type SettingsTabProps = {
   onRemovePlayer: (playerId: PlayerId) => void;
   onToggleBreak: (playerId: PlayerId) => void;
   onChangeCourtCount: (delta: 1 | -1) => void;
+  onToggleRecordWins: (recordWins: boolean) => void;
   onReset: () => void;
 };
 
@@ -17,6 +18,7 @@ export function SettingsTab({
   onRemovePlayer,
   onToggleBreak,
   onChangeCourtCount,
+  onToggleRecordWins,
   onReset,
 }: SettingsTabProps) {
   const sortedPlayers = [...state.players].sort((a, b) => a.id - b.id);
@@ -56,6 +58,24 @@ export function SettingsTab({
         </div>
       </section>
 
+      <section className="control-section" aria-labelledby="record-wins-heading">
+        <div>
+          <h3 id="record-wins-heading">勝敗記録</h3>
+          <p className="hint-text">オンにすると試合ごとの勝敗入力と勝利数の表示を使えます。</p>
+        </div>
+        <label className="switch-control">
+          <input
+            type="checkbox"
+            checked={state.recordWins}
+            onChange={(event) => onToggleRecordWins(event.currentTarget.checked)}
+          />
+          <span className="switch-track" aria-hidden="true">
+            <span className="switch-thumb" />
+          </span>
+          <span className="switch-label">{state.recordWins ? 'オン' : 'オフ'}</span>
+        </label>
+      </section>
+
       <section className="control-section stacked" aria-labelledby="players-heading">
         <div className="subheading-row">
           <div>
@@ -79,15 +99,17 @@ export function SettingsTab({
                     <p className="player-number">{getPlayerLabel(player.id)}</p>
                     <p className="player-status">{status}</p>
                   </div>
-                  <dl className="player-stats">
+                  <dl className={state.recordWins ? 'player-stats' : 'player-stats single-stat'}>
                     <div>
                       <dt>試合</dt>
                       <dd>{player.gamesPlayed}</dd>
                     </div>
-                    <div>
-                      <dt>勝利</dt>
-                      <dd>{player.wins}</dd>
-                    </div>
+                    {state.recordWins ? (
+                      <div>
+                        <dt>勝利</dt>
+                        <dd>{player.wins}</dd>
+                      </div>
+                    ) : null}
                   </dl>
                 </div>
                 <div className="player-actions">

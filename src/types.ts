@@ -46,6 +46,7 @@ export type AppState = {
   players: Player[];
   nextPlayerId: PlayerId;
   courtCount: number;
+  recordWins: boolean;
   activeRound: ActiveRound | null;
   pairHistory: History;
   opponentHistory: History;

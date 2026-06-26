@@ -29,6 +29,7 @@ export type AppAction =
   | { type: 'remove-player'; playerId: PlayerId }
   | { type: 'toggle-break'; playerId: PlayerId }
   | { type: 'change-court-count'; delta: 1 | -1 }
+  | { type: 'toggle-record-wins'; recordWins: boolean }
   | { type: 'start-round'; output: SchedulerOutput; createdAt?: string }
   | { type: 'set-winner'; matchId: string; winner: TeamNumber }
   | { type: 'clear-winner'; matchId: string }
@@ -81,6 +82,21 @@ function updateMatch(round: ActiveRound, updatedMatch: ActiveMatch): ActiveRound
     ...round,
     matches: round.matches.map((match) => (match.id === updatedMatch.id ? updatedMatch : match)),
   };
+}
+
+function clearRoundWinners(round: ActiveRound | null): ActiveRound | null {
+  if (!round) {
+    return null;
+  }
+
+  return {
+    ...round,
+    matches: round.matches.map((match) => ({ ...match, winner: null })),
+  };
+}
+
+function matchIsLocked(state: AppState, match: ActiveMatch): boolean {
+  return state.recordWins && match.winner !== null;
 }
 
 function applyPlayerDeltas(
@@ -146,13 +162,13 @@ function completeActiveRound(state: AppState, completedAt: string): AppState {
       addPlayerDelta(appliedPlayerDeltas, playerId, { gamesPlayed: 1, wins: 0 }),
     );
 
-    if (match.winner === 1) {
+    if (state.recordWins && match.winner === 1) {
       team1.forEach((playerId) =>
         addPlayerDelta(appliedPlayerDeltas, playerId, { gamesPlayed: 0, wins: 1 }),
       );
     }
 
-    if (match.winner === 2) {
+    if (state.recordWins && match.winner === 2) {
       team2.forEach((playerId) =>
         addPlayerDelta(appliedPlayerDeltas, playerId, { gamesPlayed: 0, wins: 1 }),
       );
@@ -233,6 +249,21 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         courtCount: Math.min(10, Math.max(1, state.courtCount + action.delta)),
       };
 
+    case 'toggle-record-wins':
+      if (state.recordWins === action.recordWins) {
+        return state;
+      }
+
+      return {
+        ...state,
+        recordWins: action.recordWins,
+        activeRound: action.recordWins ? state.activeRound : clearRoundWinners(state.activeRound),
+        undoRecord:
+          action.recordWins || !state.undoRecord
+            ? state.undoRecord
+            : { ...state.undoRecord, round: clearRoundWinners(state.undoRecord.round)! },
+      };
+
     case 'start-round':
       if (state.activeRound || action.output.matches.length === 0) {
         return state;
@@ -248,7 +279,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       };
 
     case 'set-winner':
-      if (!state.activeRound) {
+      if (!state.recordWins || !state.activeRound) {
         return state;
       }
       return {
@@ -262,7 +293,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       };
 
     case 'clear-winner':
-      if (!state.activeRound) {
+      if (!state.recordWins || !state.activeRound) {
         return state;
       }
       return {
@@ -282,7 +313,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
 
       const fromMatch = getMatch(state.activeRound, action.from.matchId);
       const toMatch = getMatch(state.activeRound, action.to.matchId);
-      if (!fromMatch || !toMatch || fromMatch.winner !== null || toMatch.winner !== null) {
+      if (!fromMatch || !toMatch || matchIsLocked(state, fromMatch) || matchIsLocked(state, toMatch)) {
         return state;
       }
 
@@ -313,7 +344,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       }
 
       const match = getMatch(state.activeRound, action.slot.matchId);
-      if (!match || match.winner !== null) {
+      if (!match || matchIsLocked(state, match)) {
         return state;
       }
 

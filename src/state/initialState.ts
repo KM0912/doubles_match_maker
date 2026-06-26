@@ -13,6 +13,7 @@ export function createInitialState(): AppState {
     ],
     nextPlayerId: 5,
     courtCount: 1,
+    recordWins: false,
     activeRound: null,
     pairHistory: {},
     opponentHistory: {},
