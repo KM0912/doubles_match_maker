@@ -426,6 +426,7 @@ dd {
 .control-section.stacked {
   display: grid;
   align-items: stretch;
+  justify-content: normal;
 }
 
 .stepper {
