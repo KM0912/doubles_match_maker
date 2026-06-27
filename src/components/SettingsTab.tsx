@@ -141,7 +141,7 @@ export function SettingsTab({
       <section className="reset-section" aria-labelledby="reset-heading">
         <div>
           <h3 id="reset-heading">データリセット</h3>
-          <p className="hint-text">試合、履歴、設定、終了取消データを初期化します。</p>
+          <p className="hint-text">現在の試合、履歴、設定を初期化します。</p>
         </div>
         <button type="button" className="danger-button" onClick={onReset}>
           <RotateCcw aria-hidden="true" size={18} />

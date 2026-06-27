@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useReducer, useState } from 'react';
+import { AlertTriangle, Shuffle, X } from 'lucide-react';
 import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
 import { MatchTab } from './components/MatchTab';
@@ -16,6 +17,7 @@ function App() {
   const [notice, setNotice] = useState<string | null>(loaded.restoreError);
   const [selectedSlot, setSelectedSlot] = useState<PlayerSlot | null>(null);
   const [generating, setGenerating] = useState(false);
+  const [showNextRoundConfirm, setShowNextRoundConfirm] = useState(false);
 
   useEffect(() => {
     saveState(state);
@@ -23,7 +25,23 @@ function App() {
 
   useEffect(() => {
     setSelectedSlot(null);
+    setShowNextRoundConfirm(false);
   }, [state.selectedTab, state.activeRound?.id]);
+
+  useEffect(() => {
+    if (!showNextRoundConfirm) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setShowNextRoundConfirm(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showNextRoundConfirm]);
 
   const handleGenerate = () => {
     if (state.activeRound) {
@@ -76,37 +94,49 @@ function App() {
     setSelectedSlot(null);
   };
 
-  const handleCompleteRound = () => {
+  const handleRequestGenerateNextRound = () => {
     if (!state.activeRound) {
       return;
     }
 
-    const incompleteCount = state.activeRound.matches.filter((match) => match.winner === null).length;
-    if (
-      state.recordWins &&
-      incompleteCount > 0 &&
-      !window.confirm(`${incompleteCount}試合が勝敗未入力です。このまま試合を終了しますか？`)
-    ) {
-      return;
-    }
-
-    dispatch({ type: 'complete-round' });
-    setSelectedSlot(null);
-    setNotice(null);
+    setShowNextRoundConfirm(true);
   };
 
-  const handleUndoComplete = () => {
-    if (!state.undoRecord) {
+  const handleConfirmGenerateNextRound = () => {
+    if (!state.activeRound || generating) {
       return;
     }
 
-    if (!window.confirm('直前の試合終了を取り消し、試合を復元しますか？')) {
-      return;
-    }
+    const completedAt = new Date().toISOString();
+    const completedState = appReducer(state, { type: 'complete-round', completedAt });
 
-    dispatch({ type: 'undo-complete' });
-    setNotice(null);
+    setGenerating(true);
+    try {
+      const output = createSchedule(createScheduleInput(completedState));
+      dispatch({
+        type: 'complete-and-start-round',
+        output,
+        completedAt,
+        createdAt: new Date().toISOString(),
+      });
+      setSelectedSlot(null);
+      setNotice(null);
+      setShowNextRoundConfirm(false);
+    } catch (error) {
+      const message =
+        error instanceof SchedulerValidationError
+          ? error.message
+          : '次の試合生成中にエラーが発生しました。設定を確認して再試行してください。';
+      setNotice(message);
+    } finally {
+      setGenerating(false);
+    }
   };
+
+  const nextRoundConfirmMatchCount = state.activeRound?.matches.length ?? 0;
+  const nextRoundConfirmIncompleteCount =
+    state.activeRound?.matches.filter((match) => match.winner === null).length ?? 0;
+  const showIncompleteWarning = state.recordWins && nextRoundConfirmIncompleteCount > 0;
 
   const handleRemovePlayer = (playerId: PlayerId) => {
     if (isPlayerInActiveRound(state, playerId)) {
@@ -141,8 +171,7 @@ function App() {
             selectedSlot={selectedSlot}
             generating={generating}
             onGenerate={handleGenerate}
-            onCompleteRound={handleCompleteRound}
-            onUndoComplete={handleUndoComplete}
+            onGenerateNextRound={handleRequestGenerateNextRound}
             onSelectSlot={handleSelectSlot}
             onSelectWaitingPlayer={handleSelectWaitingPlayer}
             onSetWinner={(matchId: string, winner: TeamNumber) =>
@@ -167,6 +196,79 @@ function App() {
         {state.selectedTab === 'history' ? <HistoryTab state={state} /> : null}
       </main>
       <BottomNav selectedTab={state.selectedTab} onSelect={(tab) => dispatch({ type: 'select-tab', tab })} />
+      {showNextRoundConfirm ? (
+        <div className="dialog-backdrop" role="presentation">
+          <section
+            className="confirm-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="next-round-confirm-title"
+          >
+            <div className="dialog-header">
+              <span className="dialog-icon" aria-hidden="true">
+                <AlertTriangle size={22} />
+              </span>
+              <button
+                type="button"
+                className="icon-button"
+                aria-label="確認画面を閉じる"
+                disabled={generating}
+                onClick={() => setShowNextRoundConfirm(false)}
+              >
+                <X aria-hidden="true" size={20} />
+              </button>
+            </div>
+
+            <div>
+              <p className="dialog-kicker">Next match</p>
+              <h2 id="next-round-confirm-title" className="dialog-title">
+                次の試合を生成しますか？
+              </h2>
+              <p className="dialog-copy">
+                現在の試合を履歴に反映して、新しい組み合わせに切り替えます。
+              </p>
+            </div>
+
+            <dl className="confirm-summary">
+              <div>
+                <dt>確定する試合</dt>
+                <dd>{nextRoundConfirmMatchCount}試合</dd>
+              </div>
+              {showIncompleteWarning ? (
+                <div className="warning-summary">
+                  <dt>勝敗未入力</dt>
+                  <dd>{nextRoundConfirmIncompleteCount}試合</dd>
+                </div>
+              ) : null}
+            </dl>
+
+            {showIncompleteWarning ? (
+              <p className="dialog-warning">未入力の試合は勝利数に反映されません。</p>
+            ) : null}
+
+            <div className="dialog-actions">
+              <button
+                type="button"
+                className="secondary-button"
+                autoFocus
+                disabled={generating}
+                onClick={() => setShowNextRoundConfirm(false)}
+              >
+                キャンセル
+              </button>
+              <button
+                type="button"
+                className="primary-button"
+                disabled={generating}
+                onClick={handleConfirmGenerateNextRound}
+              >
+                <Shuffle aria-hidden="true" size={20} />
+                {generating ? '生成中' : '生成する'}
+              </button>
+            </div>
+          </section>
+        </div>
+      ) : null}
     </div>
   );
 }

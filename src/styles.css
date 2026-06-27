@@ -163,10 +163,6 @@ h3 {
   border-color: rgba(15, 107, 88, 0.22);
 }
 
-.complete-panel {
-  border-color: rgba(55, 109, 168, 0.24);
-}
-
 .status-title {
   margin: 0;
   font-size: 1.2rem;
@@ -274,7 +270,6 @@ dd {
   width: 100%;
 }
 
-.split-actions,
 .winner-actions,
 .player-actions {
   display: grid;
@@ -416,6 +411,102 @@ dd {
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.96);
   box-shadow: 0 12px 34px rgba(20, 34, 28, 0.16);
+}
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: end center;
+  padding: 18px 14px calc(var(--nav-height) + env(safe-area-inset-bottom) + 18px);
+  background: rgba(20, 34, 28, 0.42);
+  backdrop-filter: blur(5px);
+}
+
+.confirm-dialog {
+  display: grid;
+  gap: 16px;
+  width: min(520px, 100%);
+  padding: 18px;
+  border: 1px solid rgba(20, 34, 28, 0.12);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 26px 70px rgba(20, 34, 28, 0.28);
+}
+
+.dialog-header,
+.dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dialog-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: #fff4dc;
+  color: #7a4f00;
+}
+
+.dialog-kicker {
+  margin: 0 0 4px;
+  color: var(--court);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.dialog-title {
+  margin-bottom: 8px;
+  font-size: 1.45rem;
+}
+
+.dialog-copy,
+.dialog-warning {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.confirm-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.confirm-summary div {
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--surface-strong);
+}
+
+.confirm-summary .warning-summary {
+  background: #fff4dc;
+}
+
+.dialog-warning {
+  padding: 10px 12px;
+  border: 1px solid rgba(241, 200, 75, 0.42);
+  border-radius: 8px;
+  background: #fffdf0;
+  color: #735500;
+  font-weight: 700;
+}
+
+.dialog-actions {
+  justify-content: stretch;
+}
+
+.dialog-actions button {
+  flex: 1 1 0;
 }
 
 .control-section,
@@ -783,6 +874,42 @@ dd {
     min-height: 42px;
   }
 
+  .dialog-backdrop {
+    align-items: end;
+    padding: 12px 10px calc(var(--nav-height) + env(safe-area-inset-bottom) + 10px);
+  }
+
+  .confirm-dialog {
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .dialog-title {
+    font-size: 1.25rem;
+  }
+
+  .dialog-copy,
+  .dialog-warning {
+    font-size: 0.84rem;
+    line-height: 1.4;
+  }
+
+  .confirm-summary {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .dialog-actions {
+    gap: 8px;
+  }
+
+  .dialog-actions .primary-button,
+  .dialog-actions .secondary-button {
+    min-height: 42px;
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+
   .settings-tab {
     gap: 10px;
   }
@@ -814,6 +941,17 @@ dd {
   .settings-tab .reset-section {
     gap: 10px;
     padding: 11px 12px;
+  }
+
+  .settings-tab .reset-section {
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 4px;
+    text-align: left;
+  }
+
+  .settings-tab .reset-section .danger-button {
+    width: 100%;
   }
 
   .settings-tab .control-section.stacked {
@@ -928,7 +1066,6 @@ dd {
     padding: 24px 24px 32px;
   }
 
-  .split-actions,
   .winner-actions,
   .player-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));

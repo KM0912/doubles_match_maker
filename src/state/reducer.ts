@@ -31,6 +31,12 @@ export type AppAction =
   | { type: 'change-court-count'; delta: 1 | -1 }
   | { type: 'toggle-record-wins'; recordWins: boolean }
   | { type: 'start-round'; output: SchedulerOutput; createdAt?: string }
+  | {
+      type: 'complete-and-start-round';
+      output: SchedulerOutput;
+      completedAt?: string;
+      createdAt?: string;
+    }
   | { type: 'set-winner'; matchId: string; winner: TeamNumber }
   | { type: 'clear-winner'; matchId: string }
   | { type: 'swap-slots'; from: PlayerSlot; to: PlayerSlot }
@@ -203,6 +209,19 @@ function completeActiveRound(state: AppState, completedAt: string): AppState {
   };
 }
 
+function startRound(state: AppState, output: SchedulerOutput, createdAt: string): AppState {
+  if (state.activeRound || output.matches.length === 0) {
+    return state;
+  }
+
+  return {
+    ...state,
+    activeRound: createRoundFromSchedulerOutput(output, createdAt),
+    undoRecord: null,
+    selectedTab: 'matches',
+  };
+}
+
 export function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case 'select-tab':
@@ -265,18 +284,18 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       };
 
     case 'start-round':
-      if (state.activeRound || action.output.matches.length === 0) {
+      return startRound(state, action.output, action.createdAt ?? new Date().toISOString());
+
+    case 'complete-and-start-round': {
+      if (!state.activeRound || action.output.matches.length === 0) {
         return state;
       }
-      return {
-        ...state,
-        activeRound: createRoundFromSchedulerOutput(
-          action.output,
-          action.createdAt ?? new Date().toISOString(),
-        ),
-        undoRecord: null,
-        selectedTab: 'matches',
-      };
+      const completedState = completeActiveRound(
+        state,
+        action.completedAt ?? new Date().toISOString(),
+      );
+      return startRound(completedState, action.output, action.createdAt ?? new Date().toISOString());
+    }
 
     case 'set-winner':
       if (!state.recordWins || !state.activeRound) {

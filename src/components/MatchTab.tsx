@@ -1,4 +1,4 @@
-import { RotateCcw, Shuffle, Trophy, Undo2 } from 'lucide-react';
+import { RotateCcw, Shuffle, Trophy } from 'lucide-react';
 import type { AppState, ActiveMatch, PlayerId, PlayerSlot, TeamNumber } from '../types';
 import { getAvailablePlayerIds, getPlayerLabel, getWaitingPlayerIds, slotKey } from '../state/selectors';
 
@@ -7,8 +7,7 @@ type MatchTabProps = {
   selectedSlot: PlayerSlot | null;
   generating: boolean;
   onGenerate: () => void;
-  onCompleteRound: () => void;
-  onUndoComplete: () => void;
+  onGenerateNextRound: () => void;
   onSelectSlot: (slot: PlayerSlot) => void;
   onSelectWaitingPlayer: (playerId: PlayerId) => void;
   onSetWinner: (matchId: string, winner: TeamNumber) => void;
@@ -140,8 +139,7 @@ export function MatchTab({
   selectedSlot,
   generating,
   onGenerate,
-  onCompleteRound,
-  onUndoComplete,
+  onGenerateNextRound,
   onSelectSlot,
   onSelectWaitingPlayer,
   onSetWinner,
@@ -160,25 +158,7 @@ export function MatchTab({
           <h2 id="matches-heading">試合</h2>
         </div>
 
-        {state.undoRecord ? (
-          <div className="status-panel complete-panel">
-            <p className="status-title">直前の試合を終了しました</p>
-            <p className="status-copy">次の組み合わせを作ると、終了取消はできなくなります。</p>
-            <div className="split-actions">
-              <button type="button" className="primary-button" disabled={!canGenerate || generating} onClick={onGenerate}>
-                <Shuffle aria-hidden="true" size={20} />
-                次の試合を生成
-              </button>
-              <button type="button" className="secondary-button" onClick={onUndoComplete}>
-                <Undo2 aria-hidden="true" size={18} />
-                終了を取り消す
-              </button>
-            </div>
-            {!canGenerate ? <p className="hint-text">参加可能人数が4人未満のため、次の試合は生成できません。</p> : null}
-          </div>
-        ) : null}
-
-        {!state.undoRecord && availableIds.length < 4 ? (
+        {availableIds.length < 4 ? (
           <div className="status-panel">
             <p className="status-title">参加可能人数が不足しています</p>
             <p className="status-copy">設定で参加者を追加するか、休憩中の選手を参加に戻してください。</p>
@@ -195,7 +175,7 @@ export function MatchTab({
           </div>
         ) : null}
 
-        {!state.undoRecord && availableIds.length >= 4 ? (
+        {availableIds.length >= 4 ? (
           <div className="status-panel ready-panel">
             <p className="status-title">組み合わせを生成できます</p>
             <dl className="inline-stats">
@@ -273,8 +253,14 @@ export function MatchTab({
         {state.recordWins && incompleteCount > 0 ? (
           <p className="hint-text">{incompleteCount}試合が勝敗未入力です。</p>
         ) : null}
-        <button type="button" className="primary-button full-width" onClick={onCompleteRound}>
-          試合終了
+        <button
+          type="button"
+          className="primary-button full-width"
+          disabled={generating}
+          onClick={onGenerateNextRound}
+        >
+          <Shuffle aria-hidden="true" size={20} />
+          次の試合を生成
         </button>
       </div>
     </section>

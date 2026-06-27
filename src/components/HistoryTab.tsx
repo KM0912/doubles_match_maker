@@ -33,7 +33,7 @@ function HistoryMatrix({
     <details className="history-accordion" open>
       <summary>{title}</summary>
       {max === 0 ? (
-        <p className="empty-text">試合終了後に履歴が表示されます。</p>
+        <p className="empty-text">次の試合を生成すると履歴が表示されます。</p>
       ) : (
         <div className="matrix-scroll" role="region" aria-label={title} tabIndex={0}>
           <table className="history-matrix">

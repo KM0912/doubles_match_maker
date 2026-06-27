@@ -111,6 +111,39 @@ describe('appReducer', () => {
     expect(completed.players.every((player) => player.wins === 0)).toBe(true);
   });
 
+  it('completes the active round and starts the next round', () => {
+    const active = withRound(withRecordWins());
+    const matchId = active.activeRound!.matches[0].id;
+    const withWinner = appReducer(active, { type: 'set-winner', matchId, winner: 1 });
+    const nextOutput: SchedulerOutput = {
+      matches: [{ team1: [1, 3], team2: [2, 4] }],
+    };
+    const next = appReducer(withWinner, {
+      type: 'complete-and-start-round',
+      output: nextOutput,
+      completedAt: '2026-06-25T01:00:00.000Z',
+      createdAt: '2026-06-25T01:01:00.000Z',
+    });
+
+    expect(next.activeRound).not.toBeNull();
+    expect(next.undoRecord).toBeNull();
+    expect(next.activeRound!.createdAt).toBe('2026-06-25T01:01:00.000Z');
+    expect(next.activeRound!.matches[0]).toMatchObject({
+      courtNumber: 1,
+      team1: [1, 3],
+      team2: [2, 4],
+      winner: null,
+    });
+    expect(next.players.map((player) => [player.id, player.gamesPlayed, player.wins])).toEqual([
+      [1, 1, 1],
+      [2, 1, 1],
+      [3, 1, 0],
+      [4, 1, 0],
+    ]);
+    expect(next.pairHistory[1][2]).toBe(1);
+    expect(next.opponentHistory[1][3]).toBe(1);
+  });
+
   it('clears active winners when win recording is turned off', () => {
     const active = withRound(withRecordWins());
     const matchId = active.activeRound!.matches[0].id;
