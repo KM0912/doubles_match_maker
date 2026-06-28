@@ -205,7 +205,7 @@ export function MatchTab({
   const incompleteCount = state.activeRound.matches.filter((match) => match.winner === null).length;
 
   return (
-    <section className="tab-panel match-tab" aria-labelledby="current-matches-heading">
+    <section className="tab-panel match-tab active-round" aria-labelledby="current-matches-heading">
       <div className="section-heading">
         <p className="section-kicker">Live round</p>
         <h2 id="current-matches-heading">現在の試合</h2>

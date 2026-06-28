@@ -400,9 +400,15 @@ dd {
   padding: 14px;
 }
 
+.match-tab.active-round {
+  padding-bottom: 96px;
+}
+
 .action-bar {
-  position: sticky;
+  position: fixed;
+  right: 14px;
   bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + 10px);
+  left: 14px;
   z-index: 4;
   display: grid;
   gap: 8px;
@@ -864,8 +870,14 @@ dd {
     gap: 8px;
   }
 
+  .match-tab.active-round {
+    padding-bottom: 78px;
+  }
+
   .match-tab .action-bar {
+    right: 10px;
     bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + 8px);
+    left: 10px;
     gap: 6px;
     padding: 8px;
   }
@@ -1064,6 +1076,11 @@ dd {
 @media (min-width: 680px) {
   .app-main {
     padding: 24px 24px 32px;
+  }
+
+  .action-bar {
+    right: max(24px, calc((100vw - 960px) / 2 + 24px));
+    left: max(24px, calc((100vw - 960px) / 2 + 24px));
   }
 
   .winner-actions,
