@@ -362,6 +362,11 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         return state;
       }
 
+      const replacement = state.players.find((player) => player.id === action.playerId);
+      if (!replacement || replacement.onBreak) {
+        return state;
+      }
+
       const match = getMatch(state.activeRound, action.slot.matchId);
       if (!match || matchIsLocked(state, match)) {
         return state;
